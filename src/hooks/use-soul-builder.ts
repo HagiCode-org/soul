@@ -1,34 +1,15 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 
-import { buildDraftName, touchDraft } from "@/lib/builder/draft"
+import { buildDraftName, createEmptyDraft, touchDraft } from "@/lib/builder/draft"
 import { applyInspirationFragment, clearInspirationFragment, resolveDraftFragments } from "@/lib/builder/draft-helpers"
-import { canExportDraft, createDraftExport } from "@/lib/builder/export-serializer"
 import { createLocalMaterials, loadBuilderMaterials } from "@/lib/builder/material-repository"
 import { compilePreview, getIncompletePreviewHint } from "@/lib/builder/preview-compiler"
-import { readSnapshots, restoreLatestDraft, saveDraftSnapshot } from "@/lib/builder/storage-gateway"
-import type { BuilderMaterials, MaterialLoadState, SoulBuilderDraft, SoulBuilderSnapshot } from "@/lib/builder/types"
+import type { BuilderMaterials, SoulBuilderDraft } from "@/lib/builder/types"
 
 type FeedbackState = {
   tone: "info" | "success" | "error"
   message: string
 } | null
-
-type BuilderSelectionStatus = {
-  id: "main" | "rule" | "inspiration" | "custom"
-  label: string
-  value: string
-  complete: boolean
-}
-
-function downloadTextFile(fileName: string, content: string, mimeType: string) {
-  const blob = new Blob([content], { type: mimeType })
-  const url = URL.createObjectURL(blob)
-  const anchor = document.createElement("a")
-  anchor.href = url
-  anchor.download = fileName
-  anchor.click()
-  URL.revokeObjectURL(url)
-}
 
 async function copyText(content: string) {
   if (navigator.clipboard?.writeText) {
@@ -55,8 +36,7 @@ export function useSoulBuilder() {
       remoteMessage: "正在获取官方灵感卡。",
     }
   })
-  const [draft, setDraft] = useState<SoulBuilderDraft>(() => restoreLatestDraft())
-  const [snapshots, setSnapshots] = useState<SoulBuilderSnapshot[]>(() => readSnapshots())
+  const [draft, setDraft] = useState<SoulBuilderDraft>(() => createEmptyDraft())
   const [libraryQuery, setLibraryQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("全部")
   const [feedback, setFeedback] = useState<FeedbackState>(null)
@@ -130,79 +110,63 @@ export function useSoulBuilder() {
   }, [libraryQuery, materials.inspirationFragments])
 
   const resolvedFragments = useMemo(() => resolveDraftFragments(materials, draft), [draft, materials])
+  const effectiveMainSlotText = draft.mainSlotText || resolvedFragments.mainFragment?.content || ""
+  const effectiveRuleSlotText = draft.ruleSlotText || resolvedFragments.ruleFragment?.content || ""
+
   const preview = useMemo(
-    () => compilePreview({ customPrompt: draft.customPrompt }, resolvedFragments),
-    [draft.customPrompt, resolvedFragments]
+    () =>
+      compilePreview(
+        {
+          mainSlotText: effectiveMainSlotText,
+          ruleSlotText: effectiveRuleSlotText,
+          customPrompt: draft.customPrompt,
+        },
+        resolvedFragments
+      ),
+    [draft.customPrompt, effectiveMainSlotText, effectiveRuleSlotText, resolvedFragments]
   )
 
   const currentDraft = useMemo(
     () => ({
       ...draft,
+      mainSlotText: effectiveMainSlotText,
+      ruleSlotText: effectiveRuleSlotText,
       name: buildDraftName(resolvedFragments.mainFragment, resolvedFragments.ruleFragment),
       previewText: preview.text,
     }),
-    [draft, preview.text, resolvedFragments.mainFragment, resolvedFragments.ruleFragment]
+    [draft, effectiveMainSlotText, effectiveRuleSlotText, preview.text, resolvedFragments.mainFragment, resolvedFragments.ruleFragment]
   )
-  const canExport = canExportDraft(resolvedFragments.mainFragment, resolvedFragments.ruleFragment)
+  const canCompose = Boolean(effectiveMainSlotText.trim() && effectiveRuleSlotText.trim())
   const previewHint = getIncompletePreviewHint(preview.missing)
 
-  const selectionStatus = useMemo<BuilderSelectionStatus[]>(
-    () => [
-      {
-        id: "main",
-        label: "主 Catalog",
-        value: resolvedFragments.mainFragment?.title ?? "未选",
-        complete: Boolean(resolvedFragments.mainFragment),
-      },
-      {
-        id: "rule",
-        label: "表达规则",
-        value: resolvedFragments.ruleFragment?.title ?? "未选",
-        complete: Boolean(resolvedFragments.ruleFragment),
-      },
-      {
-        id: "inspiration",
-        label: "官方灵感",
-        value: resolvedFragments.inspirationFragment?.title ?? "未导入",
-        complete: Boolean(resolvedFragments.inspirationFragment),
-      },
-      {
-        id: "custom",
-        label: "自定义补充",
-        value: draft.customPrompt.trim() ? "已填写" : "留空",
-        complete: Boolean(draft.customPrompt.trim()),
-      },
-    ],
-    [draft.customPrompt, resolvedFragments.inspirationFragment, resolvedFragments.mainFragment, resolvedFragments.ruleFragment]
-  )
-
-  const workbenchStatus = useMemo(
-    () => ({
-      draftName: currentDraft.name,
-      snapshotCount: snapshots.length,
-      exportReady: canExport,
-      remoteState: materials.remoteState,
-      remoteMessage: materials.remoteMessage,
-      activeSelections: selectionStatus.filter((entry) => entry.complete).length,
-      updatedAt: currentDraft.updatedAt,
-    }),
-    [canExport, currentDraft.name, currentDraft.updatedAt, materials.remoteMessage, materials.remoteState, selectionStatus, snapshots.length]
-  )
-
   const selectMainFragment = useCallback((fragmentId: string) => {
-    setDraft((current) => touchDraft({ ...current, selectedMainFragmentId: fragmentId }))
-  }, [])
+    setDraft((current) => {
+      const fragment = materials.mainFragments.find((item) => item.fragmentId === fragmentId)
+      return touchDraft({
+        ...current,
+        selectedMainFragmentId: fragmentId,
+        mainSlotText: fragment?.content ?? current.mainSlotText,
+      })
+    })
+  }, [materials.mainFragments])
 
   const clearMainFragment = useCallback(() => {
-    setDraft((current) => touchDraft({ ...current, selectedMainFragmentId: null }))
+    setDraft((current) => touchDraft({ ...current, selectedMainFragmentId: null, mainSlotText: "" }))
   }, [])
 
   const selectRuleFragment = useCallback((fragmentId: string) => {
-    setDraft((current) => touchDraft({ ...current, selectedRuleFragmentId: fragmentId }))
-  }, [])
+    setDraft((current) => {
+      const fragment = materials.expressionFragments.find((item) => item.fragmentId === fragmentId)
+      return touchDraft({
+        ...current,
+        selectedRuleFragmentId: fragmentId,
+        ruleSlotText: fragment?.content ?? current.ruleSlotText,
+      })
+    })
+  }, [materials.expressionFragments])
 
   const clearRuleFragment = useCallback(() => {
-    setDraft((current) => touchDraft({ ...current, selectedRuleFragmentId: null }))
+    setDraft((current) => touchDraft({ ...current, selectedRuleFragmentId: null, ruleSlotText: "" }))
   }, [])
 
   const selectInspirationFragment = useCallback(
@@ -226,42 +190,23 @@ export function useSoulBuilder() {
     setDraft((current) => touchDraft({ ...current, customPrompt: value }))
   }, [])
 
-  const saveCurrentDraft = useCallback(() => {
-    const snapshot = saveDraftSnapshot(currentDraft, resolvedFragments)
-    if (!snapshot) {
-      setFeedback({ tone: "error", message: "当前环境不支持本地保存。" })
-      return
-    }
-
-    setSnapshots(readSnapshots())
-    setFeedback({ tone: "success", message: `草稿已保存：${snapshot.draft.name}` })
-  }, [currentDraft, resolvedFragments])
-
-  const restoreSnapshot = useCallback((snapshot: SoulBuilderSnapshot) => {
-    setDraft(snapshot.draft)
-    setFeedback({ tone: "info", message: `已恢复草稿：${snapshot.draft.name}` })
+  const updateMainSlotText = useCallback((value: string) => {
+    setDraft((current) => touchDraft({ ...current, mainSlotText: value }))
   }, [])
 
-  const exportCurrentDraft = useCallback(() => {
-    if (!canExport) {
-      setFeedback({ tone: "error", message: previewHint ?? "核心组合尚未完成。" })
-      return
-    }
-
-    const result = createDraftExport(currentDraft, resolvedFragments)
-    downloadTextFile(result.fileName, result.jsonText, "application/json")
-    setFeedback({ tone: "success", message: `已导出 ${result.fileName}` })
-  }, [canExport, currentDraft, previewHint, resolvedFragments])
+  const updateRuleSlotText = useCallback((value: string) => {
+    setDraft((current) => touchDraft({ ...current, ruleSlotText: value }))
+  }, [])
 
   const copyPreviewText = useCallback(async () => {
-    if (!canExport) {
+    if (!canCompose) {
       setFeedback({ tone: "error", message: previewHint ?? "核心组合尚未完成。" })
       return
     }
 
     await copyText(currentDraft.previewText)
     setFeedback({ tone: "success", message: "预览文案已复制。" })
-  }, [canExport, currentDraft.previewText, previewHint])
+  }, [canCompose, currentDraft.previewText, previewHint])
 
   return {
     materials,
@@ -269,7 +214,7 @@ export function useSoulBuilder() {
     rawDraft: draft,
     preview,
     previewHint,
-    canExport,
+    canCompose,
     libraryQuery,
     selectedCategory,
     categories,
@@ -278,9 +223,6 @@ export function useSoulBuilder() {
     filteredRuleFragments,
     filteredInspirationFragments,
     resolvedFragments,
-    selectionStatus,
-    workbenchStatus,
-    snapshots,
     reloadMaterials,
     setLibraryQuery,
     setSelectedCategory,
@@ -290,23 +232,9 @@ export function useSoulBuilder() {
     clearRuleFragment,
     selectInspirationFragment,
     clearSelectedInspiration,
+    updateMainSlotText,
+    updateRuleSlotText,
     updateCustomPrompt,
-    saveCurrentDraft,
-    restoreSnapshot,
-    exportCurrentDraft,
     copyPreviewText,
-  }
-}
-
-export function getStatusToneClass(state: MaterialLoadState) {
-  switch (state) {
-    case "ready":
-      return "text-emerald-600 dark:text-emerald-300"
-    case "error":
-      return "text-rose-600 dark:text-rose-300"
-    case "loading":
-      return "text-amber-700 dark:text-amber-300"
-    default:
-      return "text-muted-foreground"
   }
 }
