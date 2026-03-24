@@ -1,85 +1,98 @@
 # Soul
 
-Soul 是 `soul.hagicode.com` 的前端仓库。
-当前默认首页定位为面向开发者的 HagiSoul 平台，支持更方便快捷的 Soul 创建、分享与浏览流程。
+Soul is the frontend repository for `soul.hagicode.com`.
+The current default homepage is the builder-first HagiSoul experience for creating, sharing, and browsing Souls.
 
-## 当前首页能力
+## Current Homepage Capabilities
 
-- Builder-first 默认首页：默认路由直接进入 Soul Builder 工作台
-- 编辑器式首页外壳：中央工作区常驻，左侧拆为 `基础角色` 与 `表达方式` 两个独立抽屉
-- 单抽屉生命周期：任意时刻只允许一个槽位抽屉打开；再次点击当前槽位、点击遮罩或按 `Esc` 都会关闭抽屉
-- 本地参考素材：构建期从 `repos/web/docs` 的基础角色与表达规则生成快照
-- 可选远端增强：运行期尝试读取 `/api/soul-marketplace/items` 的官方灵感卡；失败时自动回退到本地示例卡
-- 文案复制：支持直接复制当前 SOUL 预览文案
+- Builder-first default homepage: the default route opens the Soul Builder workbench directly
+- Bilingual UI shell: the site header, footer, drawers, builder panels, feedback, and accessibility labels now support `zh-CN` and `en-US`
+- Locale bootstrap and persistence: the app restores the last saved `soul.locale`, and on first load without a saved preference it maps `navigator.language` to `zh-CN` or `en-US`
+- Editor-style homepage shell: the central workbench stays visible while the left rail exposes separate `Base role` and `Expression` drawers
+- Single-drawer lifecycle: only one slot drawer can stay open at a time; clicking the active slot, the overlay, or pressing `Esc` closes it
+- Local reference materials: build-time snapshots are generated from `repos/web/docs` base-role and expression catalogs
+- Optional remote enhancement: the runtime tries to read official inspiration cards from `/api/soul-marketplace/items`; when it fails, the UI falls back to local sample cards
+- Copyable preview output: the current Soul preview can be copied directly once the required slots are filled
 
-## 站点壳层与合规展示
+## Localization Notes
 
-- 首页现在采用 `SiteHeader -> HomeEditorShell -> SiteFooter` 的完整站点骨架，Builder 工作区仍然是默认主体验
-- `src/components/site/site-links.ts` 维护文档、官网、GitHub、Discord、QQ群、邮箱与备案常量，避免页面内散落硬编码
-- 链接值和备案展示假设沿用 `repos/site` 与 `repos/docs` 已公开使用的配置，本仓只复制结构与常量，不直接依赖跨仓运行时代码
-- Footer 负责展示 `闽ICP备2026004153号-1` 与 `闽公网安备35011102351148号`，两个备案链接均使用可访问 `aria-label` 与安全外链属性
-- Header 只承担品牌、站点导航与主题切换，不承接复制、预览、抽屉等 Builder 内部动作
+- Runtime locale switching is exposed from `src/components/site/SiteHeader.tsx` through a visible `中文 / EN` switcher near the theme toggle
+- The selected locale is persisted under the `soul.locale` browser storage key
+- Translation resources live in `src/i18n/resources/zh-CN.ts` and `src/i18n/resources/en-US.ts`
+- Maintain translation resources by keeping system-owned UI copy in both locale files at the same time
+- Local reference materials now ship with bilingual fragment overlays, so base-role cards, expression-rule cards, and local fallback inspiration cards follow the active locale
+- Official remote inspiration cards keep their upstream display names, but the Builder adds best-effort English summaries and slot content when the related local catalogs have translations
+- User-authored draft text is never rewritten during runtime locale switches; only future material selections use the current locale
 
-## 首页结构与状态边界
+## Site Shell and Filing Display
 
-### 布局结构
+- The homepage uses the complete `SiteHeader -> HomeEditorShell -> SiteFooter` shell while keeping the Builder workbench as the main experience
+- `src/components/site/site-links.ts` maintains docs, website, GitHub, Discord, QQ group, email, and filing constants so link destinations stay centralized
+- Link destinations and filing records are assumed to match the already-published entries in `repos/site` and `repos/docs`; this repo copies the structure and constants without depending on cross-repo runtime modules
+- The footer displays `闽ICP备2026004153号-1` and `闽公网安备35011102351148号`, and both filing links keep locale-aware `aria-label`s plus safe external-link attributes
+- The header is responsible for brand copy, site navigation, locale switching, and theme switching, but not Builder-internal actions such as preview copy or drawer lifecycle
 
-- `src/pages/HomePage.tsx`：首页组合根，维护槽位注册表与内容映射
-- `src/components/home/HomeEditorShell.tsx`：编辑器式首页骨架，组织中央工作区、左右槽位轨道与抽屉容器
-- `src/components/home/HomeSlotRail.tsx`：槽位入口渲染，承载命名、激活态、悬停态和禁用态
-- `src/components/home/HomeContextDrawer.tsx`：统一抽屉生命周期，负责遮罩、关闭按钮与 `Esc` 关闭
-- `src/components/builder/PreviewPanel.tsx`：中央工作区主表面，常驻显示预览和复制操作
-- `src/components/builder/MaterialLibraryPanel.tsx`：以抽屉模式复用原有 Builder 能力，分别承载 `基础角色` 与 `表达方式` 两个选择抽屉
+## Homepage Structure and State Boundaries
 
-### 状态边界
+### Layout Structure
 
-- `src/hooks/use-soul-builder.ts`：只承载领域状态与副作用，包括素材加载、插槽聚合、预览编译和复制
-- `src/hooks/use-home-editor-state.ts`：只承载表现层状态，包括 `activeSlot`、`drawerSide`、`drawerOpen` 与默认焦点规则
-- 抽屉状态不会持久化，也不会直接写入 `SoulBuilderDraft`
-- 关闭抽屉本身不会改写当前内容；只有显式选择素材、编辑插槽、复制等 Builder 动作才会产生状态变化或副作用
-- 远端灵感失败不会阻断首页渲染；核心 Builder 流仍可完全依赖本地快照运行
+- `src/pages/HomePage.tsx`: homepage composition root that maintains the localized slot registry and drawer content mapping
+- `src/components/home/HomeEditorShell.tsx`: editor-style homepage shell that arranges the central workbench, slot rails, and drawer container
+- `src/components/home/HomeSlotRail.tsx`: slot entry renderer for naming, active state, hover state, recommended state, and disabled state
+- `src/components/home/HomeContextDrawer.tsx`: shared drawer lifecycle wrapper for overlay, close button, and `Esc` dismissal
+- `src/components/builder/PreviewPanel.tsx`: central workbench surface that always shows the preview and copy action
+- `src/components/builder/MaterialLibraryPanel.tsx`: drawer-ready material picker for the `Base role` and `Expression` selection flows
 
-## 数据来源与边界
+### State Boundaries
 
-### 参考输入
+- `src/hooks/use-soul-builder.ts`: domain state and side effects, including material loading, slot aggregation, preview compilation, copy behavior, and locale-safe feedback descriptors
+- `src/hooks/use-home-editor-state.ts`: presentation state, including `activeSlot`, `drawerSide`, `drawerOpen`, and default focus behavior
+- Drawer state is not persisted and does not write directly into `SoulBuilderDraft`
+- Closing a drawer does not mutate current content; only explicit Builder actions such as selecting materials, editing slots, or copying preview text trigger state changes or side effects
+- Remote inspiration failures do not block homepage rendering; the core Builder flow continues on top of local snapshots
 
-- 基础角色：`repos/web/docs/50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md`
-- 表达规则：`repos/web/docs/10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md`
-- 官方灵感卡契约参考：`repos/web/src/services/soulMarketplaceApi.ts`
-- 官方组合规则参考：`repos/hagicode-core/src/PCode.Application/SoulMarketplace/catalog-sources.json`
+## Data Sources and Boundaries
 
-### 生成方案
+### Reference Inputs
 
-- 生成脚本：`scripts/generate-reference-materials.mjs`
-- 生成产物：`src/data/reference-materials.generated.ts`
-- 同步命令：
+- Base roles: `repos/web/docs/50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md`
+- Expression rules: `repos/web/docs/10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md`
+- Official inspiration contract reference: `repos/web/src/services/soulMarketplaceApi.ts`
+- Official combination rule reference: `repos/hagicode-core/src/PCode.Application/SoulMarketplace/catalog-sources.json`
+
+### Generation Flow
+
+- Generation script: `scripts/generate-reference-materials.mjs`
+- Generated output: `src/data/reference-materials.generated.ts`
+- Sync command:
 
 ```bash
 npm run materials:sync
 ```
 
-## 目录说明
+## Directory Guide
 
-- `src/pages/HomePage.tsx`：Builder 首页组合根
-- `src/components/home/`：首页 editor shell、槽位轨道与抽屉原语
-- `src/components/builder/`：素材库、预览区
-- `src/components/site/SiteHeader.tsx`：站点导航与主题切换
-- `src/components/site/SiteFooter.tsx`：页脚、社群入口与备案展示
-- `src/components/site/site-links.ts`：站点链接与备案配置注册表
-- `src/lib/builder/`：领域类型、素材仓储、预览编译与复制相关逻辑
-- `src/data/reference-materials.generated.ts`：参考素材快照
-- `src/test/`：Vitest 测试初始化
+- `src/pages/HomePage.tsx`: Builder homepage composition root
+- `src/components/home/`: homepage editor shell, slot rail, and drawer primitives
+- `src/components/builder/`: material library and preview surface
+- `src/components/site/SiteHeader.tsx`: site navigation, locale switcher, and theme toggle
+- `src/components/site/SiteFooter.tsx`: footer, community entries, and filing display
+- `src/components/site/site-links.ts`: site link and filing registry
+- `src/i18n/`: locale bootstrap, persistence helpers, translation resources, and translation helpers
+- `src/lib/builder/`: domain types, material repository, preview compilation, and copy-related logic
+- `src/data/reference-materials.generated.ts`: reference material snapshot
+- `src/test/`: Vitest setup
 
-## 运行方式
+## Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-默认会启动本地 Vite 开发服务器。
+The app starts with the local Vite development server.
 
-## 构建与检查
+## Build and Checks
 
 ```bash
 npm run lint
@@ -88,10 +101,11 @@ npm run build
 npm run preview
 ```
 
-## 运行假设
+## Runtime Assumptions
 
-- 首页必须在无后端场景下可进入；核心工作流依赖本地快照即可运行
-- 官方灵感卡属于增强能力；读取失败不能阻断首页渲染
-- 复制要求基础角色与表达方式插槽同时具备内容
-- 主题切换仍然只处理前端视觉状态，暂未做持久化
-- 站点链接、社群入口与备案信息当前按公开站点配置静态维护，后续如公共站点更新需同步本仓配置
+- The homepage must load without a backend; the core workflow can run entirely on local snapshots
+- Official inspiration cards are an enhancement; failures cannot block homepage rendering
+- Copy requires both the base-role slot and expression slot to contain content
+- Theme switching currently changes visual state only and is still not persisted
+- Locale preference is stored locally in the browser and is currently Soul-specific rather than shared across other HagiCode properties
+- If public site links or filing information change, the static configuration in this repo should be updated to match
