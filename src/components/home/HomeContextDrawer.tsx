@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next"
+
 import { Badge } from "@/components/ui/badge"
 import {
   Sheet,
@@ -27,11 +29,24 @@ export function HomeContextDrawer({
   onClose,
   children,
 }: HomeContextDrawerProps) {
+  const { t } = useTranslation()
+
   return (
     <Sheet open={open} modal={false} onOpenChange={(nextOpen) => !nextOpen && onClose()}>
-      <SheetContent side={side} aria-label={title} className="p-4">
+      <SheetContent
+        side={side}
+        aria-label={title}
+        closeLabel={t("home.drawer.closeLabel")}
+        className="p-4"
+        onInteractOutside={(event) => {
+          const target = event.target
+          if (target instanceof HTMLElement && target.closest("[data-locale-switcher='true']")) {
+            event.preventDefault()
+          }
+        }}
+      >
         <SheetHeader className="border-b border-border/60 pb-4 pr-12">
-          <Badge variant="secondary">{side === "left" ? "输入抽屉" : "上下文抽屉"}</Badge>
+          <Badge variant="secondary">{side === "left" ? t("home.drawer.inputBadge") : t("home.drawer.contextBadge")}</Badge>
           <div className="space-y-2">
             <SheetTitle>{title}</SheetTitle>
             <SheetDescription>{description}</SheetDescription>

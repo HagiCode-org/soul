@@ -69,7 +69,7 @@ describe("HomeEditorShell", () => {
     expect(screen.getByRole("dialog", { name: "基础角色抽屉" })).toBeInTheDocument()
     expect(screen.getByText("中央工作区")).toBeInTheDocument()
 
-    await user.click(screen.getByRole("button", { name: "关闭抽屉" }))
+    await user.click(screen.getByRole("button", { name: "Close drawer" }))
     await waitFor(() => {
       expect(screen.queryByRole("dialog", { name: "基础角色抽屉" })).not.toBeInTheDocument()
     })

@@ -1,9 +1,10 @@
 import { useState } from "react"
-import { cleanup, render, screen, within } from "@testing-library/react"
+import { cleanup, render, screen, waitFor, within } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { HomePage } from "@/pages/HomePage"
+import { ALL_CATEGORY_ID } from "@/i18n/locales"
 import { createEmptyDraft } from "@/lib/builder/draft"
 import { createLocalMaterials } from "@/lib/builder/material-repository"
 import type { ThemeMode } from "@/hooks/use-theme-mode"
@@ -36,8 +37,8 @@ const mockBuilder = {
   previewHint: null,
   canCompose: true,
   libraryQuery: "",
-  selectedCategory: "全部",
-  categories: ["全部", mainFragment.meta.category],
+  selectedCategory: ALL_CATEGORY_ID,
+  categories: [ALL_CATEGORY_ID, mainFragment.meta.category],
   feedback: null,
   filteredMainFragments: materials.mainFragments.slice(0, 3),
   filteredRuleFragments: materials.expressionFragments.slice(0, 3),
@@ -82,21 +83,21 @@ describe("HomePage", () => {
     const user = userEvent.setup()
     render(<Harness />)
 
-    expect(screen.getByRole("banner", { name: "Soul 站点头部" })).toBeInTheDocument()
-    expect(screen.getByRole("navigation", { name: "Soul 站点导航" })).toBeInTheDocument()
-    expect(screen.getByRole("region", { name: "Soul Builder 工作台" })).toBeInTheDocument()
-    expect(screen.getByRole("contentinfo", { name: "HagiSoul 页脚" })).toBeInTheDocument()
-    expect(screen.getAllByText("Agent Soul 编辑器")).toHaveLength(2)
+    expect(screen.getByRole("banner", { name: "Soul site header" })).toBeInTheDocument()
+    expect(screen.getByRole("navigation", { name: "Soul site navigation" })).toBeInTheDocument()
+    expect(screen.getByRole("region", { name: "Soul Builder workbench" })).toBeInTheDocument()
+    expect(screen.getByRole("contentinfo", { name: "HagiSoul footer" })).toBeInTheDocument()
+    expect(screen.getAllByText("Agent Soul Editor")).toHaveLength(2)
 
-    const themeButton = screen.getByRole("button", { name: "切换到深色主题" })
+    const themeButton = screen.getByRole("button", { name: "Switch to dark theme" })
     expect(themeButton).toHaveAttribute("aria-pressed", "false")
     await user.click(themeButton)
-    expect(screen.getByRole("button", { name: "切换到浅色主题" })).toHaveAttribute("aria-pressed", "true")
+    expect(screen.getByRole("button", { name: "Switch to light theme" })).toHaveAttribute("aria-pressed", "true")
 
-    await user.click(screen.getAllByRole("button", { name: "基础角色" })[0])
-    expect(screen.getByRole("dialog", { name: "基础角色选择" })).toBeInTheDocument()
-    expect(screen.getByRole("contentinfo", { name: "HagiSoul 页脚" })).toBeInTheDocument()
-    expect(screen.getAllByText("Agent Soul 编辑器")).toHaveLength(2)
+    await user.click(screen.getAllByRole("button", { name: "Base role" })[0])
+    expect(screen.getByRole("dialog", { name: "Choose a base role" })).toBeInTheDocument()
+    expect(screen.getByRole("contentinfo", { name: "HagiSoul footer" })).toBeInTheDocument()
+    expect(screen.getAllByText("Agent Soul Editor")).toHaveLength(2)
   })
 
   it("keeps responsive shell hooks and keyboard focus entrypoints for site chrome", async () => {
@@ -104,9 +105,9 @@ describe("HomePage", () => {
     render(<Harness />)
 
     const main = screen.getByRole("main")
-    const headerNav = screen.getByRole("navigation", { name: "Soul 站点导航" })
-    const footer = screen.getByRole("contentinfo", { name: "HagiSoul 页脚" })
-    const filingBlock = screen.getByRole("link", { name: "查看 ICP 备案信息" }).parentElement
+    const headerNav = screen.getByRole("navigation", { name: "Soul site navigation" })
+    const footer = screen.getByRole("contentinfo", { name: "HagiSoul footer" })
+    const filingBlock = screen.getByRole("link", { name: "View the ICP filing record" }).parentElement
 
     expect(main).toHaveClass("site-shell")
     expect(main).toHaveClass("overflow-x-clip")
@@ -115,6 +116,24 @@ describe("HomePage", () => {
     expect(filingBlock).toHaveClass("site-footer-filings")
 
     await user.tab()
-    expect(within(headerNav).getByRole("link", { name: "打开 HagiCode 官方文档" })).toHaveFocus()
+    expect(within(headerNav).getByRole("link", { name: "Open the HagiCode docs site" })).toHaveFocus()
+  })
+
+  it("switches locale at runtime while preserving the open drawer and authored draft text", async () => {
+    const user = userEvent.setup()
+    render(<Harness />)
+
+    await user.click(screen.getAllByRole("button", { name: "Base role" })[0])
+    expect(screen.getByRole("dialog", { name: "Choose a base role" })).toBeInTheDocument()
+    expect(screen.getByRole("textbox", { name: "Base role slot" })).toHaveValue(mainFragment.content)
+
+    await user.click(screen.getByRole("button", { name: "中文" }))
+
+    await waitFor(() => {
+      expect(screen.getByRole("dialog", { name: "基础角色选择" })).toBeInTheDocument()
+    })
+    expect(screen.getByRole("textbox", { name: "基础角色插槽" })).toHaveValue(mainFragment.content)
+    expect(screen.getByRole("button", { name: "基础角色" })).toHaveAttribute("aria-pressed", "true")
+    expect(screen.getByRole("contentinfo", { name: "HagiSoul 页脚" })).toBeInTheDocument()
   })
 })

@@ -1,4 +1,5 @@
 import type { LucideIcon } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 import type { HomeEditorDrawerSide, HomeEditorSlotId } from "@/hooks/use-home-editor-state"
 import { cn } from "@/lib/utils"
@@ -24,14 +25,16 @@ type HomeSlotRailProps = {
 }
 
 export function HomeSlotRail({ side, slots, activeSlot, recommendedSlot, onToggleSlot }: HomeSlotRailProps) {
+  const { t } = useTranslation()
+
   return (
     <section
       id={side === "left" ? "home-slots" : "home-status"}
-      aria-label={side === "left" ? "左侧首页槽位" : "右侧首页槽位"}
+      aria-label={side === "left" ? t("home.slotRail.leftAriaLabel") : t("home.slotRail.rightAriaLabel")}
       className="w-full rounded-[30px] border border-border/70 bg-card/68 p-3 shadow-[0_22px_70px_-48px_rgba(15,23,42,0.72)] backdrop-blur-xl"
     >
       <div className="mb-3 flex items-center justify-between px-1 text-[11px] uppercase tracking-[0.28em] text-muted-foreground">
-        <span>{side === "left" ? "builder inputs" : "builder context"}</span>
+        <span>{side === "left" ? t("home.slotRail.inputsEyebrow") : t("home.slotRail.contextEyebrow")}</span>
         <span>{slots.length}</span>
       </div>
       <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
@@ -75,7 +78,7 @@ export function HomeSlotRail({ side, slots, activeSlot, recommendedSlot, onToggl
                 </div>
               </div>
               <p className="text-sm leading-6 text-muted-foreground xl:text-center">{slot.description}</p>
-              {isRecommended ? <span className="text-[11px] uppercase tracking-[0.28em] text-primary">recommended</span> : null}
+              {isRecommended ? <span className="text-[11px] uppercase tracking-[0.28em] text-primary">{t("home.slotRail.recommended")}</span> : null}
             </button>
           )
         })}

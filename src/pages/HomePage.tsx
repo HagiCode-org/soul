@@ -1,4 +1,5 @@
 import { BookOpenText, FlaskConical } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 import { MaterialLibraryPanel } from "@/components/builder/MaterialLibraryPanel"
 import { PreviewPanel } from "@/components/builder/PreviewPanel"
@@ -18,6 +19,7 @@ type HomePageProps = {
 }
 
 export function HomePage({ theme, onToggleTheme }: HomePageProps) {
+  const { t } = useTranslation()
   const builder = useSoulBuilder()
 
   const defaultSlot = (!builder.rawDraft.selectedMainFragmentId ? "catalog" : "expression") satisfies HomeEditorSlotId
@@ -26,20 +28,20 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
     {
       id: "catalog",
       side: "left",
-      label: "基础角色",
-      title: "基础角色选择",
-      description: "先锁定基础角色，确定人格骨架与核心边界。",
-      emptyState: "当前没有可用的基础角色。",
+      label: t("home.slots.catalog.label"),
+      title: t("home.slots.catalog.title"),
+      description: t("home.slots.catalog.description"),
+      emptyState: t("home.slots.catalog.emptyState"),
       icon: BookOpenText,
       badge: `${builder.filteredMainFragments.length}`,
     },
     {
       id: "expression",
       side: "left",
-      label: "表达方式",
-      title: "表达方式选择",
-      description: "再补表达规则，收紧句式、语气和输出节奏。",
-      emptyState: "当前没有可用的表达规则。",
+      label: t("home.slots.expression.label"),
+      title: t("home.slots.expression.title"),
+      description: t("home.slots.expression.description"),
+      emptyState: t("home.slots.expression.emptyState"),
       icon: FlaskConical,
       badge: `${builder.filteredRuleFragments.length}`,
     },
@@ -51,6 +53,7 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
   })
 
   const recommendedSlot = editor.defaultFocusSlot
+  const activeSlotDefinition = slotRegistry.find((slot) => slot.id === editor.activeSlot)
 
   const drawerContent = (() => {
     switch (editor.activeSlot) {
@@ -119,7 +122,7 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
         <div className="site-panel site-panel-editor">
           <SiteHeader theme={theme} onToggleTheme={onToggleTheme} />
 
-          <section className="site-workbench-section" aria-label="Soul Builder 工作台">
+          <section className="site-workbench-section" aria-label={t("home.workbenchAriaLabel")}>
             <HomeEditorShell
               slots={slotRegistry}
               activeSlot={editor.activeSlot}
@@ -149,9 +152,9 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
         <HomeContextDrawer
           open={editor.drawerOpen}
           side={editor.drawerSide}
-          title={slotRegistry.find((slot) => slot.id === editor.activeSlot)?.title ?? "上下文抽屉"}
-          description={slotRegistry.find((slot) => slot.id === editor.activeSlot)?.description ?? "当前槽位暂无说明。"}
-          emptyState={slotRegistry.find((slot) => slot.id === editor.activeSlot)?.emptyState ?? "当前槽位暂无内容。"}
+          title={activeSlotDefinition?.title ?? t("home.drawer.defaultTitle")}
+          description={activeSlotDefinition?.description ?? t("home.drawer.defaultDescription")}
+          emptyState={activeSlotDefinition?.emptyState ?? t("home.drawer.defaultEmptyState")}
           onClose={editor.closeDrawer}
         >
           {drawerContent}
