@@ -1,10 +1,9 @@
 import { describe, expect, it } from "vitest"
 
-import { createEmptyDraft } from "@/lib/builder/draft"
-import { buildDraftName } from "@/lib/builder/draft"
+import { buildDraftName, createEmptyDraft } from "@/lib/builder/draft"
 import { createLocalMaterials } from "@/lib/builder/material-repository"
 import { compilePreview, getIncompletePreviewHint } from "@/lib/builder/preview-compiler"
-import { readSnapshots, saveDraftSnapshot } from "@/lib/builder/storage-gateway"
+import { readSnapshots, restoreLatestDraft, saveDraftSnapshot } from "@/lib/builder/storage-gateway"
 
 class MemoryStorage implements Pick<Storage, "getItem" | "setItem"> {
   private readonly store = new Map<string, string>()
@@ -89,5 +88,33 @@ describe("preview and storage", () => {
     const normalized = readSnapshots(storage)
     expect(normalized[0].version).toBe("1")
     expect(normalized[0].draft.name).toBe("旧草稿")
+  })
+
+  it("restores latest draft from local snapshot without mutating content", () => {
+    const storage = new MemoryStorage()
+    const draft = createEmptyDraft()
+
+    storage.setItem(
+      "soul-builder:snapshots",
+      JSON.stringify([
+        {
+          version: "1",
+          savedAt: "2026-03-24T00:00:00.000Z",
+          draft: {
+            ...draft,
+            name: "已恢复草稿",
+            selectedMainFragmentId: "main-catalog-01",
+            selectedRuleFragmentId: "expression-rule-01",
+            customPrompt: "保持简体中文。",
+            previewText: "preview",
+          },
+        },
+      ])
+    )
+
+    const restored = restoreLatestDraft(storage)
+    expect(restored.name).toBe("已恢复草稿")
+    expect(restored.selectedMainFragmentId).toBe("main-catalog-01")
+    expect(restored.previewText).toBe("preview")
   })
 })

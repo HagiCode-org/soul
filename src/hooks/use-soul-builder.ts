@@ -13,6 +13,13 @@ type FeedbackState = {
   message: string
 } | null
 
+type BuilderSelectionStatus = {
+  id: "main" | "rule" | "inspiration" | "custom"
+  label: string
+  value: string
+  complete: boolean
+}
+
 function downloadTextFile(fileName: string, content: string, mimeType: string) {
   const blob = new Blob([content], { type: mimeType })
   const url = URL.createObjectURL(blob)
@@ -139,6 +146,49 @@ export function useSoulBuilder() {
   const canExport = canExportDraft(resolvedFragments.mainFragment, resolvedFragments.ruleFragment)
   const previewHint = getIncompletePreviewHint(preview.missing)
 
+  const selectionStatus = useMemo<BuilderSelectionStatus[]>(
+    () => [
+      {
+        id: "main",
+        label: "主 Catalog",
+        value: resolvedFragments.mainFragment?.title ?? "未选",
+        complete: Boolean(resolvedFragments.mainFragment),
+      },
+      {
+        id: "rule",
+        label: "表达规则",
+        value: resolvedFragments.ruleFragment?.title ?? "未选",
+        complete: Boolean(resolvedFragments.ruleFragment),
+      },
+      {
+        id: "inspiration",
+        label: "官方灵感",
+        value: resolvedFragments.inspirationFragment?.title ?? "未导入",
+        complete: Boolean(resolvedFragments.inspirationFragment),
+      },
+      {
+        id: "custom",
+        label: "自定义补充",
+        value: draft.customPrompt.trim() ? "已填写" : "留空",
+        complete: Boolean(draft.customPrompt.trim()),
+      },
+    ],
+    [draft.customPrompt, resolvedFragments.inspirationFragment, resolvedFragments.mainFragment, resolvedFragments.ruleFragment]
+  )
+
+  const workbenchStatus = useMemo(
+    () => ({
+      draftName: currentDraft.name,
+      snapshotCount: snapshots.length,
+      exportReady: canExport,
+      remoteState: materials.remoteState,
+      remoteMessage: materials.remoteMessage,
+      activeSelections: selectionStatus.filter((entry) => entry.complete).length,
+      updatedAt: currentDraft.updatedAt,
+    }),
+    [canExport, currentDraft.name, currentDraft.updatedAt, materials.remoteMessage, materials.remoteState, selectionStatus, snapshots.length]
+  )
+
   const selectMainFragment = useCallback((fragmentId: string) => {
     setDraft((current) => touchDraft({ ...current, selectedMainFragmentId: fragmentId }))
   }, [])
@@ -228,6 +278,8 @@ export function useSoulBuilder() {
     filteredRuleFragments,
     filteredInspirationFragments,
     resolvedFragments,
+    selectionStatus,
+    workbenchStatus,
     snapshots,
     reloadMaterials,
     setLibraryQuery,
