@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
 import type { SoulFragment } from "@/lib/builder/types"
+import { cn } from "@/lib/utils"
 
 type CompositionPanelProps = {
   mainFragment: SoulFragment | null
@@ -16,30 +17,33 @@ type CompositionPanelProps = {
   onClearRuleFragment: () => void
   onClearInspiration: () => void
   onSaveDraft: () => void
+  layout?: "default" | "drawer"
 }
 
 function SelectedCard({
   label,
   fragment,
   onClear,
+  compact,
 }: {
   label: string
   fragment: SoulFragment | null
   onClear: () => void
+  compact: boolean
 }) {
   return (
-    <div className="rounded-[28px] border border-border/70 bg-background/75 p-4">
+    <div className={cn("rounded-[28px] border border-border/70 bg-background/75", compact ? "p-3.5" : "p-4")}>
       <div className="flex items-start justify-between gap-3">
         <div className="space-y-2">
           <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">{label}</p>
           {fragment ? (
             <>
-              <h3 className="text-lg font-semibold">{fragment.title}</h3>
+              <h3 className={cn("font-semibold", compact ? "text-base" : "text-lg")}>{fragment.title}</h3>
               <p className="text-muted-foreground text-sm leading-6">{fragment.summary}</p>
             </>
           ) : (
             <>
-              <h3 className="text-lg font-semibold">尚未选择</h3>
+              <h3 className={cn("font-semibold", compact ? "text-base" : "text-lg")}>尚未选择</h3>
               <p className="text-muted-foreground text-sm leading-6">先去左侧素材库挑选一个片段。</p>
             </>
           )}
@@ -63,14 +67,19 @@ export function CompositionPanel({
   onClearRuleFragment,
   onClearInspiration,
   onSaveDraft,
+  layout = "default",
 }: CompositionPanelProps) {
+  const compact = layout === "drawer"
+
   return (
-    <Card className="h-full overflow-hidden">
-      <CardHeader className="gap-4 border-b border-border/60 pb-5">
+    <Card className={cn("h-full min-h-0 overflow-hidden", compact && "rounded-[30px] border-primary/15 bg-card/76 p-0")}>
+      <CardHeader className={cn("gap-4 border-b border-border/60 pb-5", compact && "px-5 pt-5")}> 
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="space-y-2">
             <Badge variant="secondary">拼装区</Badge>
-            <CardTitle className="font-display text-3xl tracking-[-0.04em]">聚合草稿。保持边界。</CardTitle>
+            <CardTitle className={cn("font-display tracking-[-0.04em]", compact ? "text-[2rem]" : "text-3xl")}>
+              聚合草稿。保持边界。
+            </CardTitle>
           </div>
           <Button type="button" onClick={onSaveDraft}>
             <Save size={16} />
@@ -82,15 +91,15 @@ export function CompositionPanel({
         </p>
       </CardHeader>
 
-      <CardContent className="grid gap-5 py-6">
-        <SelectedCard label="Step 1 · 主 Catalog" fragment={mainFragment} onClear={onClearMainFragment} />
-        <SelectedCard label="Step 2 · 表达规则" fragment={ruleFragment} onClear={onClearRuleFragment} />
+      <CardContent className={cn("min-h-0 flex-1 overflow-y-auto py-6", compact ? "grid gap-4 px-5 pb-5" : "grid gap-5")}> 
+        <SelectedCard label="Step 1 · 主 Catalog" fragment={mainFragment} onClear={onClearMainFragment} compact={compact} />
+        <SelectedCard label="Step 2 · 表达规则" fragment={ruleFragment} onClear={onClearRuleFragment} compact={compact} />
 
-        <div className="rounded-[28px] border border-border/70 bg-background/75 p-4">
+        <div className={cn("rounded-[28px] border border-border/70 bg-background/75", compact ? "p-3.5" : "p-4")}>
           <div className="flex items-start justify-between gap-3">
             <div className="space-y-2">
               <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">Step 3 · 官方灵感</p>
-              <h3 className="text-lg font-semibold">{inspirationFragment?.title ?? "暂未导入灵感卡"}</h3>
+              <h3 className={cn("font-semibold", compact ? "text-base" : "text-lg")}>{inspirationFragment?.title ?? "暂未导入灵感卡"}</h3>
               <p className="text-muted-foreground text-sm leading-6">
                 {inspirationFragment?.summary ?? "可选。导入后会尝试同步主 Catalog 与表达规则。"}
               </p>
@@ -102,10 +111,10 @@ export function CompositionPanel({
           </div>
         </div>
 
-        <div className="rounded-[28px] border border-border/70 bg-background/75 p-4">
+        <div className={cn("rounded-[28px] border border-border/70 bg-background/75", compact ? "p-3.5" : "p-4")}>
           <div className="space-y-2">
             <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">Step 4 · 自定义补充</p>
-            <h3 className="text-lg font-semibold">补充细节。不要污染源素材。</h3>
+            <h3 className={cn("font-semibold", compact ? "text-base" : "text-lg")}>补充细节。不要污染源素材。</h3>
           </div>
           <Textarea
             className="mt-4"

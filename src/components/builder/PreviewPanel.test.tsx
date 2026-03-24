@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { describe, expect, it, vi } from "vitest"
 
 import { PreviewPanel } from "@/components/builder/PreviewPanel"
@@ -7,12 +8,14 @@ import { createLocalMaterials } from "@/lib/builder/material-repository"
 import { compilePreview, getIncompletePreviewHint } from "@/lib/builder/preview-compiler"
 
 describe("PreviewPanel", () => {
-  it("disables export actions and shows hint for incomplete draft", () => {
+  it("disables export actions and keeps save available for incomplete draft", async () => {
+    const user = userEvent.setup()
     const materials = createLocalMaterials()
     const preview = compilePreview(
       { customPrompt: "" },
       { mainFragment: materials.mainFragments[0], ruleFragment: null, inspirationFragment: null }
     )
+    const onSave = vi.fn()
 
     render(
       <PreviewPanel
@@ -25,6 +28,7 @@ describe("PreviewPanel", () => {
         inspirationFragment={null}
         feedbackMessage={null}
         feedbackTone={null}
+        onSave={onSave}
         onExport={vi.fn()}
         onCopy={vi.fn()}
       />
@@ -32,6 +36,9 @@ describe("PreviewPanel", () => {
 
     expect(screen.getByRole("button", { name: "导出 JSON" })).toBeDisabled()
     expect(screen.getByRole("button", { name: "复制文案" })).toBeDisabled()
-    expect(screen.getByText("先补表达规则。")).toBeInTheDocument()
+    expect(screen.getByText("先补表达规则。" )).toBeInTheDocument()
+
+    await user.click(screen.getByRole("button", { name: "保存草稿" }))
+    expect(onSave).toHaveBeenCalledTimes(1)
   })
 })

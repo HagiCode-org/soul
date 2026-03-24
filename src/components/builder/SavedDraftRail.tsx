@@ -4,10 +4,12 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { SoulBuilderSnapshot } from "@/lib/builder/types"
+import { cn } from "@/lib/utils"
 
 type SavedDraftRailProps = {
   snapshots: SoulBuilderSnapshot[]
   onRestore: (snapshot: SoulBuilderSnapshot) => void
+  layout?: "default" | "drawer"
 }
 
 function formatTime(value: string) {
@@ -23,14 +25,18 @@ function formatTime(value: string) {
   }
 }
 
-export function SavedDraftRail({ snapshots, onRestore }: SavedDraftRailProps) {
+export function SavedDraftRail({ snapshots, onRestore, layout = "default" }: SavedDraftRailProps) {
+  const compact = layout === "drawer"
+
   return (
-    <Card id="saved-drafts">
-      <CardHeader className="gap-3 border-b border-border/60 pb-5">
+    <Card id="saved-drafts" className={cn(compact && "rounded-[30px] border-primary/15 bg-card/76 p-0")}>
+      <CardHeader className={cn("gap-3 border-b border-border/60 pb-5", compact && "px-5 pt-5")}> 
         <Badge variant="secondary">已保存草稿</Badge>
-        <CardTitle className="font-display text-3xl tracking-[-0.04em]">最近保存。就地恢复。</CardTitle>
+        <CardTitle className={cn("font-display tracking-[-0.04em]", compact ? "text-[2rem]" : "text-3xl")}>
+          最近保存。就地恢复。
+        </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-3 py-6 md:grid-cols-2 xl:grid-cols-3">
+      <CardContent className={cn(compact ? "grid gap-3 px-5 py-5" : "grid gap-3 py-6 md:grid-cols-2 xl:grid-cols-3")}>
         {snapshots.length > 0 ? (
           snapshots.map((snapshot) => (
             <article key={snapshot.savedAt} className="rounded-[28px] border border-border/70 bg-background/75 p-4">
@@ -55,7 +61,7 @@ export function SavedDraftRail({ snapshots, onRestore }: SavedDraftRailProps) {
             </article>
           ))
         ) : (
-          <div className="rounded-[28px] border border-dashed border-border/80 bg-background/70 px-4 py-6 text-sm text-muted-foreground md:col-span-2 xl:col-span-3">
+          <div className={cn("rounded-[28px] border border-dashed border-border/80 bg-background/70 px-4 py-6 text-sm text-muted-foreground", compact ? "" : "md:col-span-2 xl:col-span-3")}>
             还没有本地草稿。完成一次保存后，这里会保留最近快照。
           </div>
         )}
