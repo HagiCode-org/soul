@@ -1,4 +1,4 @@
-import { MoonStar, Save, SunMedium } from "lucide-react"
+import { Compass, MoonStar, Save, SunMedium } from "lucide-react"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -25,21 +25,25 @@ export function SiteHeader({ theme, onToggleTheme, onSaveDraft }: SiteHeaderProp
               builder
             </Badge>
           </div>
-          <p className="text-muted-foreground text-sm">
-            Fragment-first homepage for building, saving, and exporting soul drafts.
-          </p>
+          <p className="text-muted-foreground text-sm">Editor-style homepage with a persistent workbench and slot-driven drawers.</p>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
         <Button variant="ghost" size="sm" asChild>
-          <a href="#builder-intro">Builder</a>
+          <a href="#builder-intro">Workbench</a>
         </Button>
         <Button variant="ghost" size="sm" asChild>
-          <a href="#saved-drafts">Drafts</a>
+          <a href="#home-slots">Slot rail</a>
         </Button>
         <Button variant="ghost" size="sm" asChild>
-          <a href="#sources">Sources</a>
+          <a href="#home-status">Status</a>
+        </Button>
+        <Button variant="outline" size="sm" asChild>
+          <a href="#home-workbench">
+            <Compass size={16} />
+            Focus
+          </a>
         </Button>
         <Button
           variant="outline"
