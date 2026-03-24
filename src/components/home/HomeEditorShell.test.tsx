@@ -1,69 +1,78 @@
-import { Layers3, LibraryBig } from "lucide-react"
-import { render, screen } from "@testing-library/react"
+import { BookOpenText, FlaskConical } from "lucide-react"
+import { render, screen, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, it } from "vitest"
 
+import { HomeContextDrawer } from "@/components/home/HomeContextDrawer"
 import { HomeEditorShell } from "@/components/home/HomeEditorShell"
 import type { HomeSlotDefinition } from "@/components/home/HomeSlotRail"
 import { useHomeEditorState } from "@/hooks/use-home-editor-state"
 
 const slots: HomeSlotDefinition[] = [
   {
-    id: "materials",
+    id: "catalog",
     side: "left",
-    label: "素材",
-    title: "素材抽屉",
-    description: "选择素材。",
-    emptyState: "暂无素材。",
-    icon: LibraryBig,
+    label: "Catalog",
+    title: "Catalog 抽屉",
+    description: "选择主 Catalog。",
+    emptyState: "暂无 Catalog。",
+    icon: BookOpenText,
   },
   {
-    id: "compose",
+    id: "expression",
     side: "left",
-    label: "拼装",
-    title: "拼装抽屉",
-    description: "调整草稿。",
-    emptyState: "暂无拼装内容。",
-    icon: Layers3,
+    label: "表达方式",
+    title: "表达方式抽屉",
+    description: "选择表达方式。",
+    emptyState: "暂无表达方式内容。",
+    icon: FlaskConical,
   },
 ]
 
 function Harness() {
   const editor = useHomeEditorState({
     slots: slots.map(({ id, side }) => ({ id, side })),
-    defaultSlot: "materials",
+    defaultSlot: "catalog",
   })
 
   return (
-    <HomeEditorShell
-      slots={slots}
-      activeSlot={editor.activeSlot}
-      drawerOpen={editor.drawerOpen}
-      drawerSide={editor.drawerSide}
-      recommendedSlot={editor.defaultFocusSlot}
-      onSlotToggle={editor.toggleSlot}
-      onCloseDrawer={editor.closeDrawer}
-      workbench={<section><h1>中央工作区</h1><p>预览保持可见</p></section>}
-      drawerContent={
-        editor.activeSlot === "materials" ? <button type="button">应用素材</button> : <button type="button">调整草稿</button>
-      }
-    />
+    <>
+      <HomeEditorShell
+        slots={slots}
+        activeSlot={editor.activeSlot}
+        recommendedSlot={editor.defaultFocusSlot}
+        onSlotToggle={editor.toggleSlot}
+        workbench={<section><h1>中央工作区</h1><p>预览保持可见</p></section>}
+      />
+      <HomeContextDrawer
+        open={editor.drawerOpen}
+        side={editor.drawerSide}
+        title={slots.find((slot) => slot.id === editor.activeSlot)?.title ?? "上下文抽屉"}
+        description={slots.find((slot) => slot.id === editor.activeSlot)?.description ?? "当前槽位暂无说明。"}
+        emptyState={slots.find((slot) => slot.id === editor.activeSlot)?.emptyState ?? "当前槽位暂无内容。"}
+        onClose={editor.closeDrawer}
+      >
+        {editor.activeSlot === "catalog" ? <button type="button">应用 Catalog</button> : <button type="button">应用表达方式</button>}
+      </HomeContextDrawer>
+    </>
   )
 }
 
 describe("HomeEditorShell", () => {
-  it("keeps workbench visible while drawer toggles and closes active slot on repeat click", async () => {
+  it("keeps workbench visible while global drawer opens and closes", async () => {
     const user = userEvent.setup()
     render(<Harness />)
 
     expect(screen.getByText("中央工作区")).toBeInTheDocument()
 
-    await user.click(screen.getAllByRole("button", { name: "素材" })[0])
-    expect(screen.getByRole("dialog", { name: "素材抽屉" })).toBeInTheDocument()
+    await user.click(screen.getAllByRole("button", { name: "Catalog" })[0])
+    expect(screen.getByRole("dialog", { name: "Catalog 抽屉" })).toBeInTheDocument()
     expect(screen.getByText("中央工作区")).toBeInTheDocument()
 
-    await user.click(screen.getAllByRole("button", { name: "素材" })[0])
-    expect(screen.queryByRole("dialog", { name: "素材抽屉" })).not.toBeInTheDocument()
+    await user.click(screen.getByRole("button", { name: "关闭抽屉" }))
+    await waitFor(() => {
+      expect(screen.queryByRole("dialog", { name: "Catalog 抽屉" })).not.toBeInTheDocument()
+    })
     expect(screen.getByText("中央工作区")).toBeInTheDocument()
   })
 
@@ -71,15 +80,15 @@ describe("HomeEditorShell", () => {
     const user = userEvent.setup()
     render(<Harness />)
 
-    await user.click(screen.getAllByRole("button", { name: "素材" })[0])
-    expect(screen.getByRole("dialog", { name: "素材抽屉" })).toBeInTheDocument()
+    await user.click(screen.getAllByRole("button", { name: "Catalog" })[0])
+    expect(screen.getByRole("dialog", { name: "Catalog 抽屉" })).toBeInTheDocument()
 
-    await user.click(screen.getAllByRole("button", { name: "拼装" })[0])
-    expect(screen.queryByRole("dialog", { name: "素材抽屉" })).not.toBeInTheDocument()
-    expect(screen.getByRole("dialog", { name: "拼装抽屉" })).toBeInTheDocument()
+    await user.click(screen.getAllByRole("button", { name: "表达方式" })[0])
+    expect(screen.queryByRole("dialog", { name: "Catalog 抽屉" })).not.toBeInTheDocument()
+    expect(screen.getByRole("dialog", { name: "表达方式抽屉" })).toBeInTheDocument()
 
     await user.keyboard("{Escape}")
-    expect(screen.queryByRole("dialog", { name: "拼装抽屉" })).not.toBeInTheDocument()
+    expect(screen.queryByRole("dialog", { name: "表达方式抽屉" })).not.toBeInTheDocument()
     expect(screen.getAllByText("预览保持可见")[0]).toBeInTheDocument()
   })
 })
