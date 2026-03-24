@@ -1,6 +1,18 @@
+import type { AppLocale } from "@/i18n/locales"
+
 export type SoulFragmentGroup = "main-catalog" | "expression-rule" | "published-soul"
 export type MaterialLoadState = "idle" | "loading" | "ready" | "fallback" | "error"
 export type MissingCoreSelection = "main" | "rule"
+export type MessageDescriptor = {
+  key: string
+  values?: Record<string, string | number | null | undefined>
+}
+export type LocalizedFragmentContent = {
+  title: string
+  summary: string
+  content: string
+  keywords?: string[]
+}
 
 export type ReferenceProvenance = {
   mainPath: string
@@ -58,6 +70,7 @@ export type SoulFragment = {
   summary: string
   content: string
   keywords: string[]
+  localized?: Partial<Record<AppLocale, LocalizedFragmentContent>>
   sourceRef: SoulFragmentSourceRef
   meta: SoulFragmentMeta
 }
@@ -74,7 +87,7 @@ export type BuilderMaterials = {
   expressionFragments: SoulFragment[]
   inspirationFragments: SoulFragment[]
   remoteState: MaterialLoadState
-  remoteMessage: string | null
+  remoteMessage: MessageDescriptor | null
   sourceNotes: MaterialSourceNote[]
   generatedAtUtc: string
 }
