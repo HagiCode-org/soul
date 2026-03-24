@@ -1,20 +1,15 @@
 import type { ReactNode } from "react"
 
-import { HomeContextDrawer } from "@/components/home/HomeContextDrawer"
 import { HomeSlotRail, type HomeSlotDefinition } from "@/components/home/HomeSlotRail"
-import type { HomeEditorDrawerSide, HomeEditorSlotId } from "@/hooks/use-home-editor-state"
+import type { HomeEditorSlotId } from "@/hooks/use-home-editor-state"
 
 type HomeEditorShellProps = {
   hero?: ReactNode
   workbench: ReactNode
   slots: HomeSlotDefinition[]
   activeSlot: HomeEditorSlotId | null
-  drawerOpen: boolean
-  drawerSide: HomeEditorDrawerSide
   recommendedSlot: HomeEditorSlotId | null
   onSlotToggle: (slotId: HomeEditorSlotId) => void
-  onCloseDrawer: () => void
-  drawerContent?: ReactNode
 }
 
 export function HomeEditorShell({
@@ -22,20 +17,15 @@ export function HomeEditorShell({
   workbench,
   slots,
   activeSlot,
-  drawerOpen,
-  drawerSide,
   recommendedSlot,
   onSlotToggle,
-  onCloseDrawer,
-  drawerContent,
 }: HomeEditorShellProps) {
   const leftSlots = slots.filter((slot) => slot.side === "left")
   const rightSlots = slots.filter((slot) => slot.side === "right")
-  const activeSlotDefinition = slots.find((slot) => slot.id === activeSlot) ?? null
 
   return (
-    <section className="relative grid gap-5 xl:grid-cols-[88px_minmax(0,1fr)_88px] xl:items-start xl:gap-6">
-      <div className="order-2 xl:order-1">
+    <section className="relative grid gap-5 xl:grid-cols-[minmax(168px,0.18fr)_minmax(0,1fr)_minmax(168px,0.18fr)] xl:items-start xl:gap-6 2xl:grid-cols-[minmax(188px,0.19fr)_minmax(0,1fr)_minmax(188px,0.19fr)]">
+      <div className="order-2 min-w-0 xl:order-1">
         <HomeSlotRail
           side="left"
           slots={leftSlots}
@@ -50,7 +40,7 @@ export function HomeEditorShell({
         {workbench}
       </div>
 
-      <div className="order-3 xl:order-3">
+      <div className="order-3 min-w-0 xl:order-3">
         <HomeSlotRail
           side="right"
           slots={rightSlots}
@@ -59,17 +49,6 @@ export function HomeEditorShell({
           onToggleSlot={onSlotToggle}
         />
       </div>
-
-      <HomeContextDrawer
-        open={drawerOpen}
-        side={drawerSide}
-        title={activeSlotDefinition?.title ?? "上下文抽屉"}
-        description={activeSlotDefinition?.description ?? "当前槽位暂无说明。"}
-        emptyState={activeSlotDefinition?.emptyState ?? "当前槽位暂无内容。"}
-        onClose={onCloseDrawer}
-      >
-        {drawerContent}
-      </HomeContextDrawer>
     </section>
   )
 }

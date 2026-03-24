@@ -37,7 +37,7 @@ export function BuilderHeroIntro({ remoteMessage }: BuilderHeroIntroProps) {
               先建人格骨架。再定表达脉搏。
             </h1>
             <p className="text-muted-foreground max-w-2xl text-base leading-7 sm:text-lg">
-              首页不再是占位壳。现在直接进入拼装台。主素材、表达规则、官方灵感卡与本地草稿，都在同一条状态流里闭环。
+              首页不再是占位壳。现在直接进入工作台。主素材、表达规则、官方灵感卡与本地草稿，都在同一条状态流里闭环。
             </p>
           </div>
         </div>

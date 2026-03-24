@@ -1,11 +1,11 @@
-import { ArchiveRestore, Compass, FileText, Layers3, LibraryBig, ShieldCheck, Sparkles, WandSparkles } from "lucide-react"
+import { ArchiveRestore, Compass, FileText, LibraryBig, ShieldCheck, Sparkles, WandSparkles } from "lucide-react"
 
-import { CompositionPanel } from "@/components/builder/CompositionPanel"
 import { MaterialLibraryPanel } from "@/components/builder/MaterialLibraryPanel"
 import { PreviewPanel } from "@/components/builder/PreviewPanel"
 import { SavedDraftRail } from "@/components/builder/SavedDraftRail"
 import { SourceFootnote } from "@/components/builder/SourceFootnote"
 import { HomeEditorShell } from "@/components/home/HomeEditorShell"
+import { HomeContextDrawer } from "@/components/home/HomeContextDrawer"
 import type { HomeSlotDefinition } from "@/components/home/HomeSlotRail"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -93,10 +93,6 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
       return "materials"
     }
 
-    if (!builder.rawDraft.customPrompt.trim()) {
-      return "compose"
-    }
-
     if (builder.materials.remoteState !== "ready") {
       return "inspire"
     }
@@ -114,16 +110,6 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
       emptyState: "当前没有可用素材。",
       icon: LibraryBig,
       badge: `${builder.filteredMainFragments.length + builder.filteredRuleFragments.length}`,
-    },
-    {
-      id: "compose",
-      side: "left",
-      label: "拼装",
-      title: "草稿拼装区",
-      description: "维护草稿聚合根、自定义补充与保存动作。",
-      emptyState: "当前还没有可编辑的草稿内容。",
-      icon: Layers3,
-      badge: builder.rawDraft.customPrompt.trim() ? "note" : undefined,
     },
     {
       id: "inspire",
@@ -200,21 +186,6 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
             visibleSections={["main", "rules"]}
           />
         )
-      case "compose":
-        return (
-          <CompositionPanel
-            mainFragment={builder.resolvedFragments.mainFragment}
-            ruleFragment={builder.resolvedFragments.ruleFragment}
-            inspirationFragment={builder.resolvedFragments.inspirationFragment}
-            customPrompt={builder.rawDraft.customPrompt}
-            onCustomPromptChange={builder.updateCustomPrompt}
-            onClearMainFragment={builder.clearMainFragment}
-            onClearRuleFragment={builder.clearRuleFragment}
-            onClearInspiration={builder.clearSelectedInspiration}
-            onSaveDraft={builder.saveCurrentDraft}
-            layout="drawer"
-          />
-        )
       case "inspire":
         return (
           <MaterialLibraryPanel
@@ -281,7 +252,7 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
         <div className="absolute bottom-[-8rem] left-[18%] size-[25rem] rounded-full bg-secondary/70 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto flex min-h-[calc(100vh-2.5rem)] w-full max-w-[1600px] flex-col rounded-[40px] border border-border/70 bg-background/78 p-4 shadow-[0_30px_120px_-65px_rgba(15,23,42,0.8)] backdrop-blur-2xl sm:p-6 lg:p-8">
+      <div className="relative mx-auto flex min-h-[calc(100vh-2.5rem)] w-full max-w-[1760px] flex-col rounded-[40px] border border-border/70 bg-background/78 p-4 shadow-[0_30px_120px_-65px_rgba(15,23,42,0.8)] backdrop-blur-2xl sm:p-6 lg:p-8">
         <SiteHeader theme={theme} onToggleTheme={onToggleTheme} onSaveDraft={builder.saveCurrentDraft} />
 
         <section className="mt-8 flex flex-wrap items-center justify-between gap-3 rounded-[28px] border border-border/70 bg-card/65 px-4 py-3 text-sm text-muted-foreground">
@@ -300,12 +271,8 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
           <HomeEditorShell
             slots={slotRegistry}
             activeSlot={editor.activeSlot}
-            drawerOpen={editor.drawerOpen}
-            drawerSide={editor.drawerSide}
             recommendedSlot={recommendedSlot}
             onSlotToggle={editor.toggleSlot}
-            onCloseDrawer={editor.closeDrawer}
-            drawerContent={drawerContent}
             hero={
               <section
                 id="builder-intro"
@@ -320,7 +287,7 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
                         中央工作台常驻。上下文退回边缘槽位。
                       </h1>
                       <p className="max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
-                        结论是，预览、保存、复制、导出只留在中央主表面。重点是，素材、拼装、灵感、草稿和来源都通过命名槽位按需打开。
+                        预览、保存、复制、导出只留在中央主表面。素材、灵感、草稿和来源通过命名槽位按需打开。
                       </p>
                     </div>
                   </div>
@@ -378,6 +345,17 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
             }
           />
         </div>
+
+        <HomeContextDrawer
+          open={editor.drawerOpen}
+          side={editor.drawerSide}
+          title={slotRegistry.find((slot) => slot.id === editor.activeSlot)?.title ?? "上下文抽屉"}
+          description={slotRegistry.find((slot) => slot.id === editor.activeSlot)?.description ?? "当前槽位暂无说明。"}
+          emptyState={slotRegistry.find((slot) => slot.id === editor.activeSlot)?.emptyState ?? "当前槽位暂无内容。"}
+          onClose={editor.closeDrawer}
+        >
+          {drawerContent}
+        </HomeContextDrawer>
       </div>
     </main>
   )
