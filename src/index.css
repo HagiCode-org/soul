@@ -1,0 +1,113 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/fraunces";
+@import "@fontsource-variable/manrope";
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: "Manrope Variable", "Noto Sans", sans-serif;
+  --font-display: "Fraunces Variable", "Times New Roman", serif;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.985 0.01 85);
+  --foreground: oklch(0.24 0.03 235);
+  --card: oklch(0.995 0.004 95 / 0.88);
+  --card-foreground: oklch(0.24 0.03 235);
+  --popover: oklch(0.995 0.004 95);
+  --popover-foreground: oklch(0.24 0.03 235);
+  --primary: oklch(0.46 0.09 215);
+  --primary-foreground: oklch(0.985 0.01 85);
+  --secondary: oklch(0.92 0.02 215);
+  --secondary-foreground: oklch(0.28 0.03 235);
+  --muted: oklch(0.94 0.01 85);
+  --muted-foreground: oklch(0.52 0.03 235);
+  --accent: oklch(0.89 0.05 75);
+  --accent-foreground: oklch(0.27 0.03 235);
+  --destructive: oklch(0.6 0.22 25);
+  --border: oklch(0.88 0.01 85);
+  --input: oklch(0.88 0.01 85);
+  --ring: oklch(0.62 0.05 215 / 0.45);
+}
+
+.dark {
+  --background: oklch(0.19 0.02 235);
+  --foreground: oklch(0.96 0.01 85);
+  --card: oklch(0.24 0.02 235 / 0.82);
+  --card-foreground: oklch(0.96 0.01 85);
+  --popover: oklch(0.23 0.02 235);
+  --popover-foreground: oklch(0.96 0.01 85);
+  --primary: oklch(0.7 0.08 195);
+  --primary-foreground: oklch(0.19 0.02 235);
+  --secondary: oklch(0.28 0.02 235);
+  --secondary-foreground: oklch(0.96 0.01 85);
+  --muted: oklch(0.26 0.015 235);
+  --muted-foreground: oklch(0.76 0.02 85);
+  --accent: oklch(0.5 0.06 70);
+  --accent-foreground: oklch(0.96 0.01 85);
+  --destructive: oklch(0.68 0.2 25);
+  --border: oklch(0.35 0.015 235 / 0.95);
+  --input: oklch(0.35 0.015 235 / 0.95);
+  --ring: oklch(0.72 0.06 195 / 0.45);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    @apply scroll-smooth;
+    font-family: var(--font-sans);
+  }
+
+  body {
+    @apply min-h-screen bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(circle at top left, color-mix(in oklab, var(--primary) 18%, transparent) 0, transparent 28%),
+      radial-gradient(circle at top right, color-mix(in oklab, var(--accent) 60%, transparent) 0, transparent 22%),
+      linear-gradient(135deg, color-mix(in oklab, var(--background) 88%, white) 0%, var(--background) 60%, color-mix(in oklab, var(--secondary) 30%, var(--background)) 100%);
+  }
+
+  a {
+    @apply transition-colors;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+}
