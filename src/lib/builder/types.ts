@@ -85,6 +85,8 @@ export type SoulBuilderDraft = {
   selectedMainFragmentId: string | null
   selectedRuleFragmentId: string | null
   inspirationSoulId: string | null
+  mainSlotText: string
+  ruleSlotText: string
   customPrompt: string
   previewText: string
   updatedAt: string

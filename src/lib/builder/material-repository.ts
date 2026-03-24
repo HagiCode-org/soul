@@ -60,7 +60,7 @@ function normalizeMainCatalog(entry: ReferenceMainCatalog, snapshot: ReferenceCa
     keywords: [entry.category, entry.name, ...normalizeKeywords(`${entry.core} ${entry.signature}`)],
     sourceRef: {
       kind: "reference-doc",
-      label: "主 Catalog",
+      label: "基础角色",
       path: snapshot.provenance.mainPath,
       note: `构建期快照，生成于 ${snapshot.generatedAtUtc}`,
     },
@@ -153,7 +153,7 @@ export function buildFallbackInspirationFragments(snapshot: ReferenceCatalogSnap
 }
 
 export function normalizeMarketplaceItem(item: MarketplaceItemDto): SoulFragment {
-  const mainName = item.mainCatalogName?.trim() || "未命名主素材"
+  const mainName = item.mainCatalogName?.trim() || "未命名基础角色"
   const ruleName = item.orthogonalCatalogName?.trim() || "未命名表达规则"
 
   return {
@@ -164,7 +164,7 @@ export function normalizeMarketplaceItem(item: MarketplaceItemDto): SoulFragment
     content: [
       `官方灵感卡：${item.displayName.trim()}`,
       item.summary?.trim() || `${mainName} × ${ruleName}`,
-      `主 Catalog：${mainName}`,
+      `基础角色：${mainName}`,
       `表达规则：${ruleName}`,
     ].join("\n"),
     keywords: item.keywords,
@@ -214,7 +214,7 @@ function buildSourceNotes(state: BuilderMaterials["remoteState"], snapshot: Refe
   return [
     {
       id: "main-doc",
-      title: "主 Catalog 快照",
+      title: "基础角色快照",
       detail: snapshot.provenance.mainPath,
       state: "ready",
     },

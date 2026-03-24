@@ -1,13 +1,13 @@
 import type { MissingCoreSelection, PreviewCompilation, SoulBuilderDraft, SoulFragment } from "@/lib/builder/types"
 
-function buildMissing(mainFragment: SoulFragment | null, ruleFragment: SoulFragment | null): MissingCoreSelection[] {
+function buildMissing(mainSlotText: string, ruleSlotText: string): MissingCoreSelection[] {
   const missing: MissingCoreSelection[] = []
 
-  if (!mainFragment) {
+  if (!mainSlotText.trim()) {
     missing.push("main")
   }
 
-  if (!ruleFragment) {
+  if (!ruleSlotText.trim()) {
     missing.push("rule")
   }
 
@@ -15,21 +15,18 @@ function buildMissing(mainFragment: SoulFragment | null, ruleFragment: SoulFragm
 }
 
 export function compilePreview(
-  draft: Pick<SoulBuilderDraft, "customPrompt">,
+  draft: Pick<SoulBuilderDraft, "mainSlotText" | "ruleSlotText" | "customPrompt">,
   fragments: {
     mainFragment: SoulFragment | null
     ruleFragment: SoulFragment | null
     inspirationFragment: SoulFragment | null
   }
 ): PreviewCompilation {
-  const missing = buildMissing(fragments.mainFragment, fragments.ruleFragment)
+  const missing = buildMissing(draft.mainSlotText, draft.ruleSlotText)
   const sections = [
-    fragments.mainFragment?.content,
-    fragments.ruleFragment?.content,
-    fragments.inspirationFragment
-      ? `灵感参考「${fragments.inspirationFragment.title}」：${fragments.inspirationFragment.summary}`
-      : null,
-    draft.customPrompt.trim() ? `自定义补充：${draft.customPrompt.trim()}` : null,
+    draft.mainSlotText.trim() || null,
+    draft.ruleSlotText.trim() || null,
+    draft.customPrompt.trim() || null,
   ].filter((section): section is string => Boolean(section))
 
   const text = sections.join("\n\n")
@@ -50,8 +47,8 @@ export function getIncompletePreviewHint(missing: MissingCoreSelection[]) {
   }
 
   if (missing.length === 2) {
-    return "先选主 Catalog 和表达规则，才能导出完整配置。"
+    return "先补基础角色和表达方式插槽，才能生成完整内容。"
   }
 
-  return missing[0] === "main" ? "先补主 Catalog。" : "先补表达规则。"
+  return missing[0] === "main" ? "先补基础角色插槽。" : "先补表达方式插槽。"
 }

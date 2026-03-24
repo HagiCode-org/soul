@@ -24,6 +24,8 @@ function normalizeDraft(candidate: unknown): SoulBuilderDraft {
     selectedMainFragmentId: typeof source.selectedMainFragmentId === "string" ? source.selectedMainFragmentId : null,
     selectedRuleFragmentId: typeof source.selectedRuleFragmentId === "string" ? source.selectedRuleFragmentId : null,
     inspirationSoulId: typeof source.inspirationSoulId === "string" ? source.inspirationSoulId : null,
+    mainSlotText: typeof source.mainSlotText === "string" ? source.mainSlotText : "",
+    ruleSlotText: typeof source.ruleSlotText === "string" ? source.ruleSlotText : "",
     customPrompt: typeof source.customPrompt === "string" ? source.customPrompt : "",
     previewText: typeof source.previewText === "string" ? source.previewText : "",
     updatedAt: typeof source.updatedAt === "string" && source.updatedAt ? source.updatedAt : fallback.updatedAt,

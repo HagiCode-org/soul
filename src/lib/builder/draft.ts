@@ -11,10 +11,12 @@ function createDraftId() {
 export function createEmptyDraft(): SoulBuilderDraft {
   return {
     draftId: createDraftId(),
-    name: "未命名草稿",
+    name: "未命名角色",
     selectedMainFragmentId: null,
     selectedRuleFragmentId: null,
     inspirationSoulId: null,
+    mainSlotText: "",
+    ruleSlotText: "",
     customPrompt: "",
     previewText: "",
     updatedAt: new Date().toISOString(),
@@ -34,12 +36,12 @@ export function buildDraftName(mainFragment: SoulFragment | null, ruleFragment: 
   }
 
   if (mainFragment) {
-    return `${mainFragment.title} 草稿`
+    return `${mainFragment.title} 组合`
   }
 
   if (ruleFragment) {
-    return `${ruleFragment.title} 草稿`
+    return `${ruleFragment.title} 组合`
   }
 
-  return "未命名草稿"
+  return "未命名角色"
 }
