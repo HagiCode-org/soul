@@ -3,6 +3,7 @@ import userEvent from "@testing-library/user-event"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { MaterialLibraryPanel } from "@/components/builder/MaterialLibraryPanel"
+import { ALL_CATEGORY_ID } from "@/i18n/locales"
 import { createLocalMaterials } from "@/lib/builder/material-repository"
 
 afterEach(() => {
@@ -23,8 +24,8 @@ describe("builder drawer panels", () => {
       <MaterialLibraryPanel
         query=""
         onQueryChange={vi.fn()}
-        categories={["全部"]}
-        selectedCategory="全部"
+        categories={[ALL_CATEGORY_ID]}
+        selectedCategory={ALL_CATEGORY_ID}
         onCategoryChange={vi.fn()}
         mainFragments={materials.mainFragments}
         ruleFragments={materials.expressionFragments}
@@ -43,9 +44,10 @@ describe("builder drawer panels", () => {
       />
     )
 
-    expect(screen.getByPlaceholderText("搜索基础角色")).toBeInTheDocument()
-    expect(screen.queryByText("表达规则")).not.toBeInTheDocument()
-    expect(screen.queryByText("官方灵感卡")).not.toBeInTheDocument()
+    expect(screen.getByPlaceholderText("Search base roles")).toBeInTheDocument()
+    expect(screen.getByText("Neighborly Sweet Healer")).toBeInTheDocument()
+    expect(screen.queryByText("Expression rules")).not.toBeInTheDocument()
+    expect(screen.queryByText("Official inspiration cards")).not.toBeInTheDocument()
 
     await user.click(getSelectableCards()[0])
     expect(onSelectMain).toHaveBeenCalledTimes(1)
@@ -60,8 +62,8 @@ describe("builder drawer panels", () => {
       <MaterialLibraryPanel
         query=""
         onQueryChange={vi.fn()}
-        categories={["全部"]}
-        selectedCategory="全部"
+        categories={[ALL_CATEGORY_ID]}
+        selectedCategory={ALL_CATEGORY_ID}
         onCategoryChange={vi.fn()}
         mainFragments={materials.mainFragments}
         ruleFragments={materials.expressionFragments}
@@ -80,9 +82,10 @@ describe("builder drawer panels", () => {
       />
     )
 
-    expect(screen.getByPlaceholderText("搜索表达规则")).toBeInTheDocument()
-    expect(screen.getByText("表达规则")).toBeInTheDocument()
-    expect(screen.queryByText("官方灵感卡")).not.toBeInTheDocument()
+    expect(screen.getByPlaceholderText("Search expression rules")).toBeInTheDocument()
+    expect(screen.getByText("Expression rules")).toBeInTheDocument()
+    expect(screen.getByText("Fragmented Short-Sentence Mode")).toBeInTheDocument()
+    expect(screen.queryByText("Official inspiration cards")).not.toBeInTheDocument()
 
     await user.click(getSelectableCards()[0])
     expect(onSelectRule).toHaveBeenCalledTimes(1)
