@@ -34,20 +34,21 @@ type MaterialLibraryPanelProps = {
 function OptionCard({
   fragment,
   selected,
-  actionLabel,
   onSelect,
   compact,
 }: {
   fragment: SoulFragment
   selected: boolean
-  actionLabel: string
   onSelect: () => void
   compact: boolean
 }) {
   return (
-    <article
+    <button
+      type="button"
+      aria-pressed={selected}
+      onClick={onSelect}
       className={cn(
-        "rounded-[28px] border transition-all",
+        "w-full rounded-[28px] border text-left transition-all focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60",
         compact ? "p-3.5" : "p-4",
         selected
           ? "border-primary/45 bg-primary/8 shadow-[0_24px_50px_-35px_rgba(44,107,109,0.45)]"
@@ -62,9 +63,6 @@ function OptionCard({
           </div>
           <p className="text-muted-foreground text-sm leading-6">{fragment.summary}</p>
         </div>
-        <Button type="button" variant={selected ? "secondary" : "outline"} size="sm" onClick={onSelect}>
-          {selected ? "已选" : actionLabel}
-        </Button>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         {fragment.keywords.slice(0, compact ? 3 : 4).map((keyword) => (
@@ -73,7 +71,7 @@ function OptionCard({
           </span>
         ))}
       </div>
-    </article>
+    </button>
   )
 }
 
@@ -82,7 +80,6 @@ function SectionBlock({
   eyebrow,
   items,
   selectedId,
-  actionLabel,
   onSelect,
   compact,
 }: {
@@ -90,7 +87,6 @@ function SectionBlock({
   eyebrow: string
   items: SoulFragment[]
   selectedId: string | null
-  actionLabel: string
   onSelect: (fragmentId: string) => void
   compact: boolean
 }) {
@@ -110,7 +106,6 @@ function SectionBlock({
               key={fragment.fragmentId}
               fragment={fragment}
               selected={selectedId === fragment.fragmentId}
-              actionLabel={actionLabel}
               onSelect={() => onSelect(fragment.fragmentId)}
               compact={compact}
             />
@@ -150,25 +145,61 @@ export function MaterialLibraryPanel({
   const showMain = visibleSections.includes("main")
   const showRules = visibleSections.includes("rules")
   const showInspiration = visibleSections.includes("inspiration")
+  const showCategoryFilter = showMain
+  const showRemoteControls = showInspiration
+
+  const panelMeta = (() => {
+    if (showMain && !showRules && !showInspiration) {
+      return {
+        badge: "基础角色",
+        title: "先挑基础角色。",
+        placeholder: "搜索基础角色",
+      }
+    }
+
+    if (!showMain && showRules && !showInspiration) {
+      return {
+        badge: "表达方式",
+        title: "再定表达方式。",
+        placeholder: "搜索表达规则",
+      }
+    }
+
+    if (!showMain && !showRules && showInspiration) {
+      return {
+        badge: "灵感",
+        title: "导入官方灵感卡。",
+        placeholder: "搜索灵感卡",
+      }
+    }
+
+    return {
+      badge: "素材库",
+      title: "先挑可复用碎片。",
+      placeholder: "搜索主素材、规则或灵感卡",
+    }
+  })()
 
   return (
     <Card className={cn("h-full min-h-0 overflow-hidden", compact && "rounded-[30px] border-primary/15 bg-card/76 p-0")}>
       <CardHeader className={cn("gap-4 border-b border-border/60 pb-5", compact && "px-5 pt-5")}> 
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div className="space-y-2">
-            <Badge variant="secondary">素材库</Badge>
+            <Badge variant="secondary">{panelMeta.badge}</Badge>
             <CardTitle className={cn("font-display tracking-[-0.04em]", compact ? "text-[2rem]" : "text-3xl")}>
-              先挑可复用碎片。
+              {panelMeta.title}
             </CardTitle>
           </div>
-          <Button type="button" variant="outline" size="sm" onClick={onReload}>
-            <RefreshCw size={14} />
-            刷新灵感
-          </Button>
+          {showRemoteControls ? (
+            <Button type="button" variant="outline" size="sm" onClick={onReload}>
+              <RefreshCw size={14} />
+              刷新灵感
+            </Button>
+          ) : null}
         </div>
         <div className="grid gap-3">
-          <Input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="搜索主素材、规则或灵感卡" aria-label="搜索素材" />
-          {showMain ? (
+          <Input value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder={panelMeta.placeholder} aria-label="搜索素材" />
+          {showCategoryFilter ? (
             <div className="flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/70 px-3 py-1.5 text-xs text-muted-foreground">
                 <Filter size={14} />
@@ -188,25 +219,26 @@ export function MaterialLibraryPanel({
             </div>
           ) : null}
         </div>
-        <div className="flex items-center justify-between gap-3 rounded-[22px] border border-border/70 bg-background/75 px-4 py-3 text-sm">
-          <div>
-            <p className="font-medium text-foreground">官方灵感源</p>
-            <p className="text-muted-foreground mt-1">{remoteMessage ?? "正在同步官方灵感卡。"}</p>
+        {showRemoteControls ? (
+          <div className="flex items-center justify-between gap-3 rounded-[22px] border border-border/70 bg-background/75 px-4 py-3 text-sm">
+            <div>
+              <p className="font-medium text-foreground">官方灵感源</p>
+              <p className="text-muted-foreground mt-1">{remoteMessage ?? "正在同步官方灵感卡。"}</p>
+            </div>
+            <Badge variant={remoteState === "ready" ? "default" : remoteState === "error" ? "outline" : "secondary"}>
+              {remoteState}
+            </Badge>
           </div>
-          <Badge variant={remoteState === "ready" ? "default" : remoteState === "error" ? "outline" : "secondary"}>
-            {remoteState}
-          </Badge>
-        </div>
+        ) : null}
       </CardHeader>
 
       <CardContent className={cn("min-h-0 flex-1 overflow-y-auto py-6", compact ? "grid gap-6 px-5 pb-5" : "grid gap-8")}> 
         {showMain ? (
           <SectionBlock
-            title="主 Catalog"
+            title="基础角色"
             eyebrow="who"
             items={mainFragments}
             selectedId={selectedMainFragmentId}
-            actionLabel="加入"
             onSelect={onSelectMainFragment}
             compact={compact}
           />
@@ -218,7 +250,6 @@ export function MaterialLibraryPanel({
             eyebrow="how"
             items={ruleFragments}
             selectedId={selectedRuleFragmentId}
-            actionLabel="加入"
             onSelect={onSelectRuleFragment}
             compact={compact}
           />
@@ -236,10 +267,13 @@ export function MaterialLibraryPanel({
             <div className="grid gap-3">
               {inspirationFragments.length > 0 ? (
                 inspirationFragments.map((fragment) => (
-                  <article
+                  <button
                     key={fragment.fragmentId}
+                    type="button"
+                    aria-pressed={selectedInspirationId === fragment.fragmentId}
+                    onClick={() => onSelectInspirationFragment(fragment.fragmentId)}
                     className={cn(
-                      "rounded-[28px] border transition-all",
+                      "w-full rounded-[28px] border text-left transition-all focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60",
                       compact ? "p-3.5" : "p-4",
                       selectedInspirationId === fragment.fragmentId
                         ? "border-primary/45 bg-primary/8"
@@ -255,17 +289,12 @@ export function MaterialLibraryPanel({
                         </div>
                         <p className="text-muted-foreground text-sm leading-6">{fragment.summary}</p>
                       </div>
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant={selectedInspirationId === fragment.fragmentId ? "secondary" : "outline"}
-                        onClick={() => onSelectInspirationFragment(fragment.fragmentId)}
-                      >
+                      <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
                         <Sparkles size={14} />
-                        {selectedInspirationId === fragment.fragmentId ? "已导入" : "导入灵感"}
-                      </Button>
+                        <span>{selectedInspirationId === fragment.fragmentId ? "已导入" : "单击卡片导入"}</span>
+                      </div>
                     </div>
-                  </article>
+                  </button>
                 ))
               ) : (
                 <div className="rounded-[24px] border border-dashed border-border/80 bg-background/70 px-4 py-5 text-sm text-muted-foreground">
