@@ -43,7 +43,7 @@ export function SourceFootnote({ sourceNotes, generatedAtUtc, layout = "default"
               <h3 className="text-lg font-semibold">运行假设</h3>
             </div>
             <p className="text-muted-foreground mt-3 text-sm leading-6">
-              Builder 默认依赖本地快照启动。远端官方灵感卡仅做增强。保存使用浏览器本地存储。导出写稳定 JSON，并允许复制预览文案。
+              Builder 默认依赖本地快照启动。远端官方灵感卡仅做增强。当前工作流只保留实时编辑与直接复制。
             </p>
           </article>
           <article className="rounded-[28px] border border-border/70 bg-background/75 p-4">

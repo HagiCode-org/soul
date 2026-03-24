@@ -10,7 +10,7 @@ type BuilderHeroIntroProps = {
 const steps = [
   {
     title: "挑核心",
-    copy: "先锁定主 Catalog，确定角色边界与不变量。",
+    copy: "先锁定基础角色，确定角色边界与不变量。",
     icon: BookOpenText,
   },
   {
@@ -20,7 +20,7 @@ const steps = [
   },
   {
     title: "看预览",
-    copy: "实时编译预览。满意就保存。本地即可导出。",
+    copy: "实时编译预览。满意后继续微调。确认后直接复制。",
     icon: WandSparkles,
   },
 ] as const
@@ -37,7 +37,7 @@ export function BuilderHeroIntro({ remoteMessage }: BuilderHeroIntroProps) {
               先建人格骨架。再定表达脉搏。
             </h1>
             <p className="text-muted-foreground max-w-2xl text-base leading-7 sm:text-lg">
-              首页不再是占位壳。现在直接进入工作台。主素材、表达规则、官方灵感卡与本地草稿，都在同一条状态流里闭环。
+              首页不再是占位壳。现在直接进入工作台。基础角色、表达方式与自定义插槽，都在同一条状态流里闭环。
             </p>
           </div>
         </div>

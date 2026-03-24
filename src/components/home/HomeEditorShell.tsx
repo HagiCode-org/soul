@@ -40,15 +40,17 @@ export function HomeEditorShell({
         {workbench}
       </div>
 
-      <div className="order-3 min-w-0 xl:order-3">
-        <HomeSlotRail
-          side="right"
-          slots={rightSlots}
-          activeSlot={activeSlot}
-          recommendedSlot={recommendedSlot}
-          onToggleSlot={onSlotToggle}
-        />
-      </div>
+      {rightSlots.length > 0 ? (
+        <div className="order-3 min-w-0 xl:order-3">
+          <HomeSlotRail
+            side="right"
+            slots={rightSlots}
+            activeSlot={activeSlot}
+            recommendedSlot={recommendedSlot}
+            onToggleSlot={onSlotToggle}
+          />
+        </div>
+      ) : null}
     </section>
   )
 }
