@@ -136,3 +136,81 @@
     text-wrap: balance;
   }
 }
+
+
+@layer components {
+  .site-shell-frame {
+    min-width: 0;
+  }
+
+  .site-panel {
+    @apply relative min-w-0 rounded-[40px] border border-border/70 bg-background/78 shadow-[0_30px_120px_-65px_rgba(15,23,42,0.8)] backdrop-blur-2xl;
+  }
+
+  .site-panel-editor {
+    @apply p-4 sm:p-6 lg:p-8;
+  }
+
+  .site-header {
+    @apply flex flex-col gap-5 border-b border-border/70 pb-6 lg:flex-row lg:items-start lg:justify-between;
+  }
+
+  .site-header-nav {
+    @apply flex min-w-0 flex-wrap items-center gap-2;
+  }
+
+  .site-link-chip {
+    @apply inline-flex items-center rounded-full border border-border/70 bg-background/75 px-3 py-2 text-sm text-foreground transition hover:-translate-y-0.5 hover:border-primary/35 hover:bg-accent/60 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60;
+  }
+
+  .site-workbench-section {
+    @apply mt-8 min-w-0 space-y-6 lg:space-y-8;
+  }
+
+  .site-footer {
+    @apply min-w-0 rounded-[32px] border border-border/70 bg-background/82 px-5 py-6 shadow-[0_28px_100px_-70px_rgba(15,23,42,0.75)] backdrop-blur-xl sm:px-6 lg:px-8;
+  }
+
+  .site-footer-grid {
+    @apply grid gap-6 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.8fr)_minmax(0,0.95fr)];
+  }
+
+  .site-footer-brand {
+    @apply grid gap-3;
+  }
+
+  .site-footer-eyebrow {
+    @apply text-muted-foreground text-xs uppercase tracking-[0.34em];
+  }
+
+  .site-footer-section {
+    @apply grid gap-3;
+  }
+
+  .site-footer-title {
+    @apply text-base font-semibold;
+  }
+
+  .site-footer-links {
+    @apply grid gap-2;
+  }
+
+  .site-footer-link,
+  .site-filing-link {
+    @apply inline-flex min-w-0 items-center rounded-xl px-1 py-1 text-sm text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60;
+  }
+
+  .site-footer-filings {
+    @apply mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border/70 pt-4;
+  }
+
+  @media (max-width: 767px) {
+    .site-footer {
+      @apply px-4 py-5;
+    }
+
+    .site-footer-filings {
+      @apply items-start;
+    }
+  }
+}
