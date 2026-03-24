@@ -32,8 +32,30 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: "Manrope Variable", "Noto Sans", sans-serif;
-  --font-display: "Fraunces Variable", "Times New Roman", serif;
+  --font-sans:
+    "Manrope Variable",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei UI",
+    "Microsoft YaHei",
+    "Noto Sans CJK SC",
+    "Noto Sans SC",
+    "Source Han Sans SC",
+    "WenQuanYi Micro Hei",
+    "Segoe UI",
+    sans-serif;
+  --font-display:
+    "Fraunces Variable",
+    "PingFang SC",
+    "Hiragino Sans GB",
+    "Microsoft YaHei UI",
+    "Microsoft YaHei",
+    "Noto Serif CJK SC",
+    "Noto Serif SC",
+    "Source Han Serif SC",
+    "Songti SC",
+    "STSong",
+    serif;
 }
 
 :root {
@@ -87,6 +109,9 @@
   html {
     @apply scroll-smooth;
     font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
