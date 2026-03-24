@@ -1,7 +1,7 @@
 # Soul
 
 Soul 是 `soul.hagicode.com` 的前端仓库。
-当前默认首页已经切换为 editor-style Soul Builder 工作台。页面直接承接素材浏览、插槽编辑、实时预览与复制流程。
+当前默认首页定位为面向开发者的 HagiSoul 平台，支持更方便快捷的 Soul 创建、分享与浏览流程。
 
 ## 当前首页能力
 
@@ -11,6 +11,14 @@ Soul 是 `soul.hagicode.com` 的前端仓库。
 - 本地参考素材：构建期从 `repos/web/docs` 的基础角色与表达规则生成快照
 - 可选远端增强：运行期尝试读取 `/api/soul-marketplace/items` 的官方灵感卡；失败时自动回退到本地示例卡
 - 文案复制：支持直接复制当前 SOUL 预览文案
+
+## 站点壳层与合规展示
+
+- 首页现在采用 `SiteHeader -> HomeEditorShell -> SiteFooter` 的完整站点骨架，Builder 工作区仍然是默认主体验
+- `src/components/site/site-links.ts` 维护文档、官网、GitHub、Discord、QQ群、邮箱与备案常量，避免页面内散落硬编码
+- 链接值和备案展示假设沿用 `repos/site` 与 `repos/docs` 已公开使用的配置，本仓只复制结构与常量，不直接依赖跨仓运行时代码
+- Footer 负责展示 `闽ICP备2026004153号-1` 与 `闽公网安备35011102351148号`，两个备案链接均使用可访问 `aria-label` 与安全外链属性
+- Header 只承担品牌、站点导航与主题切换，不承接复制、预览、抽屉等 Builder 内部动作
 
 ## 首页结构与状态边界
 
@@ -56,6 +64,8 @@ npm run materials:sync
 - `src/components/home/`：首页 editor shell、槽位轨道与抽屉原语
 - `src/components/builder/`：素材库、预览区
 - `src/components/site/SiteHeader.tsx`：站点导航与主题切换
+- `src/components/site/SiteFooter.tsx`：页脚、社群入口与备案展示
+- `src/components/site/site-links.ts`：站点链接与备案配置注册表
 - `src/lib/builder/`：领域类型、素材仓储、预览编译与复制相关逻辑
 - `src/data/reference-materials.generated.ts`：参考素材快照
 - `src/test/`：Vitest 测试初始化
@@ -84,3 +94,4 @@ npm run preview
 - 官方灵感卡属于增强能力；读取失败不能阻断首页渲染
 - 复制要求基础角色与表达方式插槽同时具备内容
 - 主题切换仍然只处理前端视觉状态，暂未做持久化
+- 站点链接、社群入口与备案信息当前按公开站点配置静态维护，后续如公共站点更新需同步本仓配置
