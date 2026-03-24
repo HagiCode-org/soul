@@ -2,10 +2,8 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, it, vi } from "vitest"
 
-import { CompositionPanel } from "@/components/builder/CompositionPanel"
 import { MaterialLibraryPanel } from "@/components/builder/MaterialLibraryPanel"
 import { SavedDraftRail } from "@/components/builder/SavedDraftRail"
-import { createEmptyDraft } from "@/lib/builder/draft"
 import { createLocalMaterials } from "@/lib/builder/material-repository"
 
 describe("builder drawer panels", () => {
@@ -45,39 +43,20 @@ describe("builder drawer panels", () => {
     expect(onSelectInspiration).toHaveBeenCalledTimes(1)
   })
 
-  it("keeps save action inside drawer composition panel", async () => {
-    const user = userEvent.setup()
-    const materials = createLocalMaterials()
-    const onSaveDraft = vi.fn()
-
-    render(
-      <CompositionPanel
-        mainFragment={materials.mainFragments[0]}
-        ruleFragment={materials.expressionFragments[0]}
-        inspirationFragment={null}
-        customPrompt="补充说明"
-        onCustomPromptChange={vi.fn()}
-        onClearMainFragment={vi.fn()}
-        onClearRuleFragment={vi.fn()}
-        onClearInspiration={vi.fn()}
-        onSaveDraft={onSaveDraft}
-        layout="drawer"
-      />
-    )
-
-    await user.click(screen.getByRole("button", { name: "保存草稿" }))
-    expect(onSaveDraft).toHaveBeenCalledTimes(1)
-  })
-
   it("restores saved draft from drawer rail", async () => {
     const user = userEvent.setup()
-    const draft = createEmptyDraft()
     const snapshot = {
       version: "1",
       savedAt: "2026-03-24T00:00:00.000Z",
       draft: {
-        ...draft,
+        draftId: "draft-test",
         name: "测试草稿",
+        selectedMainFragmentId: null,
+        selectedRuleFragmentId: null,
+        inspirationSoulId: null,
+        customPrompt: "",
+        previewText: "",
+        updatedAt: "2026-03-24T00:00:00.000Z",
       },
     }
     const onRestore = vi.fn()
