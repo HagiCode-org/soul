@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from "react"
 
 export type HomeEditorDrawerSide = "left" | "right"
-export type HomeEditorSlotId = "materials" | "inspire" | "drafts" | "sources" | "status"
+export type HomeEditorSlotId = "catalog" | "expression"
 
 export type HomeEditorSlotRegistration = {
   id: HomeEditorSlotId
