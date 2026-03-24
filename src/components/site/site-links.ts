@@ -1,5 +1,9 @@
+import type { TFunction } from "i18next"
+
+export type SiteLinkId = "docs" | "website" | "github" | "discord" | "qq-group" | "email" | "icp" | "public-security"
+
 export type SiteLink = {
-  id: string
+  id: SiteLinkId
   label: string
   href: string
   ariaLabel: string
@@ -13,67 +17,71 @@ export type SiteLinkSection = {
   links: readonly SiteLink[]
 }
 
+type SiteLinkDefinition = Omit<SiteLink, "label" | "ariaLabel"> & {
+  labelKey: string
+  ariaLabelKey: string
+}
+
 const NEW_TAB_TARGET = "_blank" as const
 const EXTERNAL_REL = "noopener noreferrer" as const
 
-// Keep these public values aligned with the already published entries in repos/site and repos/docs.
-export const soulSiteLinks = {
+const soulSiteLinkDefinitions = {
   docs: {
     id: "docs",
-    label: "文档",
+    labelKey: "site.links.docs.label",
     href: "https://docs.hagicode.com/",
-    ariaLabel: "打开 HagiCode 官方文档",
+    ariaLabelKey: "site.links.docs.ariaLabel",
     external: true,
     openInNewTab: true,
   },
   website: {
     id: "website",
-    label: "官网",
+    labelKey: "site.links.website.label",
     href: "https://hagicode.com",
-    ariaLabel: "打开 HagiCode 官网",
+    ariaLabelKey: "site.links.website.ariaLabel",
     external: true,
     openInNewTab: true,
   },
   github: {
     id: "github",
-    label: "GitHub",
+    labelKey: "site.links.github.label",
     href: "https://github.com/HagiCode-org/site",
-    ariaLabel: "打开 HagiCode GitHub 仓库",
+    ariaLabelKey: "site.links.github.ariaLabel",
     external: true,
     openInNewTab: true,
   },
   discord: {
     id: "discord",
-    label: "Discord",
+    labelKey: "site.links.discord.label",
     href: "https://discord.gg/qY662sJK",
-    ariaLabel: "打开 HagiCode Discord 社群",
+    ariaLabelKey: "site.links.discord.ariaLabel",
     external: true,
     openInNewTab: true,
   },
   qqGroup: {
     id: "qq-group",
-    label: "QQ 群 610394020",
+    labelKey: "site.links.qqGroup.label",
     href: "https://qm.qq.com/q/Fwb0o094kw",
-    ariaLabel: "打开 HagiCode QQ 群 610394020",
+    ariaLabelKey: "site.links.qqGroup.ariaLabel",
     external: true,
     openInNewTab: true,
   },
   email: {
     id: "email",
-    label: "support@hagicode.com",
+    labelKey: "site.links.email.label",
     href: "mailto:support@hagicode.com",
-    ariaLabel: "通过邮箱联系 HagiCode 支持团队",
+    ariaLabelKey: "site.links.email.ariaLabel",
     external: true,
     openInNewTab: false,
   },
-} as const satisfies Record<string, SiteLink>
+} as const satisfies Record<string, SiteLinkDefinition>
 
-export const filingLinks = {
+const filingLinkDefinitions = {
   icp: {
     id: "icp",
     label: "闽ICP备2026004153号-1",
     href: "https://beian.miit.gov.cn/",
-    ariaLabel: "查看 ICP 备案信息",
+    ariaLabelKey: "site.links.filings.icpAriaLabel",
     external: true,
     openInNewTab: true,
   },
@@ -81,26 +89,71 @@ export const filingLinks = {
     id: "public-security",
     label: "闽公网安备35011102351148号",
     href: "http://www.beian.gov.cn/portal/registerSystemInfo",
-    ariaLabel: "查看公安备案信息",
+    ariaLabelKey: "site.links.filings.publicSecurityAriaLabel",
     external: true,
     openInNewTab: true,
   },
-} as const satisfies Record<string, SiteLink>
+} as const
 
-export const headerNavigationLinks = [soulSiteLinks.docs, soulSiteLinks.website, soulSiteLinks.discord] as const
+function buildSiteLink(t: TFunction, definition: SiteLinkDefinition): SiteLink {
+  return {
+    id: definition.id,
+    href: definition.href,
+    external: definition.external,
+    openInNewTab: definition.openInNewTab,
+    label: t(definition.labelKey),
+    ariaLabel: t(definition.ariaLabelKey),
+  }
+}
 
-export const footerLinkSections: readonly SiteLinkSection[] = [
-  {
-    id: "related",
-    title: "相关链接",
-    links: [soulSiteLinks.docs, soulSiteLinks.website],
-  },
-  {
-    id: "community",
-    title: "社群与支持",
-    links: [soulSiteLinks.github, soulSiteLinks.discord, soulSiteLinks.qqGroup, soulSiteLinks.email],
-  },
-] as const
+export function getHeaderNavigationLinks(t: TFunction) {
+  return [
+    buildSiteLink(t, soulSiteLinkDefinitions.docs),
+    buildSiteLink(t, soulSiteLinkDefinitions.website),
+    buildSiteLink(t, soulSiteLinkDefinitions.discord),
+  ] as const
+}
+
+export function getFooterLinkSections(t: TFunction): readonly SiteLinkSection[] {
+  return [
+    {
+      id: "related",
+      title: t("site.footer.sections.related"),
+      links: [buildSiteLink(t, soulSiteLinkDefinitions.docs), buildSiteLink(t, soulSiteLinkDefinitions.website)],
+    },
+    {
+      id: "community",
+      title: t("site.footer.sections.community"),
+      links: [
+        buildSiteLink(t, soulSiteLinkDefinitions.github),
+        buildSiteLink(t, soulSiteLinkDefinitions.discord),
+        buildSiteLink(t, soulSiteLinkDefinitions.qqGroup),
+        buildSiteLink(t, soulSiteLinkDefinitions.email),
+      ],
+    },
+  ] as const
+}
+
+export function getFilingLinks(t: TFunction): readonly SiteLink[] {
+  return [
+    {
+      id: filingLinkDefinitions.icp.id,
+      label: filingLinkDefinitions.icp.label,
+      href: filingLinkDefinitions.icp.href,
+      external: filingLinkDefinitions.icp.external,
+      openInNewTab: filingLinkDefinitions.icp.openInNewTab,
+      ariaLabel: t(filingLinkDefinitions.icp.ariaLabelKey),
+    },
+    {
+      id: filingLinkDefinitions.publicSecurity.id,
+      label: filingLinkDefinitions.publicSecurity.label,
+      href: filingLinkDefinitions.publicSecurity.href,
+      external: filingLinkDefinitions.publicSecurity.external,
+      openInNewTab: filingLinkDefinitions.publicSecurity.openInNewTab,
+      ariaLabel: t(filingLinkDefinitions.publicSecurity.ariaLabelKey),
+    },
+  ]
+}
 
 export function getSiteLinkTarget(link: Pick<SiteLink, "openInNewTab">) {
   return link.openInNewTab ? NEW_TAB_TARGET : undefined

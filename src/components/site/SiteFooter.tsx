@@ -1,18 +1,21 @@
-import { filingLinks, footerLinkSections, getSiteLinkRel, getSiteLinkTarget } from "@/components/site/site-links"
+import { useTranslation } from "react-i18next"
+
+import { getFilingLinks, getFooterLinkSections, getSiteLinkRel, getSiteLinkTarget } from "@/components/site/site-links"
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear()
+  const { t } = useTranslation()
+  const footerLinkSections = getFooterLinkSections(t)
+  const filingLinks = getFilingLinks(t)
 
   return (
-    <footer className="site-footer" role="contentinfo" aria-label="HagiSoul 页脚">
+    <footer className="site-footer" role="contentinfo" aria-label={t("site.footer.ariaLabel")}>
       <div className="site-footer-grid">
-        <section className="site-footer-brand" aria-label="品牌说明">
+        <section className="site-footer-brand" aria-label={t("site.footer.brandSectionAria")}>
           <p className="site-footer-eyebrow">HagiSoul</p>
           <h2 className="font-display text-3xl tracking-[0.03em]">HagiSoul</h2>
-          <p className="max-w-[32rem] text-sm leading-7 text-muted-foreground">
-            HagiSoul 聚焦开发者场景，提供更方便快捷的 Soul 创建、分享与浏览体验。
-          </p>
-          <p className="text-sm text-muted-foreground">© {currentYear} HagiCode. All rights reserved.</p>
+          <p className="max-w-[32rem] text-sm leading-7 text-muted-foreground">{t("site.footer.description")}</p>
+          <p className="text-sm text-muted-foreground">{t("site.footer.copyright", { year: currentYear })}</p>
         </section>
 
         {footerLinkSections.map((section) => (
@@ -36,9 +39,8 @@ export function SiteFooter() {
         ))}
       </div>
 
-      {/* Footer values mirror the public HagiCode filing block without importing cross-repo runtime modules. */}
       <div className="site-footer-filings">
-        {Object.values(filingLinks).map((link) => (
+        {filingLinks.map((link) => (
           <a
             key={link.id}
             className="site-filing-link"

@@ -12,16 +12,16 @@ describe("SiteFooter", () => {
   it("renders grouped footer links and filing links with safe attributes", () => {
     render(<SiteFooter />)
 
-    const relatedLinks = screen.getByRole("navigation", { name: "相关链接" })
-    const communityLinks = screen.getByRole("navigation", { name: "社群与支持" })
+    const relatedLinks = screen.getByRole("navigation", { name: "Related links" })
+    const communityLinks = screen.getByRole("navigation", { name: "Community and support" })
 
-    expect(within(relatedLinks).getByRole("link", { name: "打开 HagiCode 官方文档" })).toHaveAttribute("target", "_blank")
-    expect(within(relatedLinks).getByRole("link", { name: "打开 HagiCode 官方文档" })).toHaveAttribute("rel", "noopener noreferrer")
-    expect(within(communityLinks).getByRole("link", { name: "打开 HagiCode GitHub 仓库" })).toHaveAttribute("target", "_blank")
-    expect(within(communityLinks).getByRole("link", { name: "打开 HagiCode Discord 社群" })).toHaveAttribute("rel", "noopener noreferrer")
+    expect(within(relatedLinks).getByRole("link", { name: "Open the HagiCode docs site" })).toHaveAttribute("target", "_blank")
+    expect(within(relatedLinks).getByRole("link", { name: "Open the HagiCode docs site" })).toHaveAttribute("rel", "noopener noreferrer")
+    expect(within(communityLinks).getByRole("link", { name: "Open the HagiCode GitHub repository" })).toHaveAttribute("target", "_blank")
+    expect(within(communityLinks).getByRole("link", { name: "Open the HagiCode Discord community" })).toHaveAttribute("rel", "noopener noreferrer")
 
-    const icpLink = screen.getByRole("link", { name: "查看 ICP 备案信息" })
-    const publicSecurityLink = screen.getByRole("link", { name: "查看公安备案信息" })
+    const icpLink = screen.getByRole("link", { name: "View the ICP filing record" })
+    const publicSecurityLink = screen.getByRole("link", { name: "View the public security filing record" })
 
     expect(icpLink).toHaveTextContent("闽ICP备2026004153号-1")
     expect(icpLink).toHaveAttribute("href", "https://beian.miit.gov.cn/")
@@ -37,10 +37,10 @@ describe("SiteFooter", () => {
     const user = userEvent.setup()
     render(<SiteFooter />)
 
-    const footer = screen.getByRole("contentinfo", { name: "HagiSoul 页脚" })
+    const footer = screen.getByRole("contentinfo", { name: "HagiSoul footer" })
     const allLinks = within(footer).getAllByRole("link")
-    const icpLink = screen.getByRole("link", { name: "查看 ICP 备案信息" })
-    const publicSecurityLink = screen.getByRole("link", { name: "查看公安备案信息" })
+    const icpLink = screen.getByRole("link", { name: "View the ICP filing record" })
+    const publicSecurityLink = screen.getByRole("link", { name: "View the public security filing record" })
 
     expect(footer).toHaveClass("site-footer")
     expect(icpLink.parentElement).toHaveClass("site-footer-filings")

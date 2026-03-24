@@ -47,19 +47,21 @@ const sheetVariants = cva(
 
 interface SheetContentProps
   extends React.ComponentPropsWithoutRef<typeof Dialog.Content>,
-    VariantProps<typeof sheetVariants> {}
+    VariantProps<typeof sheetVariants> {
+  closeLabel?: string
+}
 
 const SheetContent = React.forwardRef<
   React.ComponentRef<typeof Dialog.Content>,
   SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => (
+>(({ side = "right", className, children, closeLabel = "Close", ...props }, ref) => (
   <SheetPortal>
     <SheetOverlay />
     <Dialog.Content ref={ref} className={cn(sheetVariants({ side }), className)} {...props}>
       {children}
       <Dialog.Close
         className="absolute top-4 right-4 inline-flex size-10 items-center justify-center rounded-full border border-border/70 bg-background/78 text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60"
-        aria-label="关闭抽屉"
+        aria-label={closeLabel}
       >
         <X size={18} />
       </Dialog.Close>
