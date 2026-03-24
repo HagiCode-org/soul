@@ -1,6 +1,12 @@
 import { describe, expect, it, vi } from "vitest"
 
-import { buildFallbackInspirationFragments, loadBuilderMaterials, normalizeReferenceSnapshot } from "@/lib/builder/material-repository"
+import {
+  buildFallbackInspirationFragments,
+  createLocalMaterials,
+  loadBuilderMaterials,
+  normalizeReferenceSnapshot,
+  resolveLocalizedFragment,
+} from "@/lib/builder/material-repository"
 
 describe("material repository", () => {
   it("normalizes reference snapshot into grouped fragments", () => {
@@ -27,7 +33,31 @@ describe("material repository", () => {
     expect(materials.remoteState).toBe("error")
     expect(materials.inspirationFragments).toHaveLength(buildFallbackInspirationFragments().length)
     expect(materials.inspirationFragments[0].sourceRef.kind).toBe("marketplace-fallback")
-    expect(materials.remoteMessage).toContain("boom")
+    expect(materials.remoteMessage).toEqual({
+      key: "builder.materialLibrary.remote.errorWithFallback",
+      values: { detail: "boom" },
+    })
+  })
+
+  it("exposes english translations for local reference materials and fallback inspirations", () => {
+    const materials = createLocalMaterials()
+    const mainFragment = materials.mainFragments[14]
+    const ruleFragment = materials.expressionFragments[5]
+    const inspirationFragment = materials.inspirationFragments[0]
+
+    expect(resolveLocalizedFragment(mainFragment, "en-US")).toMatchObject({
+      title: "Shy Introvert Wallflower",
+    })
+    expect(resolveLocalizedFragment(mainFragment, "en-US").content).toContain('Your persona core comes from "Shy Introvert Wallflower"')
+
+    expect(resolveLocalizedFragment(ruleFragment, "en-US")).toMatchObject({
+      title: "Chapter-Style Storytelling Mode",
+    })
+    expect(resolveLocalizedFragment(ruleFragment, "en-US").content).toContain('Your expression rules come from "Chapter-Style Storytelling Mode"')
+
+    expect(resolveLocalizedFragment(inspirationFragment, "en-US")).toMatchObject({
+      title: "Aloof Ace Scholar x Fragmented Short-Sentence Mode",
+    })
   })
 
   it("maps remote marketplace items when remote source succeeds", async () => {
@@ -51,6 +81,7 @@ describe("material repository", () => {
     const materials = await loadBuilderMaterials({ fetcher })
 
     expect(materials.remoteState).toBe("ready")
+    expect(materials.remoteMessage).toEqual({ key: "builder.materialLibrary.remote.ready" })
     expect(materials.inspirationFragments[0]).toMatchObject({
       group: "published-soul",
       title: "白噪旅人",
@@ -58,6 +89,9 @@ describe("material repository", () => {
         mainCatalogName: "高冷禁欲学霸系",
         orthogonalCatalogName: "短句碎碎念模式",
       },
+    })
+    expect(resolveLocalizedFragment(materials.inspirationFragments[0], "en-US")).toMatchObject({
+      summary: "Aloof Ace Scholar x Fragmented Short-Sentence Mode",
     })
   })
 })

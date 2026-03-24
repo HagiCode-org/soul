@@ -46,7 +46,7 @@ describe("preview and storage", () => {
 
     expect(preview.isComplete).toBe(false)
     expect(preview.missing).toEqual(["main", "rule"])
-    expect(getIncompletePreviewHint(preview.missing)).toContain("完整内容")
+    expect(getIncompletePreviewHint(preview.missing)).toEqual({ key: "builder.preview.hints.missingBoth" })
   })
 
   it("saves snapshots and normalizes legacy versions on read", () => {

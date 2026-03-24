@@ -1,4 +1,4 @@
-import type { MissingCoreSelection, PreviewCompilation, SoulBuilderDraft, SoulFragment } from "@/lib/builder/types"
+import type { MessageDescriptor, MissingCoreSelection, PreviewCompilation, SoulBuilderDraft, SoulFragment } from "@/lib/builder/types"
 
 function buildMissing(mainSlotText: string, ruleSlotText: string): MissingCoreSelection[] {
   const missing: MissingCoreSelection[] = []
@@ -30,7 +30,7 @@ export function compilePreview(
   ].filter((section): section is string => Boolean(section))
 
   const text = sections.join("\n\n")
-  const title = [fragments.mainFragment?.title, fragments.ruleFragment?.title].filter(Boolean).join(" · ") || "Soul Builder 预览"
+  const title = [fragments.mainFragment?.title, fragments.ruleFragment?.title].filter(Boolean).join(" · ")
 
   return {
     text,
@@ -47,8 +47,10 @@ export function getIncompletePreviewHint(missing: MissingCoreSelection[]) {
   }
 
   if (missing.length === 2) {
-    return "先补基础角色和表达方式插槽，才能生成完整内容。"
+    return { key: "builder.preview.hints.missingBoth" } satisfies MessageDescriptor
   }
 
-  return missing[0] === "main" ? "先补基础角色插槽。" : "先补表达方式插槽。"
+  return {
+    key: missing[0] === "main" ? "builder.preview.hints.missingMain" : "builder.preview.hints.missingRule",
+  } satisfies MessageDescriptor
 }

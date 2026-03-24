@@ -36,11 +36,11 @@ export function buildDraftName(mainFragment: SoulFragment | null, ruleFragment: 
   }
 
   if (mainFragment) {
-    return `${mainFragment.title} 组合`
+    return mainFragment.title
   }
 
   if (ruleFragment) {
-    return `${ruleFragment.title} 组合`
+    return ruleFragment.title
   }
 
   return "未命名角色"
