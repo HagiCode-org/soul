@@ -12,10 +12,10 @@ const slots: HomeSlotDefinition[] = [
   {
     id: "catalog",
     side: "left",
-    label: "Catalog",
-    title: "Catalog 抽屉",
-    description: "选择主 Catalog。",
-    emptyState: "暂无 Catalog。",
+    label: "基础角色",
+    title: "基础角色抽屉",
+    description: "选择基础角色。",
+    emptyState: "暂无基础角色。",
     icon: BookOpenText,
   },
   {
@@ -52,7 +52,7 @@ function Harness() {
         emptyState={slots.find((slot) => slot.id === editor.activeSlot)?.emptyState ?? "当前槽位暂无内容。"}
         onClose={editor.closeDrawer}
       >
-        {editor.activeSlot === "catalog" ? <button type="button">应用 Catalog</button> : <button type="button">应用表达方式</button>}
+        {editor.activeSlot === "catalog" ? <button type="button">应用基础角色</button> : <button type="button">应用表达方式</button>}
       </HomeContextDrawer>
     </>
   )
@@ -65,13 +65,13 @@ describe("HomeEditorShell", () => {
 
     expect(screen.getByText("中央工作区")).toBeInTheDocument()
 
-    await user.click(screen.getAllByRole("button", { name: "Catalog" })[0])
-    expect(screen.getByRole("dialog", { name: "Catalog 抽屉" })).toBeInTheDocument()
+    await user.click(screen.getAllByRole("button", { name: "基础角色" })[0])
+    expect(screen.getByRole("dialog", { name: "基础角色抽屉" })).toBeInTheDocument()
     expect(screen.getByText("中央工作区")).toBeInTheDocument()
 
     await user.click(screen.getByRole("button", { name: "关闭抽屉" }))
     await waitFor(() => {
-      expect(screen.queryByRole("dialog", { name: "Catalog 抽屉" })).not.toBeInTheDocument()
+      expect(screen.queryByRole("dialog", { name: "基础角色抽屉" })).not.toBeInTheDocument()
     })
     expect(screen.getByText("中央工作区")).toBeInTheDocument()
   })
@@ -80,11 +80,11 @@ describe("HomeEditorShell", () => {
     const user = userEvent.setup()
     render(<Harness />)
 
-    await user.click(screen.getAllByRole("button", { name: "Catalog" })[0])
-    expect(screen.getByRole("dialog", { name: "Catalog 抽屉" })).toBeInTheDocument()
+    await user.click(screen.getAllByRole("button", { name: "基础角色" })[0])
+    expect(screen.getByRole("dialog", { name: "基础角色抽屉" })).toBeInTheDocument()
 
     await user.click(screen.getAllByRole("button", { name: "表达方式" })[0])
-    expect(screen.queryByRole("dialog", { name: "Catalog 抽屉" })).not.toBeInTheDocument()
+    expect(screen.queryByRole("dialog", { name: "基础角色抽屉" })).not.toBeInTheDocument()
     expect(screen.getByRole("dialog", { name: "表达方式抽屉" })).toBeInTheDocument()
 
     await user.keyboard("{Escape}")

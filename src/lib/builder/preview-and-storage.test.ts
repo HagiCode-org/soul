@@ -24,25 +24,29 @@ describe("preview and storage", () => {
     const ruleFragment = materials.expressionFragments[0]
 
     const preview = compilePreview(
-      { customPrompt: "全部输出使用简体中文。" },
+      {
+        mainSlotText: mainFragment.content,
+        ruleSlotText: ruleFragment.content,
+        customPrompt: "全部输出使用简体中文。",
+      },
       { mainFragment, ruleFragment, inspirationFragment: null }
     )
 
     expect(preview.isComplete).toBe(true)
     expect(preview.text).toContain("高冷禁欲学霸系")
     expect(preview.text).toContain("短句碎碎念模式")
-    expect(preview.text).toContain("自定义补充")
+    expect(preview.text).toContain("全部输出使用简体中文。")
   })
 
   it("reports incomplete preview when core selections are missing", () => {
     const preview = compilePreview(
-      { customPrompt: "" },
+      { mainSlotText: "", ruleSlotText: "", customPrompt: "" },
       { mainFragment: null, ruleFragment: null, inspirationFragment: null }
     )
 
     expect(preview.isComplete).toBe(false)
     expect(preview.missing).toEqual(["main", "rule"])
-    expect(getIncompletePreviewHint(preview.missing)).toContain("导出")
+    expect(getIncompletePreviewHint(preview.missing)).toContain("完整内容")
   })
 
   it("saves snapshots and normalizes legacy versions on read", () => {
@@ -57,6 +61,8 @@ describe("preview and storage", () => {
         ...draft,
         selectedMainFragmentId: mainFragment.fragmentId,
         selectedRuleFragmentId: ruleFragment.fragmentId,
+        mainSlotText: mainFragment.content,
+        ruleSlotText: ruleFragment.content,
         name: buildDraftName(mainFragment, ruleFragment),
         previewText: "preview",
       },
@@ -77,6 +83,8 @@ describe("preview and storage", () => {
             selectedMainFragmentId: null,
             selectedRuleFragmentId: null,
             inspirationSoulId: null,
+            mainSlotText: "",
+            ruleSlotText: "",
             customPrompt: "",
             previewText: "",
             updatedAt: "2026-03-24T00:00:00.000Z",
@@ -105,6 +113,8 @@ describe("preview and storage", () => {
             name: "已恢复草稿",
             selectedMainFragmentId: "main-catalog-01",
             selectedRuleFragmentId: "expression-rule-01",
+            mainSlotText: "基础角色内容",
+            ruleSlotText: "表达方式内容",
             customPrompt: "保持简体中文。",
             previewText: "preview",
           },
@@ -115,6 +125,7 @@ describe("preview and storage", () => {
     const restored = restoreLatestDraft(storage)
     expect(restored.name).toBe("已恢复草稿")
     expect(restored.selectedMainFragmentId).toBe("main-catalog-01")
+    expect(restored.mainSlotText).toBe("基础角色内容")
     expect(restored.previewText).toBe("preview")
   })
 })

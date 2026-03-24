@@ -1,16 +1,60 @@
-import { render, screen } from "@testing-library/react"
+import { cleanup, render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
-import { describe, expect, it, vi } from "vitest"
+import { afterEach, describe, expect, it, vi } from "vitest"
 
 import { MaterialLibraryPanel } from "@/components/builder/MaterialLibraryPanel"
-import { SavedDraftRail } from "@/components/builder/SavedDraftRail"
 import { createLocalMaterials } from "@/lib/builder/material-repository"
 
+afterEach(() => {
+  cleanup()
+})
+
+function getSelectableCards() {
+  return screen.getAllByRole("button").filter((element) => element.getAttribute("aria-pressed") !== null)
+}
+
 describe("builder drawer panels", () => {
-  it("supports inspiration-only drawer selection", async () => {
+  it("supports catalog-only drawer selection", async () => {
     const user = userEvent.setup()
     const materials = createLocalMaterials()
-    const onSelectInspiration = vi.fn()
+    const onSelectMain = vi.fn()
+
+    render(
+      <MaterialLibraryPanel
+        query=""
+        onQueryChange={vi.fn()}
+        categories={["全部"]}
+        selectedCategory="全部"
+        onCategoryChange={vi.fn()}
+        mainFragments={materials.mainFragments}
+        ruleFragments={materials.expressionFragments}
+        inspirationFragments={materials.inspirationFragments}
+        selectedMainFragmentId={null}
+        selectedRuleFragmentId={null}
+        selectedInspirationId={null}
+        onSelectMainFragment={onSelectMain}
+        onSelectRuleFragment={vi.fn()}
+        onSelectInspirationFragment={vi.fn()}
+        remoteState={materials.remoteState}
+        remoteMessage={materials.remoteMessage}
+        onReload={vi.fn()}
+        layout="drawer"
+        visibleSections={["main"]}
+      />
+    )
+
+    expect(screen.getByPlaceholderText("搜索基础角色")).toBeInTheDocument()
+    expect(screen.queryByText("表达规则")).not.toBeInTheDocument()
+    expect(screen.queryByText("官方灵感卡")).not.toBeInTheDocument()
+
+    await user.click(getSelectableCards()[0])
+    expect(onSelectMain).toHaveBeenCalledTimes(1)
+  })
+
+  it("supports expression-only drawer selection", async () => {
+    const user = userEvent.setup()
+    const materials = createLocalMaterials()
+    const onSelectRule = vi.fn()
 
     render(
       <MaterialLibraryPanel
@@ -26,44 +70,21 @@ describe("builder drawer panels", () => {
         selectedRuleFragmentId={null}
         selectedInspirationId={null}
         onSelectMainFragment={vi.fn()}
-        onSelectRuleFragment={vi.fn()}
-        onSelectInspirationFragment={onSelectInspiration}
+        onSelectRuleFragment={onSelectRule}
+        onSelectInspirationFragment={vi.fn()}
         remoteState={materials.remoteState}
         remoteMessage={materials.remoteMessage}
         onReload={vi.fn()}
         layout="drawer"
-        visibleSections={["inspiration"]}
+        visibleSections={["rules"]}
       />
     )
 
-    expect(screen.queryByText("主 Catalog")).not.toBeInTheDocument()
-    expect(screen.getByText("官方灵感卡")).toBeInTheDocument()
+    expect(screen.getByPlaceholderText("搜索表达规则")).toBeInTheDocument()
+    expect(screen.getByText("表达规则")).toBeInTheDocument()
+    expect(screen.queryByText("官方灵感卡")).not.toBeInTheDocument()
 
-    await user.click(screen.getAllByRole("button", { name: /导入灵感|已导入/ })[0])
-    expect(onSelectInspiration).toHaveBeenCalledTimes(1)
-  })
-
-  it("restores saved draft from drawer rail", async () => {
-    const user = userEvent.setup()
-    const snapshot = {
-      version: "1",
-      savedAt: "2026-03-24T00:00:00.000Z",
-      draft: {
-        draftId: "draft-test",
-        name: "测试草稿",
-        selectedMainFragmentId: null,
-        selectedRuleFragmentId: null,
-        inspirationSoulId: null,
-        customPrompt: "",
-        previewText: "",
-        updatedAt: "2026-03-24T00:00:00.000Z",
-      },
-    }
-    const onRestore = vi.fn()
-
-    render(<SavedDraftRail snapshots={[snapshot]} onRestore={onRestore} layout="drawer" />)
-
-    await user.click(screen.getByRole("button", { name: "恢复" }))
-    expect(onRestore).toHaveBeenCalledWith(snapshot)
+    await user.click(getSelectableCards()[0])
+    expect(onSelectRule).toHaveBeenCalledTimes(1)
   })
 })
