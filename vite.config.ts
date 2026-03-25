@@ -4,6 +4,9 @@ import react from "@vitejs/plugin-react"
 import { defineConfig } from "vitest/config"
 
 export default defineConfig({
+  server: {
+    host: "0.0.0.0",
+  },
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
