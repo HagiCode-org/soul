@@ -11,6 +11,7 @@ The current default homepage is the builder-first HagiSoul experience for creati
 - Editor-style homepage shell: the central workbench stays visible while the left rail exposes separate `Base role` and `Expression` drawers
 - Single-drawer lifecycle: only one slot drawer can stay open at a time; clicking the active slot, the overlay, or pressing `Esc` closes it
 - Local reference materials: build-time snapshots are generated from `repos/web/docs` base-role and expression catalogs
+- Soul-local extensions: additional expression rules may be appended inside this repo when product needs move faster than the upstream docs
 - Optional remote enhancement: the runtime tries to read official inspiration cards from `/api/soul-marketplace/items`; when it fails, the UI falls back to local sample cards
 - Copyable preview output: the current Soul preview can be copied directly once the required slots are filled
 
@@ -57,6 +58,7 @@ The current default homepage is the builder-first HagiSoul experience for creati
 
 - Base roles: `repos/web/docs/50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md`
 - Expression rules: `repos/web/docs/10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md`
+- Soul-local expression overrides: `scripts/reference-material-overrides.mjs`
 - Official inspiration contract reference: `repos/web/src/services/soulMarketplaceApi.ts`
 - Official combination rule reference: `repos/hagicode-core/src/PCode.Application/SoulMarketplace/catalog-sources.json`
 
