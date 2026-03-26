@@ -13,7 +13,7 @@ describe("material repository", () => {
     const result = normalizeReferenceSnapshot()
 
     expect(result.mainFragments).toHaveLength(50)
-    expect(result.expressionFragments).toHaveLength(10)
+    expect(result.expressionFragments).toHaveLength(11)
     expect(result.mainFragments[11]).toMatchObject({
       group: "main-catalog",
       title: "高冷禁欲学霸系",
@@ -23,6 +23,11 @@ describe("material repository", () => {
       group: "expression-rule",
       title: "短句碎碎念模式",
       sourceRef: { kind: "reference-doc" },
+    })
+    expect(result.expressionFragments[10]).toMatchObject({
+      group: "expression-rule",
+      title: "文言文极简输出模式",
+      sourceRef: { kind: "local-override", label: "Soul 本地扩展规则" },
     })
   })
 
@@ -43,6 +48,7 @@ describe("material repository", () => {
     const materials = createLocalMaterials()
     const mainFragment = materials.mainFragments[14]
     const ruleFragment = materials.expressionFragments[5]
+    const localOverrideRule = materials.expressionFragments[10]
     const inspirationFragment = materials.inspirationFragments[0]
 
     expect(resolveLocalizedFragment(mainFragment, "en-US")).toMatchObject({
@@ -54,6 +60,9 @@ describe("material repository", () => {
       title: "Chapter-Style Storytelling Mode",
     })
     expect(resolveLocalizedFragment(ruleFragment, "en-US").content).toContain('Your expression rules come from "Chapter-Style Storytelling Mode"')
+    expect(resolveLocalizedFragment(localOverrideRule, "en-US")).toMatchObject({
+      title: "Classical Chinese Ultra-Minimal Mode",
+    })
 
     expect(resolveLocalizedFragment(inspirationFragment, "en-US")).toMatchObject({
       title: "Aloof Ace Scholar x Fragmented Short-Sentence Mode",
