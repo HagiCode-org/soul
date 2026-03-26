@@ -45,6 +45,12 @@ function SelectionHarness() {
   )
 }
 
+function RuleOrderHarness() {
+  const builder = useSoulBuilder()
+
+  return <p data-testid="first-rule-title">{builder.filteredRuleFragments[0]?.title ?? ""}</p>
+}
+
 describe("useSoulBuilder", () => {
   beforeEach(() => {
     vi.spyOn(globalThis, "fetch").mockRejectedValue(new Error("remote offline"))
@@ -97,5 +103,13 @@ describe("useSoulBuilder", () => {
     await user.click(screen.getByRole("button", { name: "select main" }))
 
     expect(screen.getByTestId("main-slot").textContent).toContain("你的人设内核来自「社恐内向腼腆系」")
+  })
+
+  it("pins the classical chinese ultra-minimal rule to the top of the visible rule list", async () => {
+    render(<RuleOrderHarness />)
+
+    await waitFor(() => {
+      expect(screen.getByTestId("first-rule-title").textContent).toBe("文言文极简输出模式")
+    })
   })
 })

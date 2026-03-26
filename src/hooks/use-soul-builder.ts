@@ -13,6 +13,8 @@ type FeedbackState = {
   message: MessageDescriptor
 } | null
 
+const PINNED_RULE_TITLES = new Set(["文言文极简输出模式"])
+
 async function copyText(content: string) {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(content)
@@ -27,6 +29,19 @@ async function copyText(content: string) {
   textarea.select()
   document.execCommand("copy")
   document.body.removeChild(textarea)
+}
+
+function prioritizeRuleFragments<T extends { title: string }>(fragments: T[]) {
+  return [...fragments].sort((left, right) => {
+    const leftPinned = PINNED_RULE_TITLES.has(left.title)
+    const rightPinned = PINNED_RULE_TITLES.has(right.title)
+
+    if (leftPinned === rightPinned) {
+      return 0
+    }
+
+    return leftPinned ? -1 : 1
+  })
 }
 
 export function useSoulBuilder() {
@@ -94,7 +109,7 @@ export function useSoulBuilder() {
 
   const filteredRuleFragments = useMemo(() => {
     const query = libraryQuery.trim().toLowerCase()
-    return materials.expressionFragments.filter((fragment) => {
+    const filtered = materials.expressionFragments.filter((fragment) => {
       const localized = resolveLocalizedFragment(fragment, locale)
       if (!query) {
         return true
@@ -102,6 +117,8 @@ export function useSoulBuilder() {
 
       return [localized.title, localized.summary, ...(localized.keywords ?? fragment.keywords)].some((value) => value.toLowerCase().includes(query))
     })
+
+    return prioritizeRuleFragments(filtered)
   }, [libraryQuery, locale, materials.expressionFragments])
 
   const filteredInspirationFragments = useMemo(() => {
