@@ -34,6 +34,10 @@ export type ReferenceOrthogonalCatalog = {
   core: string
   signature: string
   compatibility: string
+  sourceKind?: "reference-doc" | "local-override"
+  sourceLabel?: string
+  sourcePath?: string
+  sourceNote?: string
 }
 
 export type ReferenceCatalogSnapshot = {
@@ -44,7 +48,7 @@ export type ReferenceCatalogSnapshot = {
 }
 
 export type SoulFragmentSourceRef = {
-  kind: "reference-doc" | "marketplace-api" | "marketplace-fallback"
+  kind: "reference-doc" | "local-override" | "marketplace-api" | "marketplace-fallback"
   label: string
   path?: string
   note?: string

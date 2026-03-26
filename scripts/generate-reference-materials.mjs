@@ -2,6 +2,8 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import { orthogonalCatalogOverrides } from './reference-material-overrides.mjs'
+
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
@@ -90,6 +92,22 @@ function parseOrthogonalCatalogs(markdown) {
   return entries
 }
 
+function mergeOrthogonalCatalogs(baseEntries, overrideEntries) {
+  const merged = [...baseEntries]
+  const usedIndexes = new Set(baseEntries.map((entry) => entry.index))
+
+  for (const entry of overrideEntries) {
+    if (usedIndexes.has(entry.index)) {
+      throw new Error(`Duplicate orthogonal catalog index: ${entry.index}`)
+    }
+
+    merged.push(entry)
+    usedIndexes.add(entry.index)
+  }
+
+  return merged.sort((left, right) => left.index - right.index)
+}
+
 async function main() {
   const [mainMarkdown, orthMarkdown] = await Promise.all([
     fs.readFile(mainDocPath, 'utf8'),
@@ -103,9 +121,11 @@ async function main() {
     throw new Error(`Expected 50 main catalogs, received ${mainCatalogs.length}.`)
   }
 
-  if (orthogonalCatalogs.length !== 10) {
-    throw new Error(`Expected 10 orthogonal catalogs, received ${orthogonalCatalogs.length}.`)
+  if (orthogonalCatalogs.length < 10) {
+    throw new Error(`Expected at least 10 orthogonal catalogs from docs, received ${orthogonalCatalogs.length}.`)
   }
+
+  const mergedOrthogonalCatalogs = mergeOrthogonalCatalogs(orthogonalCatalogs, orthogonalCatalogOverrides)
 
   const generated = {
     generatedAtUtc: new Date().toISOString(),
@@ -115,7 +135,7 @@ async function main() {
       combinationFormula: '50 x 10 = 500',
     },
     mainCatalogs,
-    orthogonalCatalogs,
+    orthogonalCatalogs: mergedOrthogonalCatalogs,
   }
 
   const fileContent = [

@@ -131,6 +131,10 @@ function normalizeMainCatalog(entry: ReferenceMainCatalog, snapshot: ReferenceCa
 
 function normalizeOrthogonalCatalog(entry: ReferenceOrthogonalCatalog, snapshot: ReferenceCatalogSnapshot): SoulFragment {
   const localized = buildRuleLocalizedContent(entry)
+  const sourceKind = entry.sourceKind ?? "reference-doc"
+  const sourceLabel = entry.sourceLabel ?? "表达规则"
+  const sourcePath = entry.sourcePath ?? snapshot.provenance.orthPath
+  const sourceNote = entry.sourceNote ?? `构建期快照，生成于 ${snapshot.generatedAtUtc}`
 
   return {
     fragmentId: buildFragmentId("expression-rule", entry.index),
@@ -141,10 +145,10 @@ function normalizeOrthogonalCatalog(entry: ReferenceOrthogonalCatalog, snapshot:
     keywords: [entry.name, ...normalizeKeywords(`${entry.core} ${entry.signature} ${entry.compatibility}`)],
     localized: createLocalizedRecord(localized),
     sourceRef: {
-      kind: "reference-doc",
-      label: "表达规则",
-      path: snapshot.provenance.orthPath,
-      note: `构建期快照，生成于 ${snapshot.generatedAtUtc}`,
+      kind: sourceKind,
+      label: sourceLabel,
+      path: sourcePath,
+      note: sourceNote,
     },
     meta: {
       index: entry.index,
