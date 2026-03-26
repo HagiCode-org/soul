@@ -32,8 +32,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  /* Keep Chinese UI/body text on native system stacks before Latin brand fonts. */
   --font-sans:
-    "Manrope Variable",
     "PingFang SC",
     "Hiragino Sans GB",
     "Microsoft YaHei UI",
@@ -42,19 +42,20 @@
     "Noto Sans SC",
     "Source Han Sans SC",
     "WenQuanYi Micro Hei",
+    "Manrope Variable",
     "Segoe UI",
+    system-ui,
     sans-serif;
   --font-display:
     "Fraunces Variable",
-    "PingFang SC",
-    "Hiragino Sans GB",
-    "Microsoft YaHei UI",
-    "Microsoft YaHei",
+    "Songti SC",
+    "STSong",
+    "Hiragino Mincho ProN",
+    "SimSun",
+    "NSimSun",
     "Noto Serif CJK SC",
     "Noto Serif SC",
     "Source Han Serif SC",
-    "Songti SC",
-    "STSong",
     serif;
 }
 
