@@ -72,6 +72,13 @@ The current default homepage is the builder-first HagiSoul experience for creati
 npm run materials:sync
 ```
 
+## Hero Agent Template Export
+
+- Hero SOUL 模板的 canonical 输出位于 `src/data/generated/agent-templates/`。
+- 生成命令是 `npm run sync:agent-templates`，脚本入口是 `scripts/generate-agent-templates.mjs`。
+- 输出内容固定包含 `index.json` 与 `templates/*.json`，并带有 `styleType`、`soul`、`tags` 与 `tagGroups`。
+- `repos/index` 会镜像这些 JSON 到 `/agent-templates/soul/**`，因此 SOUL 模板正文应继续在本仓库维护，而不是在 Index 发布镜像里手工修改。
+
 ## Directory Guide
 
 - `src/pages/HomePage.tsx`: Builder homepage composition root
