@@ -201,6 +201,18 @@
     @apply inline-flex min-w-0 items-center rounded-xl px-1 py-1 text-sm text-muted-foreground transition hover:text-foreground focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/60;
   }
 
+  .site-footer-link {
+    @apply flex-col items-start gap-1;
+  }
+
+  .site-footer-link-text {
+    @apply text-foreground font-medium;
+  }
+
+  .site-footer-link-description {
+    @apply text-xs leading-5 text-muted-foreground;
+  }
+
   .site-footer-filings {
     @apply mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-border/70 pt-4;
   }
