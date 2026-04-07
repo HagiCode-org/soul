@@ -4,8 +4,9 @@ import { getFilingLinks, getFooterLinkSections, getSiteLinkRel, getSiteLinkTarge
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear()
-  const { t } = useTranslation()
-  const footerLinkSections = getFooterLinkSections(t)
+  const { t, i18n } = useTranslation()
+  const locale = i18n.resolvedLanguage === "zh-CN" ? "zh-CN" : "en-US"
+  const footerLinkSections = getFooterLinkSections(t, locale)
   const filingLinks = getFilingLinks(t)
 
   return (
@@ -31,7 +32,8 @@ export function SiteFooter() {
                   target={getSiteLinkTarget(link)}
                   rel={getSiteLinkRel(link)}
                 >
-                  {link.label}
+                  <span className="site-footer-link-text">{link.label}</span>
+                  {link.description ? <span className="site-footer-link-description">{link.description}</span> : null}
                 </a>
               ))}
             </div>

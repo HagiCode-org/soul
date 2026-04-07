@@ -15,8 +15,11 @@ describe("SiteFooter", () => {
     const relatedLinks = screen.getByRole("navigation", { name: "Related links" })
     const communityLinks = screen.getByRole("navigation", { name: "Community and support" })
 
-    expect(within(relatedLinks).getByRole("link", { name: "Open the HagiCode docs site" })).toHaveAttribute("target", "_blank")
-    expect(within(relatedLinks).getByRole("link", { name: "Open the HagiCode docs site" })).toHaveAttribute("rel", "noopener noreferrer")
+    expect(within(relatedLinks).getByRole("link", { name: "Open HagiCode Docs" })).toHaveAttribute("target", "_blank")
+    expect(within(relatedLinks).getByRole("link", { name: "Open HagiCode Docs" })).toHaveAttribute("rel", "noopener noreferrer")
+    expect(within(relatedLinks).getByRole("link", { name: "Open Docker Compose Builder" })).toHaveAttribute("href", "https://builder.hagicode.com/")
+    expect(within(relatedLinks).getByText("使用指南")).toBeInTheDocument()
+    expect(within(relatedLinks).queryByRole("link", { name: "Open Soul Builder" })).not.toBeInTheDocument()
     expect(within(communityLinks).getByRole("link", { name: "Open the HagiCode GitHub repository" })).toHaveAttribute("target", "_blank")
     expect(within(communityLinks).getByRole("link", { name: "Open the HagiCode Discord community" })).toHaveAttribute("rel", "noopener noreferrer")
 
@@ -52,5 +55,13 @@ describe("SiteFooter", () => {
     expect(icpLink).toHaveFocus()
     await user.tab()
     expect(publicSecurityLink).toHaveFocus()
+  })
+
+  it("suppresses duplicate docs and website destinations from the bundled snapshot", () => {
+    render(<SiteFooter />)
+
+    const relatedLinks = screen.getByRole("navigation", { name: "Related links" })
+    expect(within(relatedLinks).getAllByRole("link", { name: "Open HagiCode Docs" })).toHaveLength(1)
+    expect(within(relatedLinks).getAllByRole("link", { name: "Open HagiCode 主站" })).toHaveLength(1)
   })
 })
