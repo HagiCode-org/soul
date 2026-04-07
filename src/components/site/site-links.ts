@@ -1,10 +1,12 @@
 import type { TFunction } from "i18next"
+import footerSitesSnapshot from "@/data/generated/footer-sites.snapshot.json"
 
-export type SiteLinkId = "docs" | "website" | "github" | "discord" | "qq-group" | "email" | "icp" | "public-security"
+export type SiteLinkId = string
 
 export type SiteLink = {
   id: SiteLinkId
   label: string
+  description?: string
   href: string
   ariaLabel: string
   external: boolean
@@ -21,6 +23,8 @@ type SiteLinkDefinition = Omit<SiteLink, "label" | "ariaLabel"> & {
   labelKey: string
   ariaLabelKey: string
 }
+
+type SiteLocale = "zh-CN" | "en-US"
 
 const NEW_TAB_TARGET = "_blank" as const
 const EXTERNAL_REL = "noopener noreferrer" as const
@@ -95,6 +99,21 @@ const filingLinkDefinitions = {
   },
 } as const
 
+const DEFAULT_RELATED_SITE_ORDER = [
+  "hagicode-main",
+  "hagicode-docs",
+  "newbe-blog",
+  "index-data",
+  "compose-builder",
+  "cost-calculator",
+  "status-page",
+  "awesome-design-gallery",
+  "soul-builder",
+  "trait-builder",
+] as const
+
+const CURRENT_SITE_ID = "soul-builder"
+
 function buildSiteLink(t: TFunction, definition: SiteLinkDefinition): SiteLink {
   return {
     id: definition.id,
@@ -106,6 +125,51 @@ function buildSiteLink(t: TFunction, definition: SiteLinkDefinition): SiteLink {
   }
 }
 
+function resolveCatalogMetadata(url: string) {
+  const normalizedUrl = normalizeUrl(url)
+  return footerSitesSnapshot.entries.find((entry) => normalizeUrl(entry.url) === normalizedUrl)
+}
+
+function normalizeUrl(url: string) {
+  const normalized = new URL(url)
+  normalized.hash = ""
+  normalized.search = ""
+  const pathname = normalized.pathname.replace(/\/+$/, "")
+  normalized.pathname = pathname || "/"
+  return normalized.toString()
+}
+
+function buildSnapshotAriaLabel(locale: SiteLocale, title: string) {
+  return locale === "zh-CN" ? `打开 ${title}` : `Open ${title}`
+}
+
+function resolveSnapshotRelatedLinks(locale: SiteLocale, localLinks: readonly SiteLink[]): SiteLink[] {
+  const localIds = new Set(localLinks.map((link) => link.id))
+  const localUrls = new Set(localLinks.map((link) => normalizeUrl(link.href)))
+  const snapshotById = new Map(footerSitesSnapshot.entries.map((entry) => [entry.id, entry]))
+
+  return DEFAULT_RELATED_SITE_ORDER.flatMap((siteId) => {
+    const entry = snapshotById.get(siteId)
+    if (!entry || entry.id === CURRENT_SITE_ID) {
+      return []
+    }
+
+    if (localIds.has(entry.id) || localUrls.has(normalizeUrl(entry.url))) {
+      return []
+    }
+
+    return [{
+      id: entry.id,
+      label: entry.title,
+      description: entry.description,
+      href: entry.url,
+      ariaLabel: buildSnapshotAriaLabel(locale, entry.title),
+      external: true,
+      openInNewTab: true,
+    }]
+  })
+}
+
 export function getHeaderNavigationLinks(t: TFunction) {
   return [
     buildSiteLink(t, soulSiteLinkDefinitions.docs),
@@ -114,12 +178,29 @@ export function getHeaderNavigationLinks(t: TFunction) {
   ] as const
 }
 
-export function getFooterLinkSections(t: TFunction): readonly SiteLinkSection[] {
+export function getFooterLinkSections(t: TFunction, locale: SiteLocale): readonly SiteLinkSection[] {
+  const localRelatedLinks = [
+    buildSiteLink(t, soulSiteLinkDefinitions.docs),
+    buildSiteLink(t, soulSiteLinkDefinitions.website),
+  ].map((link) => {
+    const metadata = resolveCatalogMetadata(link.href)
+    if (!metadata) {
+      return link
+    }
+
+    return {
+      ...link,
+      label: metadata.title,
+      description: metadata.description,
+      ariaLabel: buildSnapshotAriaLabel(locale, metadata.title),
+    }
+  }) as readonly SiteLink[]
+
   return [
     {
       id: "related",
       title: t("site.footer.sections.related"),
-      links: [buildSiteLink(t, soulSiteLinkDefinitions.docs), buildSiteLink(t, soulSiteLinkDefinitions.website)],
+      links: [...localRelatedLinks, ...resolveSnapshotRelatedLinks(locale, localRelatedLinks)],
     },
     {
       id: "community",
