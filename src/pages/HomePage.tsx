@@ -112,12 +112,6 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
 
   return (
     <main className="site-shell relative min-h-screen overflow-x-clip px-4 py-5 sm:px-6 lg:px-8">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute left-[-9rem] top-[-7rem] size-[24rem] rounded-full bg-primary/12 blur-3xl" />
-        <div className="absolute right-[-6rem] top-[12%] size-[18rem] rounded-full bg-accent/50 blur-3xl" />
-        <div className="absolute bottom-[-8rem] left-[18%] size-[25rem] rounded-full bg-secondary/70 blur-3xl" />
-      </div>
-
       <div className="site-shell-frame relative mx-auto flex min-h-[calc(100vh-2.5rem)] w-full max-w-[1760px] flex-col gap-5 sm:gap-6">
         <div className="site-panel site-panel-editor">
           <SiteHeader theme={theme} onToggleTheme={onToggleTheme} />

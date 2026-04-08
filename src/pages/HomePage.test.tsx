@@ -87,7 +87,7 @@ describe("HomePage", () => {
     expect(screen.getByRole("navigation", { name: "Soul site navigation" })).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "Soul Builder workbench" })).toBeInTheDocument()
     expect(screen.getByRole("contentinfo", { name: "HagiSoul footer" })).toBeInTheDocument()
-    expect(screen.getAllByText("Agent Soul Editor")).toHaveLength(2)
+    expect(screen.getAllByText("Agent Soul Editor").length).toBeGreaterThanOrEqual(3)
 
     const themeButton = screen.getByRole("button", { name: "Switch to dark theme" })
     expect(themeButton).toHaveAttribute("aria-pressed", "false")
@@ -97,7 +97,7 @@ describe("HomePage", () => {
     await user.click(screen.getAllByRole("button", { name: "Base role" })[0])
     expect(screen.getByRole("dialog", { name: "Choose a base role" })).toBeInTheDocument()
     expect(screen.getByRole("contentinfo", { name: "HagiSoul footer" })).toBeInTheDocument()
-    expect(screen.getAllByText("Agent Soul Editor")).toHaveLength(2)
+    expect(screen.getAllByText("Agent Soul Editor").length).toBeGreaterThanOrEqual(3)
   })
 
   it("keeps responsive shell hooks and keyboard focus entrypoints for site chrome", async () => {

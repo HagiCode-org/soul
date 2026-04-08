@@ -1,13 +1,7 @@
 import { useTranslation } from "react-i18next"
 
 import { Badge } from "@/components/ui/badge"
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import type { HomeEditorDrawerSide } from "@/hooks/use-home-editor-state"
 
 type HomeContextDrawerProps = {
@@ -37,7 +31,7 @@ export function HomeContextDrawer({
         side={side}
         aria-label={title}
         closeLabel={t("home.drawer.closeLabel")}
-        className="p-4"
+        className="p-5 sm:p-6"
         onInteractOutside={(event) => {
           const target = event.target
           if (target instanceof HTMLElement && target.closest("[data-locale-switcher='true']")) {
@@ -45,7 +39,12 @@ export function HomeContextDrawer({
           }
         }}
       >
-        <SheetHeader className="border-b border-border/60 pb-4 pr-12">
+        <SheetHeader className="border-b pb-5 pr-12" style={{ borderColor: "var(--line-soft)" }}>
+          <div className="site-window-dots" aria-hidden="true">
+            <span className="site-window-dot" data-tone="red" />
+            <span className="site-window-dot" data-tone="yellow" />
+            <span className="site-window-dot" data-tone="green" />
+          </div>
           <Badge variant="secondary">{side === "left" ? t("home.drawer.inputBadge") : t("home.drawer.contextBadge")}</Badge>
           <div className="space-y-2">
             <SheetTitle>{title}</SheetTitle>
@@ -53,9 +52,9 @@ export function HomeContextDrawer({
           </div>
         </SheetHeader>
 
-        <div className="mt-4 min-h-0 flex-1 overflow-y-auto pr-1">
+        <div className="mt-5 min-h-0 flex-1 overflow-y-auto pr-1">
           {children ?? (
-            <div className="rounded-[24px] border border-dashed border-border/70 bg-background/60 px-4 py-6 text-sm leading-6 text-muted-foreground">
+            <div className="rounded-[18px] border border-dashed bg-[color:var(--surface-void)] px-4 py-6 text-sm leading-6 text-muted-foreground shadow-[var(--ring-shadow)]">
               {emptyState}
             </div>
           )}

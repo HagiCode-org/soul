@@ -22,35 +22,42 @@ export function HomeEditorShell({
 }: HomeEditorShellProps) {
   const leftSlots = slots.filter((slot) => slot.side === "left")
   const rightSlots = slots.filter((slot) => slot.side === "right")
+  const shellColumnsClass =
+    rightSlots.length > 0
+      ? "xl:grid-cols-[minmax(230px,0.24fr)_minmax(0,1fr)_minmax(230px,0.24fr)]"
+      : "xl:grid-cols-[minmax(230px,0.24fr)_minmax(0,1fr)]"
 
   return (
-    <section className="relative grid gap-5 xl:grid-cols-[minmax(168px,0.18fr)_minmax(0,1fr)_minmax(168px,0.18fr)] xl:items-start xl:gap-6 2xl:grid-cols-[minmax(188px,0.19fr)_minmax(0,1fr)_minmax(188px,0.19fr)]">
-      <div className="order-2 min-w-0 xl:order-1">
-        <HomeSlotRail
-          side="left"
-          slots={leftSlots}
-          activeSlot={activeSlot}
-          recommendedSlot={recommendedSlot}
-          onToggleSlot={onSlotToggle}
-        />
-      </div>
+    <section className="relative space-y-6 lg:space-y-8">
+      {hero}
 
-      <div id="home-workbench" className="order-1 min-w-0 space-y-5 xl:order-2">
-        {hero}
-        {workbench}
-      </div>
-
-      {rightSlots.length > 0 ? (
-        <div className="order-3 min-w-0 xl:order-3">
+      <div className={`grid gap-5 xl:items-start xl:gap-7 ${shellColumnsClass}`}>
+        <div className="order-2 min-w-0 xl:order-1 xl:sticky xl:top-6">
           <HomeSlotRail
-            side="right"
-            slots={rightSlots}
+            side="left"
+            slots={leftSlots}
             activeSlot={activeSlot}
             recommendedSlot={recommendedSlot}
             onToggleSlot={onSlotToggle}
           />
         </div>
-      ) : null}
+
+        <div id="home-workbench" className="order-1 min-w-0 xl:order-2">
+          {workbench}
+        </div>
+
+        {rightSlots.length > 0 ? (
+          <div className="order-3 min-w-0 xl:order-3 xl:sticky xl:top-6">
+            <HomeSlotRail
+              side="right"
+              slots={rightSlots}
+              activeSlot={activeSlot}
+              recommendedSlot={recommendedSlot}
+              onToggleSlot={onSlotToggle}
+            />
+          </div>
+        ) : null}
+      </div>
     </section>
   )
 }
