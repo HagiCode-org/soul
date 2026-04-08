@@ -29,6 +29,7 @@ export const enUSResources = {
     footer: {
       ariaLabel: "HagiSoul footer",
       brandSectionAria: "Brand overview",
+      tagline: "Define your Agent’s soul, fast.",
       description: "HagiSoul focuses on developer workflows with a faster experience for creating, sharing, and browsing Souls.",
       copyright: "© {{year}} HagiCode. All rights reserved.",
       sections: {
@@ -69,6 +70,22 @@ export const enUSResources = {
   },
   home: {
     workbenchAriaLabel: "Soul Builder workbench",
+    hero: {
+      eyebrow: "Soul Builder",
+      title: "Compose the persona frame before the output starts drifting.",
+      description: "Pick a base role, lock an expression rule, and polish the live prompt inside one monochrome workbench.",
+      primaryAction: "Jump to editor",
+      secondaryAction: "Open docs",
+      stats: {
+        catalog: "Base roles",
+        expression: "Expression rules",
+        state: "Workbench",
+      },
+      state: {
+        ready: "Ready to copy",
+        draft: "Needs composition",
+      },
+    },
     slotRail: {
       leftAriaLabel: "Left homepage slots",
       rightAriaLabel: "Right homepage slots",

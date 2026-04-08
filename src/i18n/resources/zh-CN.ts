@@ -29,6 +29,7 @@ export const zhCNResources = {
     footer: {
       ariaLabel: "HagiSoul 页脚",
       brandSectionAria: "品牌说明",
+      tagline: "快速定义你的Agent之魂",
       description: "HagiSoul 聚焦开发者场景，提供更方便快捷的 Soul 创建、分享与浏览体验。",
       copyright: "© {{year}} HagiCode. All rights reserved.",
       sections: {
@@ -69,6 +70,22 @@ export const zhCNResources = {
   },
   home: {
     workbenchAriaLabel: "Soul Builder 工作台",
+    hero: {
+      eyebrow: "Soul Builder",
+      title: "先定人格骨架，再让输出不失真。",
+      description: "先挑基础角色，再锁表达规则，把实时预览放进同一块黑白工作台里处理。",
+      primaryAction: "直达编辑器",
+      secondaryAction: "打开文档",
+      stats: {
+        catalog: "基础角色",
+        expression: "表达规则",
+        state: "工作台",
+      },
+      state: {
+        ready: "可直接复制",
+        draft: "仍待组合",
+      },
+    },
     slotRail: {
       leftAriaLabel: "左侧首页槽位",
       rightAriaLabel: "右侧首页槽位",
