@@ -10,17 +10,27 @@ export function SiteFooter() {
   const filingLinks = getFilingLinks(t)
 
   return (
-    <footer className="site-footer" role="contentinfo" aria-label={t("site.footer.ariaLabel")}>
+    <footer id="soul-footer" className="site-footer" role="contentinfo" aria-label={t("site.footer.ariaLabel")}>
       <div className="site-footer-grid">
         <section className="site-footer-brand" aria-label={t("site.footer.brandSectionAria")}>
+          <div className="site-window-dots" aria-hidden="true">
+            <span className="site-window-dot" data-tone="red" />
+            <span className="site-window-dot" data-tone="yellow" />
+            <span className="site-window-dot" data-tone="green" />
+          </div>
           <p className="site-footer-eyebrow">HagiSoul</p>
-          <h2 className="font-display text-3xl tracking-[0.03em]">HagiSoul</h2>
-          <p className="max-w-[32rem] text-sm leading-7 text-muted-foreground">{t("site.footer.description")}</p>
+          <h2
+            className="font-display text-[2.5rem] leading-[0.94] tracking-[-0.01em] sm:text-[3.4rem]"
+            style={{ fontVariationSettings: '"wght" 500' }}
+          >
+            {t("site.footer.tagline")}
+          </h2>
+          <p className="max-w-[34rem] text-sm leading-7 text-muted-foreground sm:text-base">{t("site.footer.description")}</p>
           <p className="text-sm text-muted-foreground">{t("site.footer.copyright", { year: currentYear })}</p>
         </section>
 
         {footerLinkSections.map((section) => (
-          <nav key={section.id} className="site-footer-section" aria-label={section.title}>
+          <nav key={section.id} className="site-footer-section site-surface-soft rounded-[18px] p-4" aria-label={section.title}>
             <h2 className="site-footer-title">{section.title}</h2>
             <div className="site-footer-links">
               {section.links.map((link) => (
