@@ -24,14 +24,14 @@ type PreviewPanelProps = {
 
 function toneClass(tone: PreviewPanelProps["feedbackTone"]) {
   if (tone === "success") {
-    return "border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-200"
+    return "border-white/12 bg-white/88 text-[#18191a] shadow-[0_0_0_1px_rgba(255,255,255,0.12)_inset]"
   }
 
   if (tone === "error") {
-    return "border-rose-500/30 bg-rose-500/10 text-rose-700 dark:text-rose-200"
+    return "border-[color:var(--accent-red)] border-dashed bg-[color:var(--hero-red-soft)] text-foreground"
   }
 
-  return "border-border/70 bg-background/75 text-muted-foreground"
+  return "border-border bg-[color:var(--surface-void)] text-muted-foreground shadow-[var(--ring-shadow)]"
 }
 
 function summarizeSlotText(value: string, emptyLabel: string) {
@@ -73,16 +73,11 @@ export function PreviewPanel({
   const customSummary = hasCustomSlot
     ? t("builder.preview.slots.custom.filledSummary", { count: draft.customPrompt.trim().length })
     : t("builder.preview.slots.custom.emptySummary")
-  const feedbackText =
-    translatedFeedback ??
-    translatedPreviewHint ??
-    t("builder.preview.feedbackSummary", { filled: filledSlotCount })
+  const feedbackText = translatedFeedback ?? translatedPreviewHint ?? t("builder.preview.feedbackSummary", { filled: filledSlotCount })
   const previewFallbackText = hasMainSlot || hasRuleSlot || hasCustomSlot
     ? t("builder.preview.fallbackPartial")
     : t("builder.preview.fallbackInitial")
-  const nextActionText = canCompose
-    ? t("builder.preview.nextReady")
-    : translatedPreviewHint ?? t("builder.preview.nextIncomplete")
+  const nextActionText = canCompose ? t("builder.preview.nextReady") : translatedPreviewHint ?? t("builder.preview.nextIncomplete")
   const hasResolvedPreviewTitle = Boolean(preview.title.trim())
   const previewTitle = hasResolvedPreviewTitle
     ? preview.title
@@ -91,26 +86,44 @@ export function PreviewPanel({
       : draft.name
 
   return (
-    <Card
-      className={cn(
-        "h-full overflow-hidden",
-        isWorkbench &&
-          "rounded-[34px] border-primary/15 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--card)_86%,white)_0%,color-mix(in_oklab,var(--background)_94%,black)_100%)] p-0"
-      )}
-    >
-      <CardHeader className={cn("gap-4 border-b border-border/60 pb-5", isWorkbench && "px-6 pt-6 sm:px-7")}>
-        <CardTitle className={cn("font-display tracking-[-0.04em]", isWorkbench ? "text-4xl" : "text-3xl")}>{t("builder.preview.panelTitle")}</CardTitle>
+    <Card className={cn("h-full overflow-hidden rounded-[28px] p-0", isWorkbench && "shadow-[var(--floating-shadow)]")}>
+      <CardHeader className="gap-5 border-b px-5 pb-5 pt-5 sm:px-7 sm:pt-6" style={{ borderColor: "var(--line-soft)" }}>
+        <div className="site-window-dots" aria-hidden="true">
+          <span className="site-window-dot" data-tone="red" />
+          <span className="site-window-dot" data-tone="yellow" />
+          <span className="site-window-dot" data-tone="green" />
+        </div>
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="space-y-2">
+            <p className="site-section-kicker">{t("builder.preview.previewEyebrow")}</p>
+            <CardTitle
+              className={cn("font-display tracking-[-0.01em]", isWorkbench ? "text-[2.35rem] sm:text-[3.2rem]" : "text-4xl")}
+              style={{ fontVariationSettings: '"wght" 500' }}
+            >
+              {t("builder.preview.panelTitle")}
+            </CardTitle>
+          </div>
+          <div
+            className={cn(
+              "site-status-pill",
+              canCompose ? "border-white/12 bg-white/88 text-[#18191a]" : "border-border bg-[color:var(--surface-void)] text-muted-foreground"
+            )}
+          >
+            {canCompose ? <ShieldCheck size={16} /> : <FileWarning size={16} />}
+            {canCompose ? t("builder.preview.previewReady") : t("builder.preview.previewIncomplete")}
+          </div>
+        </div>
       </CardHeader>
 
-      <CardContent className={cn("grid gap-5 py-6", isWorkbench && "px-6 pb-6 sm:px-7")}>
-        <div className={cn("rounded-[24px] border px-4 py-3 text-sm", toneClass(feedbackTone))}>
-          {feedbackText}
-        </div>
+      <CardContent className="grid gap-5 px-5 py-5 sm:px-7 sm:py-6">
+        <div className={cn("rounded-[18px] border px-4 py-4 text-sm leading-6", toneClass(feedbackTone))}>{feedbackText}</div>
 
         <section className={cn("grid gap-4", isWorkbench ? "xl:grid-cols-3" : "lg:grid-cols-3")}>
-          <div className="rounded-[24px] border border-border/70 bg-background/78 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">{t("builder.preview.slots.main.eyebrow")}</p>
-            <h3 className="mt-2 text-base font-semibold">{t("builder.preview.slots.main.title")}</h3>
+          <div className="rounded-[20px] border border-border bg-[color:var(--surface-inset)] p-4 shadow-[var(--ring-shadow)]">
+            <p className="site-section-kicker">{t("builder.preview.slots.main.eyebrow")}</p>
+            <h3 className="mt-3 text-base tracking-[0.01em]" style={{ fontVariationSettings: '"wght" 540' }}>
+              {t("builder.preview.slots.main.title")}
+            </h3>
             <Textarea
               className="mt-3 min-h-[12rem]"
               value={draft.mainSlotText}
@@ -120,9 +133,11 @@ export function PreviewPanel({
             />
           </div>
 
-          <div className="rounded-[24px] border border-border/70 bg-background/78 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">{t("builder.preview.slots.rule.eyebrow")}</p>
-            <h3 className="mt-2 text-base font-semibold">{t("builder.preview.slots.rule.title")}</h3>
+          <div className="rounded-[20px] border border-border bg-[color:var(--surface-inset)] p-4 shadow-[var(--ring-shadow)]">
+            <p className="site-section-kicker">{t("builder.preview.slots.rule.eyebrow")}</p>
+            <h3 className="mt-3 text-base tracking-[0.01em]" style={{ fontVariationSettings: '"wght" 540' }}>
+              {t("builder.preview.slots.rule.title")}
+            </h3>
             <Textarea
               className="mt-3 min-h-[12rem]"
               value={draft.ruleSlotText}
@@ -132,9 +147,11 @@ export function PreviewPanel({
             />
           </div>
 
-          <div className="rounded-[24px] border border-border/70 bg-background/78 p-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">{t("builder.preview.slots.custom.eyebrow")}</p>
-            <h3 className="mt-2 text-base font-semibold">{t("builder.preview.slots.custom.title")}</h3>
+          <div className="rounded-[20px] border border-border bg-[color:var(--surface-inset)] p-4 shadow-[var(--ring-shadow)]">
+            <p className="site-section-kicker">{t("builder.preview.slots.custom.eyebrow")}</p>
+            <h3 className="mt-3 text-base tracking-[0.01em]" style={{ fontVariationSettings: '"wght" 540' }}>
+              {t("builder.preview.slots.custom.title")}
+            </h3>
             <Textarea
               className="mt-3 min-h-[12rem]"
               value={draft.customPrompt}
@@ -145,44 +162,54 @@ export function PreviewPanel({
           </div>
         </section>
 
-        <section className="rounded-[30px] border border-border/70 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--card)_85%,white)_0%,color-mix(in_oklab,var(--background)_88%,black)_100%)] p-5 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)]">
-          <div className="flex items-center justify-between gap-3">
+        <section
+          className="rounded-[24px] border p-5"
+          style={{
+            background: "var(--preview-shell-bg)",
+            borderColor: "var(--preview-shell-border)",
+            boxShadow: "var(--panel-shadow)",
+            color: "var(--preview-shell-text)",
+          }}
+        >
+          <div className="flex flex-wrap items-start justify-between gap-4">
             <div>
-              <p className="text-muted-foreground text-xs uppercase tracking-[0.28em]">{t("builder.preview.previewEyebrow")}</p>
-              <h3 className="mt-2 text-xl font-semibold">{previewTitle || t("builder.preview.defaultTitle")}</h3>
+              <p className="font-mono-ui text-[11px] uppercase tracking-[0.2em]" style={{ color: "var(--preview-shell-muted)" }}>
+                {t("builder.preview.previewEyebrow")}
+              </p>
+              <h3 className="mt-3 text-[1.55rem] leading-tight tracking-[0.01em]" style={{ fontVariationSettings: '"wght" 540' }}>
+                {previewTitle || t("builder.preview.defaultTitle")}
+              </h3>
             </div>
-            {canCompose ? (
-              <div className="flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-200">
-                <ShieldCheck size={16} />
-                {t("builder.preview.previewReady")}
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-amber-700 dark:text-amber-200">
-                <FileWarning size={16} />
-                {t("builder.preview.previewIncomplete")}
-              </div>
-            )}
+            <Button type="button" onClick={onCopy} disabled={!canCompose}>
+              <Copy size={16} />
+              {t("builder.preview.copyButton")}
+            </Button>
           </div>
-          <pre className={cn("mt-5 overflow-auto rounded-[24px] border border-border/70 bg-background/80 p-4 text-sm leading-7 whitespace-pre-wrap", isWorkbench ? "min-h-[22rem]" : "min-h-[16rem]")}>{preview.text || previewFallbackText}</pre>
+          <pre
+            className={cn(
+              "mt-5 overflow-auto rounded-[18px] border p-4 font-mono-ui text-[13px] leading-7 whitespace-pre-wrap shadow-[0_1px_0_rgba(255,255,255,0.04)_inset]",
+              isWorkbench ? "min-h-[22rem]" : "min-h-[16rem]"
+            )}
+            style={{
+              background: "var(--preview-code-bg)",
+              borderColor: "var(--preview-code-border)",
+              color: "var(--preview-code-text)",
+            }}
+          >
+            {preview.text || previewFallbackText}
+          </pre>
         </section>
 
-        <div className="grid gap-3">
-          <Button type="button" variant="outline" onClick={onCopy} disabled={!canCompose} aria-label={t("builder.preview.copyButton")}>
-            <Copy size={16} />
-            {t("builder.preview.copyButton")}
-          </Button>
-        </div>
-
-        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(240px,0.72fr)]">
-          <div className="rounded-[24px] border border-border/70 bg-background/75 px-4 py-4 text-sm text-muted-foreground">
-            <p className="font-medium text-foreground">{t("builder.preview.currentCompositionTitle")}</p>
-            <p className="mt-2">{t("builder.preview.currentCompositionMain", { value: mainSummary })}</p>
-            <p className="mt-1">{t("builder.preview.currentCompositionRule", { value: ruleSummary })}</p>
-            <p className="mt-1">{t("builder.preview.currentCompositionCustom", { value: customSummary })}</p>
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.8fr)]">
+          <div className="rounded-[20px] border border-border bg-[color:var(--surface-inset)] px-4 py-4 text-sm text-muted-foreground shadow-[var(--ring-shadow)]">
+            <p className="site-section-kicker">{t("builder.preview.currentCompositionTitle")}</p>
+            <p className="mt-3 text-foreground" style={{ fontVariationSettings: '"wght" 480' }}>{t("builder.preview.currentCompositionMain", { value: mainSummary })}</p>
+            <p className="mt-2">{t("builder.preview.currentCompositionRule", { value: ruleSummary })}</p>
+            <p className="mt-2">{t("builder.preview.currentCompositionCustom", { value: customSummary })}</p>
           </div>
-          <div className="rounded-[24px] border border-border/70 bg-background/75 px-4 py-4 text-sm text-muted-foreground">
-            <p className="font-medium text-foreground">{t("builder.preview.nextStepTitle")}</p>
-            <p className="mt-2">{nextActionText}</p>
+          <div className="rounded-[20px] border border-border bg-[color:var(--surface-inset)] px-4 py-4 text-sm text-muted-foreground shadow-[var(--ring-shadow)]">
+            <p className="site-section-kicker">{t("builder.preview.nextStepTitle")}</p>
+            <p className="mt-3 leading-6 text-foreground">{nextActionText}</p>
           </div>
         </div>
       </CardContent>

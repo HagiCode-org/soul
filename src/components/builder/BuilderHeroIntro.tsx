@@ -1,72 +1,150 @@
-import { BookOpenText, FlaskConical, WandSparkles } from "lucide-react"
+import { ArrowUpRight, BookOpenText, FlaskConical, Sparkles, WandSparkles } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { translateMessage } from "@/i18n/message"
+import type { MessageDescriptor } from "@/lib/builder/types"
 
 type BuilderHeroIntroProps = {
-  remoteMessage: string | null
+  mainCount: number
+  ruleCount: number
+  ready: boolean
+  remoteMessage: MessageDescriptor | null
 }
 
-const steps = [
-  {
-    title: "挑核心",
-    copy: "先锁定基础角色，确定角色边界与不变量。",
-    icon: BookOpenText,
-  },
-  {
-    title: "定语气",
-    copy: "再补表达规则，把输出节奏、句式与约束钉死。",
-    icon: FlaskConical,
-  },
-  {
-    title: "看预览",
-    copy: "实时编译预览。满意后继续微调。确认后直接复制。",
-    icon: WandSparkles,
-  },
-] as const
+export function BuilderHeroIntro({ mainCount, ruleCount, ready, remoteMessage }: BuilderHeroIntroProps) {
+  const { t } = useTranslation()
+  const remoteStatus = translateMessage(t, remoteMessage) ?? t("builder.materialLibrary.remote.loadingInitial")
 
-export function BuilderHeroIntro({ remoteMessage }: BuilderHeroIntroProps) {
   return (
-    <section id="builder-intro" className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]">
-      <div className="rounded-[34px] border border-border/70 bg-[linear-gradient(135deg,color-mix(in_oklab,var(--card)_86%,white)_0%,color-mix(in_oklab,var(--accent)_42%,transparent)_100%)] p-7 shadow-[0_30px_80px_-50px_rgba(28,35,45,0.45)] sm:p-8">
-        <div className="space-y-5">
-          <Badge>Builder-first</Badge>
-          <div className="space-y-4">
-            <p className="text-muted-foreground text-xs uppercase tracking-[0.34em]">soul builder atelier</p>
-            <h1 className="font-display text-5xl leading-[0.9] tracking-[-0.05em] text-balance sm:text-6xl">
-              先建人格骨架。再定表达脉搏。
-            </h1>
-            <p className="text-muted-foreground max-w-2xl text-base leading-7 sm:text-lg">
-              首页不再是占位壳。现在直接进入工作台。基础角色、表达方式与自定义插槽，都在同一条状态流里闭环。
-            </p>
+    <section id="builder-intro" className="grid gap-5 lg:grid-cols-[minmax(0,1.3fr)_minmax(320px,0.82fr)] lg:items-stretch">
+      <div
+        className="relative overflow-hidden rounded-[28px] border px-5 py-6 text-white sm:px-7 sm:py-8"
+        style={{
+          background:
+            "linear-gradient(180deg, rgba(16,17,17,0.98) 0%, rgba(7,8,10,1) 100%), repeating-linear-gradient(126deg, rgba(255,99,99,0.14) 0 14px, transparent 14px 34px)",
+          borderColor: "rgba(255,255,255,0.1)",
+          boxShadow: "var(--floating-shadow)",
+        }}
+      >
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(circle at top left, rgba(255,255,255,0.12) 0%, transparent 28%), radial-gradient(circle at 78% 18%, rgba(255,99,99,0.16) 0%, transparent 26%), linear-gradient(135deg, transparent 0%, transparent 46%, rgba(255,99,99,0.18) 46%, rgba(255,99,99,0.18) 49%, transparent 49%, transparent 100%)",
+          }}
+        />
+        <div className="relative grid gap-8">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="site-window-dots" aria-hidden="true">
+              <span className="site-window-dot" data-tone="red" />
+              <span className="site-window-dot" data-tone="yellow" />
+              <span className="site-window-dot" data-tone="green" />
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="site-keycap">⌘</span>
+              <span className="site-keycap">K</span>
+            </div>
+          </div>
+
+          <div className="space-y-5">
+            <Badge className="border-white/12 bg-white/88 text-[#18191a]">{t("home.hero.eyebrow")}</Badge>
+            <div className="space-y-4">
+              <h1
+                className="font-display max-w-4xl text-[3rem] leading-[0.92] tracking-[-0.015em] text-balance sm:text-[4rem] lg:text-[5.25rem]"
+                style={{ fontVariationSettings: '"wght" 600, "liga" 0' }}
+              >
+                {t("home.hero.title")}
+              </h1>
+              <p className="max-w-2xl text-base leading-7 text-white/78 sm:text-lg sm:leading-8">{t("home.hero.description")}</p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-3">
+            <Button asChild variant="default">
+              <a href="#home-workbench">
+                {t("home.hero.primaryAction")}
+                <ArrowUpRight size={16} />
+              </a>
+            </Button>
+            <Button asChild variant="outline" className="border-white/12 text-white">
+              <a href="https://docs.hagicode.com/" target="_blank" rel="noreferrer noopener">
+                {t("home.hero.secondaryAction")}
+              </a>
+            </Button>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-3">
+            <div className="rounded-[18px] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <p className="font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/56">{t("home.hero.stats.catalog")}</p>
+              <p className="mt-3 text-3xl leading-none tracking-[-0.03em]" style={{ fontVariationSettings: '"wght" 540' }}>
+                {mainCount}
+              </p>
+            </div>
+            <div className="rounded-[18px] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <p className="font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/56">{t("home.hero.stats.expression")}</p>
+              <p className="mt-3 text-3xl leading-none tracking-[-0.03em]" style={{ fontVariationSettings: '"wght" 540' }}>
+                {ruleCount}
+              </p>
+            </div>
+            <div className="rounded-[18px] border border-white/10 bg-white/5 p-4 backdrop-blur-sm">
+              <p className="font-mono-ui text-[11px] uppercase tracking-[0.2em] text-white/56">{t("home.hero.stats.state")}</p>
+              <p className="mt-3 text-lg leading-none tracking-[0.02em]" style={{ fontVariationSettings: '"wght" 540' }}>
+                {ready ? t("home.hero.state.ready") : t("home.hero.state.draft")}
+              </p>
+            </div>
           </div>
         </div>
       </div>
 
-      <Card className="overflow-hidden border-primary/15 bg-card/90">
-        <CardContent className="grid gap-4 p-0">
-          {steps.map(({ title, copy, icon: Icon }, index) => (
-            <div
-              key={title}
-              className="grid gap-3 border-b border-border/60 px-5 py-5 last:border-b-0 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start"
-            >
-              <div className="flex size-12 items-center justify-center rounded-2xl bg-primary/12 text-primary">
-                <Icon size={20} />
-              </div>
-              <div className="space-y-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-muted-foreground text-xs uppercase tracking-[0.28em]">0{index + 1}</span>
-                  <h2 className="text-lg font-semibold">{title}</h2>
-                </div>
-                <p className="text-muted-foreground text-sm leading-6">{copy}</p>
-              </div>
+      <div className="site-surface-strong grid overflow-hidden rounded-[28px]">
+        <div className="grid gap-0 divide-y" style={{ borderColor: "var(--line-soft)" }}>
+          <div className="grid gap-3 px-5 py-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
+            <div className="site-surface-soft flex size-12 items-center justify-center rounded-[16px] text-foreground">
+              <BookOpenText size={18} />
             </div>
-          ))}
-          <div className="bg-background/75 px-5 py-4 text-sm text-muted-foreground">
-            远端状态：<span className="font-medium text-foreground">{remoteMessage ?? "本地快照可用"}</span>
+            <div className="space-y-2">
+              <p className="site-section-kicker">{t("home.hero.stats.catalog")}</p>
+              <h2 className="text-lg tracking-[0.01em]" style={{ fontVariationSettings: '"wght" 540' }}>
+                {t("home.slots.catalog.title")}
+              </h2>
+              <p className="text-sm leading-6 text-muted-foreground">{t("home.slots.catalog.description")}</p>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+
+          <div className="grid gap-3 px-5 py-5 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
+            <div className="site-surface-soft flex size-12 items-center justify-center rounded-[16px] text-foreground">
+              <FlaskConical size={18} />
+            </div>
+            <div className="space-y-2">
+              <p className="site-section-kicker">{t("home.hero.stats.expression")}</p>
+              <h2 className="text-lg tracking-[0.01em]" style={{ fontVariationSettings: '"wght" 540' }}>
+                {t("home.slots.expression.title")}
+              </h2>
+              <p className="text-sm leading-6 text-muted-foreground">{t("home.slots.expression.description")}</p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 px-5 py-5">
+            <div className="flex items-start justify-between gap-4">
+              <div className="space-y-2">
+                <p className="site-section-kicker">{t("home.hero.stats.state")}</p>
+                <h2 className="text-lg tracking-[0.01em]" style={{ fontVariationSettings: '"wght" 540' }}>
+                  {t("builder.preview.panelTitle")}
+                </h2>
+              </div>
+              <Badge variant={ready ? "default" : "secondary"}>
+                {ready ? <Sparkles size={12} /> : <WandSparkles size={12} />}
+                {ready ? t("home.hero.state.ready") : t("home.hero.state.draft")}
+              </Badge>
+            </div>
+            <div className="rounded-[18px] border border-border bg-[color:var(--surface-void)] px-4 py-4 text-sm leading-6 text-muted-foreground shadow-[var(--ring-shadow)]">
+              {remoteStatus}
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   )
 }
