@@ -78,6 +78,14 @@ const soulSiteLinkDefinitions = {
     external: true,
     openInNewTab: false,
   },
+  steam: {
+    id: "steam",
+    labelKey: "site.links.steam.label",
+    href: "https://store.steampowered.com/app/4625540/Hagicode/",
+    ariaLabelKey: "site.links.steam.ariaLabel",
+    external: true,
+    openInNewTab: true,
+  },
 } as const satisfies Record<string, SiteLinkDefinition>
 
 const filingLinkDefinitions = {
@@ -210,6 +218,7 @@ export function getFooterLinkSections(t: TFunction, locale: SiteLocale): readonl
         buildSiteLink(t, soulSiteLinkDefinitions.discord),
         buildSiteLink(t, soulSiteLinkDefinitions.qqGroup),
         buildSiteLink(t, soulSiteLinkDefinitions.email),
+        buildSiteLink(t, soulSiteLinkDefinitions.steam),
       ],
     },
   ] as const

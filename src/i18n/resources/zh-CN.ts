@@ -62,6 +62,10 @@ export const zhCNResources = {
         label: "support@hagicode.com",
         ariaLabel: "通过邮箱联系 HagiCode 支持团队",
       },
+      steam: {
+        label: "Steam",
+        ariaLabel: "打开 HagiCode 官方 Steam 商店页",
+      },
       filings: {
         icpAriaLabel: "查看 ICP 备案信息",
         publicSecurityAriaLabel: "查看公安备案信息",

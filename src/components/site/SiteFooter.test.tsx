@@ -22,6 +22,9 @@ describe("SiteFooter", () => {
     expect(within(relatedLinks).queryByRole("link", { name: "Open Soul Builder" })).not.toBeInTheDocument()
     expect(within(communityLinks).getByRole("link", { name: "Open the HagiCode GitHub repository" })).toHaveAttribute("target", "_blank")
     expect(within(communityLinks).getByRole("link", { name: "Open the HagiCode Discord community" })).toHaveAttribute("rel", "noopener noreferrer")
+    expect(within(communityLinks).getByRole("link", { name: "Open the official HagiCode Steam store page" })).toHaveAttribute("href", "https://store.steampowered.com/app/4625540/Hagicode/")
+    expect(within(communityLinks).getByRole("link", { name: "Open the official HagiCode Steam store page" })).toHaveAttribute("target", "_blank")
+    expect(within(communityLinks).getByRole("link", { name: "Open the official HagiCode Steam store page" })).toHaveAttribute("rel", "noopener noreferrer")
 
     const icpLink = screen.getByRole("link", { name: "View the ICP filing record" })
     const publicSecurityLink = screen.getByRole("link", { name: "View the public security filing record" })
