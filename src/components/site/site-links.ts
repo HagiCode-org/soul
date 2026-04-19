@@ -46,6 +46,14 @@ const soulSiteLinkDefinitions = {
     external: true,
     openInNewTab: true,
   },
+  trait: {
+    id: "trait",
+    labelKey: "site.links.trait.label",
+    href: "https://trait.hagicode.com",
+    ariaLabelKey: "site.links.trait.ariaLabel",
+    external: true,
+    openInNewTab: true,
+  },
   github: {
     id: "github",
     labelKey: "site.links.github.label",
@@ -182,6 +190,7 @@ export function getHeaderNavigationLinks(t: TFunction) {
   return [
     buildSiteLink(t, soulSiteLinkDefinitions.docs),
     buildSiteLink(t, soulSiteLinkDefinitions.website),
+    buildSiteLink(t, soulSiteLinkDefinitions.trait),
     buildSiteLink(t, soulSiteLinkDefinitions.discord),
   ] as const
 }

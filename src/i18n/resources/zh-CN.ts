@@ -46,6 +46,10 @@ export const zhCNResources = {
         label: "官网",
         ariaLabel: "打开 HagiCode 官网",
       },
+      trait: {
+        label: "Trait",
+        ariaLabel: "打开 HagiTrait 构建器",
+      },
       github: {
         label: "GitHub",
         ariaLabel: "打开 HagiCode GitHub 仓库",

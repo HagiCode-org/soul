@@ -46,6 +46,10 @@ export const enUSResources = {
         label: "Website",
         ariaLabel: "Open the HagiCode website",
       },
+      trait: {
+        label: "Trait",
+        ariaLabel: "Open the HagiTrait builder",
+      },
       github: {
         label: "GitHub",
         ariaLabel: "Open the HagiCode GitHub repository",
