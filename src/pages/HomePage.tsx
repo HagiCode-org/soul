@@ -8,6 +8,8 @@ import { HomeEditorShell } from "@/components/home/HomeEditorShell"
 import type { HomeSlotDefinition } from "@/components/home/HomeSlotRail"
 import { SiteFooter } from "@/components/site/SiteFooter"
 import { SiteHeader } from "@/components/site/SiteHeader"
+import { PromoteCard } from "@/components/promote/PromoteCard"
+import promoteCardStyles from "@/components/promote/PromoteCard.module.css"
 import type { HomeEditorSlotId } from "@/hooks/use-home-editor-state"
 import { useHomeEditorState } from "@/hooks/use-home-editor-state"
 import { useSoulBuilder } from "@/hooks/use-soul-builder"
@@ -19,7 +21,7 @@ type HomePageProps = {
 }
 
 export function HomePage({ theme, onToggleTheme }: HomePageProps) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const builder = useSoulBuilder()
 
   const defaultSlot = (!builder.rawDraft.selectedMainFragmentId ? "catalog" : "expression") satisfies HomeEditorSlotId
@@ -141,6 +143,7 @@ export function HomePage({ theme, onToggleTheme }: HomePageProps) {
           </section>
         </div>
 
+        <PromoteCard locale={i18n.resolvedLanguage} className={promoteCardStyles.promoteCard} />
         <SiteFooter />
 
         <HomeContextDrawer
