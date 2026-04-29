@@ -6,8 +6,8 @@ The current default homepage is the builder-first HagiSoul experience for creati
 ## Current Homepage Capabilities
 
 - Builder-first default homepage: the default route opens the Soul Builder workbench directly
-- Bilingual UI shell: the site header, footer, drawers, builder panels, feedback, and accessibility labels now support `zh-CN` and `en-US`
-- Locale bootstrap and persistence: the app restores the last saved `soul.locale`, and on first load without a saved preference it maps `navigator.language` to `zh-CN` or `en-US`
+- Multilingual UI shell: the site header, footer, drawers, builder panels, feedback, and accessibility labels now support `zh-CN`, `zh-Hant`, `ja-JP`, `ko-KR`, `de-DE`, `fr-FR`, `es-ES`, `pt-BR`, `ru-RU`, and `en-US`
+- Locale bootstrap and persistence: the app restores the last saved `soul.locale`, and on first load without a saved preference it maps `navigator.language` into the closest supported locale
 - Editor-style homepage shell: the central workbench stays visible while the left rail exposes separate `Base role` and `Expression` drawers
 - Single-drawer lifecycle: only one slot drawer can stay open at a time; clicking the active slot, the overlay, or pressing `Esc` closes it
 - Local reference materials: build-time snapshots are generated from `repos/web/docs` base-role and expression catalogs
@@ -17,10 +17,13 @@ The current default homepage is the builder-first HagiSoul experience for creati
 
 ## Localization Notes
 
-- Runtime locale switching is exposed from `src/components/site/SiteHeader.tsx` through a visible `中文 / EN` switcher near the theme toggle
+- Runtime locale switching is exposed from `src/components/site/SiteHeader.tsx` through a visible multi-locale switcher near the theme toggle
 - The selected locale is persisted under the `soul.locale` browser storage key
-- Translation resources live in `src/i18n/resources/zh-CN.ts` and `src/i18n/resources/en-US.ts`
-- Maintain translation resources by keeping system-owned UI copy in both locale files at the same time
+- YAML files in `src/i18n/locales-source/` are the source of truth for system-owned UI copy
+- Generated TypeScript modules in `src/i18n/resources/` are runtime artifacts and must not be hand-edited
+- `npm run dev`, `npm run build`, and `npm run test` prepare generated i18n resources before Vite, TypeScript, or Vitest consumes them
+- Use `npm run i18n:generate` after editing YAML and `npm run i18n:check` before committing translation changes
+- Detailed maintainer workflow is documented in `docs/i18n-hagi18n.md`
 - Local reference materials now ship with bilingual fragment overlays, so base-role cards, expression-rule cards, and local fallback inspiration cards follow the active locale
 - Official remote inspiration cards keep their upstream display names, but the Builder adds best-effort English summaries and slot content when the related local catalogs have translations
 - User-authored draft text is never rewritten during runtime locale switches; only future material selections use the current locale
