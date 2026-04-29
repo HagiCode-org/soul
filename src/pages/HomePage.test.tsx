@@ -127,7 +127,7 @@ describe("HomePage", () => {
     expect(screen.getByRole("dialog", { name: "Choose a base role" })).toBeInTheDocument()
     expect(screen.getByRole("textbox", { name: "Base role slot" })).toHaveValue(mainFragment.content)
 
-    await user.click(screen.getByRole("button", { name: "中文" }))
+    await user.selectOptions(screen.getByRole("combobox", { name: "Interface language switcher" }), "zh-CN")
 
     await waitFor(() => {
       expect(screen.getByRole("dialog", { name: "基础角色选择" })).toBeInTheDocument()

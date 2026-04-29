@@ -32,15 +32,15 @@ describe("i18n config", () => {
 
     await initializeI18n({ force: true })
 
-    expect(i18n.resolvedLanguage).toBe("zh-CN")
-    expect(localStorage.getItem(LOCALE_STORAGE_KEY)).toBe("zh-CN")
+    expect(i18n.resolvedLanguage).toBe("zh-Hant")
+    expect(localStorage.getItem(LOCALE_STORAGE_KEY)).toBe("zh-Hant")
   })
 
   it("falls back to en-US when the stored locale is unsupported", async () => {
-    localStorage.setItem(LOCALE_STORAGE_KEY, "fr-FR")
+    localStorage.setItem(LOCALE_STORAGE_KEY, "it-IT")
     Object.defineProperty(window.navigator, "language", {
       configurable: true,
-      value: "fr-FR",
+      value: "it-IT",
     })
 
     await initializeI18n({ force: true })
