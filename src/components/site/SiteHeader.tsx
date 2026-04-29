@@ -5,9 +5,8 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { getHeaderNavigationLinks, getSiteLinkRel, getSiteLinkTarget } from "@/components/site/site-links"
 import { changeLocale } from "@/i18n/config"
-import { SUPPORTED_LOCALES } from "@/i18n/locales"
+import { LOCALE_LABELS, SUPPORTED_LOCALES, normalizeLocale } from "@/i18n/locales"
 import type { ThemeMode } from "@/hooks/use-theme-mode"
-import { cn } from "@/lib/utils"
 
 type SiteHeaderProps = {
   theme: ThemeMode
@@ -17,8 +16,7 @@ type SiteHeaderProps = {
 export function SiteHeader({ theme, onToggleTheme }: SiteHeaderProps) {
   const { i18n, t } = useTranslation()
   const headerNavigationLinks = getHeaderNavigationLinks(t)
-  const activeLocale =
-    SUPPORTED_LOCALES.find((locale) => locale === i18n.resolvedLanguage || locale === i18n.language) ?? "en-US"
+  const activeLocale = normalizeLocale(i18n.resolvedLanguage ?? i18n.language)
 
   return (
     <header className="site-header" role="banner" aria-label={t("site.header.ariaLabel")}>
@@ -64,33 +62,22 @@ export function SiteHeader({ theme, onToggleTheme }: SiteHeaderProps) {
 
         <div className="flex flex-wrap items-center gap-2">
           <div
-            role="group"
-            aria-label={t("site.header.languageSwitcherAria")}
             data-locale-switcher="true"
-            className="site-surface-soft inline-flex items-center gap-1 rounded-full p-1"
+            className="site-surface-soft inline-flex items-center rounded-full px-3 py-1.5"
           >
-            {SUPPORTED_LOCALES.map((locale) => {
-              const active = activeLocale === locale
-
-              return (
-                <Button
-                  key={locale}
-                  type="button"
-                  size="sm"
-                  variant="ghost"
-                  className={cn(
-                    "min-w-14 border transition-[background-color,color,border-color,box-shadow]",
-                    active
-                      ? "border-foreground bg-foreground text-background shadow-[0_10px_24px_-18px_rgba(15,23,42,0.45)] dark:border-white/12 dark:bg-white/88 dark:text-[#18191a]"
-                      : "border-transparent bg-transparent text-muted-foreground shadow-none hover:border-border hover:bg-background hover:text-foreground dark:hover:bg-white/6"
-                  )}
-                  aria-pressed={active}
-                  onClick={() => void changeLocale(locale)}
-                >
-                  {locale === "zh-CN" ? t("common.languages.zhCN") : t("common.languages.enUS")}
-                </Button>
-              )
-            })}
+            <select
+              aria-label={t("site.header.languageSwitcherAria")}
+              data-locale-select="true"
+              value={activeLocale}
+              className="site-locale-select min-w-[12rem] text-sm text-foreground outline-none"
+              onChange={(event) => void changeLocale(event.target.value as (typeof SUPPORTED_LOCALES)[number])}
+            >
+              {SUPPORTED_LOCALES.map((locale) => (
+                <option key={locale} value={locale}>
+                  {LOCALE_LABELS[locale]}
+                </option>
+              ))}
+            </select>
           </div>
 
           <Button

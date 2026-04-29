@@ -1,11 +1,12 @@
 import { useTranslation } from "react-i18next"
 
 import { getFilingLinks, getFooterLinkSections, getSiteLinkRel, getSiteLinkTarget } from "@/components/site/site-links"
+import { normalizeLocale } from "@/i18n/locales"
 
 export function SiteFooter() {
   const currentYear = new Date().getFullYear()
   const { t, i18n } = useTranslation()
-  const locale = i18n.resolvedLanguage === "zh-CN" ? "zh-CN" : "en-US"
+  const locale = normalizeLocale(i18n.resolvedLanguage ?? i18n.language)
   const footerLinkSections = getFooterLinkSections(t, locale)
   const filingLinks = getFilingLinks(t)
 
