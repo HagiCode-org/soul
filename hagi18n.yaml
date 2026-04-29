@@ -1,0 +1,37 @@
+localesRoot: src/i18n/locales-source
+repoRoot: .
+baseLocale: en-US
+targetLocales:
+  - zh-CN
+  - zh-Hant
+  - ja-JP
+  - ko-KR
+  - de-DE
+  - fr-FR
+  - es-ES
+  - pt-BR
+  - ru-RU
+doctor:
+  excludedDirectories:
+    - .git
+    - .vite
+    - dist
+    - node_modules
+    - src/data/generated
+    - src/i18n/resources
+  textFileExtensions:
+    - .ts
+    - .tsx
+    - .js
+    - .jsx
+    - .mjs
+    - .cjs
+    - .json
+    - .md
+    - .yml
+    - .yaml
+  allowlist:
+    legacy-language-change-call: []
+    legacy-locale-path: []
+    legacy-ui-language-literal: []
+    legacy-ui-language-union: []

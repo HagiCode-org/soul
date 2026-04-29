@@ -1,0 +1,201 @@
+common:
+  languages:
+    zhCN: 中文
+    enUS: EN
+  states:
+    selected: 선택됨
+    imported: 가져옴
+    importable: 가져올 수 있음
+    sample: 샘플
+    loading: 불러오는 중
+    ready: 사용 가능
+    fallback: 로컬 대체
+    error: 오류
+site:
+  header:
+    ariaLabel: Soul 사이트 헤더
+    navAriaLabel: Soul 사이트 탐색
+    brandBadge: Agent Soul 편집기
+    description: HagiSoul은 Soul을 더 빠르게 만들고, 공유하고, 둘러볼 수 있는 개발자용 작업 공간입니다.
+    themeButton: 테마
+    themeToDark: 다크 테마로 전환
+    themeToLight: 라이트 테마로 전환
+    languageSwitcherAria: 인터페이스 언어 전환
+  footer:
+    ariaLabel: HagiSoul 푸터
+    brandSectionAria: 브랜드 개요
+    tagline: Agent의 영혼을 빠르게 정의하세요.
+    description: HagiSoul은 개발자 워크플로에 집중해 Soul의 생성, 공유, 탐색을 더 빠르게 만듭니다.
+    copyright: © {{year}} HagiCode. All rights reserved.
+    sections:
+      related: 관련 링크
+      community: 커뮤니티 및 지원
+  links:
+    docs:
+      label: 문서
+      ariaLabel: HagiCode 문서 사이트 열기
+    website:
+      label: 웹사이트
+      ariaLabel: HagiCode 웹사이트 열기
+    trait:
+      label: Trait
+      ariaLabel: HagiTrait 빌더 열기
+    github:
+      label: GitHub
+      ariaLabel: HagiCode GitHub 저장소 열기
+    discord:
+      label: Discord
+      ariaLabel: HagiCode Discord 커뮤니티 열기
+    qqGroup:
+      label: QQ 그룹 610394020
+      ariaLabel: HagiCode QQ 그룹 610394020 열기
+    email:
+      label: support@hagicode.com
+      ariaLabel: HagiCode 지원팀에 이메일 보내기
+    steam:
+      label: Steam
+      ariaLabel: HagiCode 공식 Steam 상점 페이지 열기
+    filings:
+      icpAriaLabel: ICP 등록 정보 보기
+      publicSecurityAriaLabel: 공안 등록 정보 보기
+home:
+  workbenchAriaLabel: Soul Builder 작업대
+  hero:
+    eyebrow: Soul Builder
+    title: 출력이 흔들리기 전에 페르소나 프레임을 먼저 조합하세요.
+    description: 기본 역할을 고르고, 표현 규칙을 고정한 뒤, 하나의 모노톤 작업대 안에서 실시간 프롬프트를 다듬으세요.
+    primaryAction: 편집기로 이동
+    secondaryAction: 문서 열기
+    stats:
+      catalog: 기본 역할
+      expression: 표현 규칙
+      state: 작업대
+    state:
+      ready: 바로 복사 가능
+      draft: 아직 조합 필요
+  slotRail:
+    leftAriaLabel: 왼쪽 홈 슬롯
+    rightAriaLabel: 오른쪽 홈 슬롯
+    inputsEyebrow: 빌더 입력
+    contextEyebrow: 빌더 컨텍스트
+    recommended: 추천
+  slots:
+    catalog:
+      label: 기본 역할
+      title: 기본 역할 선택
+      description: 먼저 기본 역할을 고정해 페르소나 프레임과 핵심 경계를 정하세요.
+      emptyState: 현재 사용할 수 있는 기본 역할이 없습니다.
+    expression:
+      label: 표현
+      title: 표현 스타일 선택
+      description: 다음으로 표현 규칙을 더해 템포, 어조, 출력 리듬을 조입니다.
+      emptyState: 현재 사용할 수 있는 표현 규칙이 없습니다.
+  drawer:
+    inputBadge: 입력 서랍
+    contextBadge: 컨텍스트 서랍
+    defaultTitle: 컨텍스트 서랍
+    defaultDescription: 이 슬롯에는 아직 안내가 없습니다.
+    defaultEmptyState: 이 슬롯에는 아직 내용이 없습니다.
+    closeLabel: 서랍 닫기
+builder:
+  categories:
+    all: 전체
+    healingCompanion: 치유와 동행
+    characterPersona: 캐릭터 페르소나
+    professionalIdentity: 직업적 정체성
+    communityCulture: 커뮤니티 문화
+    contrastAndScene: 대비와 장면 특화
+  materialLibrary:
+    searchAriaLabel: 소재 검색
+    mainCategoryLabel: 기본 역할 카테고리
+    refreshInspiration: 영감 새로고침
+    selectedBadge: 선택됨
+    importedBadge: 가져옴
+    importableBadge: 가져올 수 있음
+    styleFallback: 샘플
+    clickToImport: 클릭하여 가져오기
+    emptyFiltered: 현재 필터에 맞는 소재가 없습니다.
+    emptyInspiration: 공식 영감 카드를 지금은 사용할 수 없습니다. 로컬 기본 역할과 표현 규칙으로 계속 조합할 수 있습니다.
+    panels:
+      main:
+        badge: 기본 역할
+        title: 먼저 기본 역할을 고르세요.
+        placeholder: 기본 역할 검색
+      rules:
+        badge: 표현
+        title: 다음으로 표현 스타일을 고정하세요.
+        placeholder: 표현 규칙 검색
+      inspiration:
+        badge: 영감
+        title: 공식 영감 카드를 가져옵니다.
+        placeholder: 영감 카드 검색
+      all:
+        badge: 소재 라이브러리
+        title: 재사용 가능한 조각에서 시작하세요.
+        placeholder: 기본 역할, 규칙 또는 영감 카드 검색
+    sections:
+      mainTitle: 기본 역할
+      mainEyebrow: who
+      rulesTitle: 표현 규칙
+      rulesEyebrow: how
+      inspirationTitle: 공식 영감 카드
+      inspirationEyebrow: inspiration
+      remoteSourceTitle: 공식 영감 소스
+    remote:
+      loadingInitial: 공식 영감 카드를 불러오는 중입니다.
+      loadingRefresh: 공식 영감 카드를 새로고침하는 중입니다.
+      fallback: 공식 영감 소스가 오프라인이라 로컬 샘플 카드를 보여주고 있습니다.
+      empty: 공식 영감 소스가 비어 있어 로컬 샘플 카드 보기로 돌아갔습니다.
+      ready: 공식 영감 카드를 사용할 수 있습니다.
+      errorWithFallback: "{{detail}} 로컬 샘플 카드로 전환했습니다."
+      state:
+        idle: 대기 중
+        loading: 불러오는 중
+        ready: 사용 가능
+        fallback: 대체
+        error: 오류
+  preview:
+    panelTitle: Agent Soul 편집기
+    defaultTitle: Soul Builder 미리보기
+    untitledSoul: 제목 없는 Soul
+    feedbackSummary: 3개 슬롯 중 {{filled}}개가 채워졌습니다. 미리보기는 순서대로 실시간 재계산됩니다.
+    fallbackPartial: 남은 슬롯을 채우면 이곳의 완전한 미리보기가 자동으로 갱신됩니다.
+    fallbackInitial: 기본 역할과 표현 슬롯을 먼저 채워야 미리보기가 완전한 결과를 만듭니다.
+    nextReady: 세 슬롯이 모두 병합되었습니다. 텍스트를 더 다듬거나 지금 바로 현재 미리보기를 복사할 수 있습니다.
+    nextIncomplete: 미리보기가 안정되기 전에 누락된 슬롯을 먼저 채우세요.
+    previewEyebrow: preview
+    previewReady: 병합 완료, 복사 가능
+    previewIncomplete: 필수 슬롯이 비어 있습니다
+    copyButton: 미리보기 복사
+    currentCompositionTitle: 현재 조합
+    nextStepTitle: 다음 단계
+    currentCompositionMain: "기본 역할: {{value}}"
+    currentCompositionRule: "표현: {{value}}"
+    currentCompositionCustom: "사용자 정의 텍스트: {{value}}"
+    slots:
+      main:
+        eyebrow: slot 01 · base role
+        title: 기본 역할 슬롯
+        placeholder: 왼쪽에서 기본 역할 카드를 고른 뒤, 필요하면 계속 편집하세요.
+        ariaLabel: 기본 역할 슬롯
+        emptySummary: 기본 역할이 비어 있음
+      rule:
+        eyebrow: slot 02 · expression
+        title: 표현 슬롯
+        placeholder: 왼쪽에서 표현 카드를 고른 뒤, 필요하면 계속 편집하세요.
+        ariaLabel: 표현 슬롯
+        emptySummary: 표현이 비어 있음
+      custom:
+        eyebrow: slot 03 · custom
+        title: 사용자 정의 텍스트 슬롯
+        placeholder: 직접 제한, 선호, 말버릇 또는 추가 요구사항을 적어 넣으세요.
+        ariaLabel: 사용자 정의 텍스트 슬롯
+        filledSummary: "{{count}}자 추가됨"
+        emptySummary: 추가 요구사항이 아직 없습니다
+    hints:
+      missingBoth: 완전한 결과를 만들기 전에 기본 역할 슬롯과 표현 슬롯을 먼저 채우세요.
+      missingMain: 먼저 기본 역할 슬롯을 채우세요.
+      missingRule: 먼저 표현 슬롯을 채우세요.
+      copyIncompleteFallback: 핵심 조합이 아직 준비되지 않았습니다.
+      copySuccess: 미리보기 텍스트를 복사했습니다.
+      inspirationImported: 영감 카드 "{{title}}"를 가져왔습니다.

@@ -1,0 +1,201 @@
+common:
+  languages:
+    zhCN: 中文
+    enUS: EN
+  states:
+    selected: Seleccionado
+    imported: Importado
+    importable: Importable
+    sample: Muestra
+    loading: Cargando
+    ready: Activo
+    fallback: Respaldo local
+    error: Error
+site:
+  header:
+    ariaLabel: Encabezado del sitio Soul
+    navAriaLabel: Navegación del sitio Soul
+    brandBadge: Editor Agent Soul
+    description: HagiSoul ofrece a los desarrolladores un espacio más ágil para crear, compartir y explorar Souls.
+    themeButton: Tema
+    themeToDark: Cambiar al tema oscuro
+    themeToLight: Cambiar al tema claro
+    languageSwitcherAria: Cambiar el idioma de la interfaz
+  footer:
+    ariaLabel: Pie de página de HagiSoul
+    brandSectionAria: Resumen de marca
+    tagline: Define rápido el alma de tu Agent.
+    description: HagiSoul se centra en flujos de trabajo para desarrolladores y ofrece una experiencia más rápida para crear, compartir y explorar Souls.
+    copyright: © {{year}} HagiCode. Todos los derechos reservados.
+    sections:
+      related: Enlaces relacionados
+      community: Comunidad y soporte
+  links:
+    docs:
+      label: Docs
+      ariaLabel: Abrir el sitio de documentación de HagiCode
+    website:
+      label: Sitio web
+      ariaLabel: Abrir el sitio de HagiCode
+    trait:
+      label: Trait
+      ariaLabel: Abrir el builder de HagiTrait
+    github:
+      label: GitHub
+      ariaLabel: Abrir el repositorio de GitHub de HagiCode
+    discord:
+      label: Discord
+      ariaLabel: Abrir la comunidad de Discord de HagiCode
+    qqGroup:
+      label: QQ Group 610394020
+      ariaLabel: Abrir el grupo QQ de HagiCode 610394020
+    email:
+      label: support@hagicode.com
+      ariaLabel: Enviar un correo al equipo de soporte de HagiCode
+    steam:
+      label: Steam
+      ariaLabel: Abrir la página oficial de HagiCode en Steam
+    filings:
+      icpAriaLabel: Ver el registro ICP
+      publicSecurityAriaLabel: Ver el registro de seguridad pública
+home:
+  workbenchAriaLabel: Banco de trabajo de Soul Builder
+  hero:
+    eyebrow: Soul Builder
+    title: Compón el marco de la persona antes de que la salida empiece a desviarse.
+    description: Elige un rol base, fija una regla de expresión y pule el prompt en vivo dentro de un mismo banco de trabajo monocromo.
+    primaryAction: Ir al editor
+    secondaryAction: Abrir documentación
+    stats:
+      catalog: Roles base
+      expression: Reglas de expresión
+      state: Banco de trabajo
+    state:
+      ready: Listo para copiar
+      draft: Aún necesita composición
+  slotRail:
+    leftAriaLabel: Slots izquierdos de la página
+    rightAriaLabel: Slots derechos de la página
+    inputsEyebrow: entradas del builder
+    contextEyebrow: contexto del builder
+    recommended: recomendado
+  slots:
+    catalog:
+      label: Rol base
+      title: Elegir un rol base
+      description: Define primero el rol base para fijar el marco de la persona y sus límites principales.
+      emptyState: No hay roles base disponibles en este momento.
+    expression:
+      label: Expresión
+      title: Elegir un estilo de expresión
+      description: Después añade reglas de expresión para ajustar el ritmo, el tono y la cadencia de salida.
+      emptyState: No hay reglas de expresión disponibles en este momento.
+  drawer:
+    inputBadge: Cajón de entrada
+    contextBadge: Cajón de contexto
+    defaultTitle: Cajón de contexto
+    defaultDescription: Todavía no hay orientación disponible para este slot.
+    defaultEmptyState: Todavía no hay contenido para este slot.
+    closeLabel: Cerrar cajón
+builder:
+  categories:
+    all: Todo
+    healingCompanion: Sanación y compañía
+    characterPersona: Personas de personaje
+    professionalIdentity: Identidades profesionales
+    communityCulture: Culturas comunitarias
+    contrastAndScene: Contraste y escenas específicas
+  materialLibrary:
+    searchAriaLabel: Buscar materiales
+    mainCategoryLabel: Categorías de rol base
+    refreshInspiration: Actualizar inspiración
+    selectedBadge: Seleccionado
+    importedBadge: Importado
+    importableBadge: Importable
+    styleFallback: Muestra
+    clickToImport: Haz clic para importar
+    emptyFiltered: Ningún material coincide con los filtros actuales.
+    emptyInspiration: Las tarjetas oficiales de inspiración no están disponibles ahora mismo. Aun así puedes seguir componiendo con roles base y reglas de expresión locales.
+    panels:
+      main:
+        badge: Rol base
+        title: Elige primero un rol base.
+        placeholder: Buscar roles base
+      rules:
+        badge: Expresión
+        title: Después fija el estilo de expresión.
+        placeholder: Buscar reglas de expresión
+      inspiration:
+        badge: Inspiración
+        title: Importar una tarjeta oficial de inspiración.
+        placeholder: Buscar tarjetas de inspiración
+      all:
+        badge: Biblioteca de materiales
+        title: Empieza con fragmentos reutilizables.
+        placeholder: Buscar roles base, reglas o tarjetas de inspiración
+    sections:
+      mainTitle: Roles base
+      mainEyebrow: who
+      rulesTitle: Reglas de expresión
+      rulesEyebrow: how
+      inspirationTitle: Tarjetas oficiales de inspiración
+      inspirationEyebrow: inspiration
+      remoteSourceTitle: Fuente oficial de inspiración
+    remote:
+      loadingInitial: Cargando tarjetas oficiales de inspiración.
+      loadingRefresh: Actualizando tarjetas oficiales de inspiración.
+      fallback: La fuente oficial de inspiración está fuera de línea, así que se muestran tarjetas de ejemplo locales.
+      empty: La fuente oficial de inspiración está vacía, así que la vista volvió a las tarjetas de ejemplo locales.
+      ready: Las tarjetas oficiales de inspiración están disponibles.
+      errorWithFallback: "{{detail}} Se volvió a las tarjetas de ejemplo locales."
+      state:
+        idle: Inactivo
+        loading: Cargando
+        ready: Activo
+        fallback: Respaldo
+        error: Error
+  preview:
+    panelTitle: Editor Agent Soul
+    defaultTitle: Vista previa de Soul Builder
+    untitledSoul: Soul sin título
+    feedbackSummary: "{{filled}} de 3 slots están llenos. La vista previa se recalcula en vivo y en orden."
+    fallbackPartial: Completa los slots restantes y la vista previa completa se actualizará aquí automáticamente.
+    fallbackInitial: Rellena primero los slots de rol base y expresión antes de que la vista previa pueda formar un resultado completo.
+    nextReady: Los tres slots están fusionados. Sigue puliendo el texto o copia ahora mismo la vista previa actual.
+    nextIncomplete: Completa los slots que faltan antes de que la vista previa se estabilice.
+    previewEyebrow: vista previa
+    previewReady: Fusionado y listo para copiar
+    previewIncomplete: Faltan slots obligatorios
+    copyButton: Copiar vista previa
+    currentCompositionTitle: Composición actual
+    nextStepTitle: Siguiente paso
+    currentCompositionMain: "Rol base: {{value}}"
+    currentCompositionRule: "Expresión: {{value}}"
+    currentCompositionCustom: "Texto personalizado: {{value}}"
+    slots:
+      main:
+        eyebrow: slot 01 · base role
+        title: Slot de rol base
+        placeholder: Elige una tarjeta de rol base a la izquierda y sigue editando si hace falta.
+        ariaLabel: Slot de rol base
+        emptySummary: Rol base no rellenado
+      rule:
+        eyebrow: slot 02 · expression
+        title: Slot de expresión
+        placeholder: Elige una tarjeta de expresión a la izquierda y sigue editando si hace falta.
+        ariaLabel: Slot de expresión
+        emptySummary: Expresión no rellenada
+      custom:
+        eyebrow: slot 03 · custom
+        title: Slot de texto personalizado
+        placeholder: Añade tus propios límites, preferencias, muletillas o requisitos adicionales.
+        ariaLabel: Slot de texto personalizado
+        filledSummary: "{{count}} caracteres añadidos"
+        emptySummary: Aún no hay requisitos extra
+    hints:
+      missingBoth: Rellena primero los slots de rol base y expresión antes de generar un resultado completo.
+      missingMain: Rellena primero el slot de rol base.
+      missingRule: Rellena primero el slot de expresión.
+      copyIncompleteFallback: La composición principal aún no está lista.
+      copySuccess: El texto de la vista previa se ha copiado.
+      inspirationImported: Se importó la tarjeta de inspiración "{{title}}".

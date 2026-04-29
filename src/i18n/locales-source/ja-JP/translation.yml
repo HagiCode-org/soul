@@ -1,0 +1,201 @@
+common:
+  languages:
+    zhCN: 中文
+    enUS: EN
+  states:
+    selected: 選択済み
+    imported: インポート済み
+    importable: インポート可能
+    sample: サンプル
+    loading: 読み込み中
+    ready: 稼働中
+    fallback: ローカルフォールバック
+    error: エラー
+site:
+  header:
+    ariaLabel: Soul サイトヘッダー
+    navAriaLabel: Soul サイトナビゲーション
+    brandBadge: Agent Soul エディター
+    description: HagiSoul は、Soul の作成・共有・閲覧をすばやく行える開発者向けワークスペースです。
+    themeButton: テーマ
+    themeToDark: ダークテーマに切り替える
+    themeToLight: ライトテーマに切り替える
+    languageSwitcherAria: インターフェース言語の切り替え
+  footer:
+    ariaLabel: HagiSoul フッター
+    brandSectionAria: ブランド概要
+    tagline: Agent の魂を、すばやく定義する。
+    description: HagiSoul は開発者ワークフローに焦点を当て、Soul の作成・共有・閲覧をより高速に行える体験を提供します。
+    copyright: © {{year}} HagiCode. All rights reserved.
+    sections:
+      related: 関連リンク
+      community: コミュニティとサポート
+  links:
+    docs:
+      label: ドキュメント
+      ariaLabel: HagiCode ドキュメントサイトを開く
+    website:
+      label: Web サイト
+      ariaLabel: HagiCode サイトを開く
+    trait:
+      label: Trait
+      ariaLabel: HagiTrait ビルダーを開く
+    github:
+      label: GitHub
+      ariaLabel: HagiCode GitHub リポジトリを開く
+    discord:
+      label: Discord
+      ariaLabel: HagiCode Discord コミュニティを開く
+    qqGroup:
+      label: QQ グループ 610394020
+      ariaLabel: HagiCode QQ グループ 610394020 を開く
+    email:
+      label: support@hagicode.com
+      ariaLabel: HagiCode サポートチームへメールを送る
+    steam:
+      label: Steam
+      ariaLabel: HagiCode 公式 Steam ストアページを開く
+    filings:
+      icpAriaLabel: ICP 登録情報を見る
+      publicSecurityAriaLabel: 公安登録情報を見る
+home:
+  workbenchAriaLabel: Soul Builder ワークベンチ
+  hero:
+    eyebrow: Soul Builder
+    title: 出力がぶれ始める前に、人格フレームを組み立てる。
+    description: ベースとなる役割を選び、表現ルールを固定し、同じモノクロのワークベンチでライブプロンプトを磨き上げます。
+    primaryAction: エディターへ移動
+    secondaryAction: ドキュメントを開く
+    stats:
+      catalog: ベース役割
+      expression: 表現ルール
+      state: ワークベンチ
+    state:
+      ready: すぐにコピー可能
+      draft: まだ構成が必要
+  slotRail:
+    leftAriaLabel: 左側ホームスロット
+    rightAriaLabel: 右側ホームスロット
+    inputsEyebrow: ビルダー入力
+    contextEyebrow: ビルダー文脈
+    recommended: おすすめ
+  slots:
+    catalog:
+      label: ベース役割
+      title: ベース役割を選ぶ
+      description: まずベース役割を固定し、人格フレームと中核の境界を定めます。
+      emptyState: 現在利用できるベース役割はありません。
+    expression:
+      label: 表現
+      title: 表現スタイルを選ぶ
+      description: 次に表現ルールを追加して、テンポ、口調、出力リズムを引き締めます。
+      emptyState: 現在利用できる表現ルールはありません。
+  drawer:
+    inputBadge: 入力ドロワー
+    contextBadge: コンテキストドロワー
+    defaultTitle: コンテキストドロワー
+    defaultDescription: このスロットにはまだガイダンスがありません。
+    defaultEmptyState: このスロットにはまだ内容がありません。
+    closeLabel: ドロワーを閉じる
+builder:
+  categories:
+    all: すべて
+    healingCompanion: 癒やしと伴走
+    characterPersona: キャラクターペルソナ
+    professionalIdentity: 職業アイデンティティ
+    communityCulture: コミュニティ文化
+    contrastAndScene: ギャップとシーン特化
+  materialLibrary:
+    searchAriaLabel: 素材を検索
+    mainCategoryLabel: ベース役割カテゴリ
+    refreshInspiration: インスピレーションを更新
+    selectedBadge: 選択済み
+    importedBadge: インポート済み
+    importableBadge: インポート可能
+    styleFallback: サンプル
+    clickToImport: クリックしてインポート
+    emptyFiltered: 現在のフィルターに一致する素材はありません。
+    emptyInspiration: 公式インスピレーションカードは現在利用できません。ローカルのベース役割と表現ルールで引き続き構成できます。
+    panels:
+      main:
+        badge: ベース役割
+        title: まずベース役割を選んでください。
+        placeholder: ベース役割を検索
+      rules:
+        badge: 表現
+        title: 次に表現スタイルを固定します。
+        placeholder: 表現ルールを検索
+      inspiration:
+        badge: インスピレーション
+        title: 公式インスピレーションカードを取り込む。
+        placeholder: インスピレーションカードを検索
+      all:
+        badge: 素材ライブラリ
+        title: 再利用可能な断片から始める。
+        placeholder: ベース役割、ルール、インスピレーションカードを検索
+    sections:
+      mainTitle: ベース役割
+      mainEyebrow: who
+      rulesTitle: 表現ルール
+      rulesEyebrow: how
+      inspirationTitle: 公式インスピレーションカード
+      inspirationEyebrow: inspiration
+      remoteSourceTitle: 公式インスピレーションソース
+    remote:
+      loadingInitial: 公式インスピレーションカードを読み込んでいます。
+      loadingRefresh: 公式インスピレーションカードを更新しています。
+      fallback: 公式インスピレーションソースがオフラインのため、ローカルサンプルカードを表示しています。
+      empty: 公式インスピレーションソースが空のため、ローカルサンプルカード表示に戻りました。
+      ready: 公式インスピレーションカードを利用できます。
+      errorWithFallback: "{{detail}} ローカルサンプルカードに切り替えました。"
+      state:
+        idle: 待機中
+        loading: 読み込み中
+        ready: 稼働中
+        fallback: フォールバック
+        error: エラー
+  preview:
+    panelTitle: Agent Soul エディター
+    defaultTitle: Soul Builder プレビュー
+    untitledSoul: 無題の Soul
+    feedbackSummary: 3 つのスロットのうち {{filled}} 個が入力済みです。プレビューは順番にライブ再計算されます。
+    fallbackPartial: 残りのスロットを埋めると、ここで完全なプレビューが自動更新されます。
+    fallbackInitial: ベース役割と表現スロットを先に埋めると、プレビューが完全な結果を形成します。
+    nextReady: 3 つのスロットが結合されました。テキストを磨き続けるか、すぐに現在のプレビューをコピーできます。
+    nextIncomplete: 不足しているスロットを埋めてから、プレビューを安定させてください。
+    previewEyebrow: preview
+    previewReady: 結合済み、コピー可能
+    previewIncomplete: 必須スロットが不足しています
+    copyButton: プレビューをコピー
+    currentCompositionTitle: 現在の構成
+    nextStepTitle: 次のステップ
+    currentCompositionMain: ベース役割：{{value}}
+    currentCompositionRule: 表現：{{value}}
+    currentCompositionCustom: カスタムテキスト：{{value}}
+    slots:
+      main:
+        eyebrow: slot 01 · base role
+        title: ベース役割スロット
+        placeholder: 左側でベース役割カードを選び、必要に応じて編集を続けてください。
+        ariaLabel: ベース役割スロット
+        emptySummary: ベース役割が未入力
+      rule:
+        eyebrow: slot 02 · expression
+        title: 表現スロット
+        placeholder: 左側で表現カードを選び、必要に応じて編集を続けてください。
+        ariaLabel: 表現スロット
+        emptySummary: 表現が未入力
+      custom:
+        eyebrow: slot 03 · custom
+        title: カスタムテキストスロット
+        placeholder: 独自の制約、好み、決め台詞、追加要件を加えてください。
+        ariaLabel: カスタムテキストスロット
+        filledSummary: "{{count}} 文字を追加済み"
+        emptySummary: 追加要件はまだありません
+    hints:
+      missingBoth: 完全な結果を生成する前に、ベース役割スロットと表現スロットを先に埋めてください。
+      missingMain: 先にベース役割スロットを埋めてください。
+      missingRule: 先に表現スロットを埋めてください。
+      copyIncompleteFallback: コア構成はまだ準備できていません。
+      copySuccess: プレビューのテキストをコピーしました。
+      inspirationImported: インスピレーションカード「{{title}}」を取り込みました。
