@@ -1,9 +1,22 @@
-export const SUPPORTED_LOCALES = ["zh-CN", "en-US"] as const
+export const SUPPORTED_LOCALES = ["zh-CN", "zh-Hant", "ja-JP", "ko-KR", "de-DE", "fr-FR", "es-ES", "pt-BR", "ru-RU", "en-US"] as const
 export type AppLocale = (typeof SUPPORTED_LOCALES)[number]
 
 export const DEFAULT_LOCALE: AppLocale = "en-US"
 export const LOCALE_STORAGE_KEY = "soul.locale"
 export const ALL_CATEGORY_ID = "__all__"
+
+export const LOCALE_LABELS: Record<AppLocale, string> = {
+  "zh-CN": "简体中文",
+  "zh-Hant": "繁體中文",
+  "ja-JP": "日本語",
+  "ko-KR": "한국어",
+  "de-DE": "Deutsch",
+  "fr-FR": "Français",
+  "es-ES": "Español",
+  "pt-BR": "Português (Brasil)",
+  "ru-RU": "Русский",
+  "en-US": "English",
+}
 
 export type CategoryTranslationKey =
   | "builder.categories.healingCompanion"
@@ -25,12 +38,52 @@ export function isSupportedLocale(value: unknown): value is AppLocale {
 }
 
 export function normalizeLocale(value: string | null | undefined): AppLocale {
-  return isSupportedLocale(value) ? value : DEFAULT_LOCALE
+  return resolveLocaleFromLanguage(value)
 }
 
 export function resolveLocaleFromLanguage(language: string | null | undefined): AppLocale {
   const normalized = language?.trim().toLowerCase() ?? ""
-  return normalized.startsWith("zh") ? "zh-CN" : "en-US"
+  if (SUPPORTED_LOCALES.includes(normalized as AppLocale)) {
+    return normalized as AppLocale
+  }
+
+  if (normalized.startsWith("zh-hant") || normalized === "zh-tw" || normalized === "zh-hk" || normalized === "zh-mo") {
+    return "zh-Hant"
+  }
+
+  if (normalized.startsWith("zh")) {
+    return "zh-CN"
+  }
+
+  if (normalized.startsWith("ja")) {
+    return "ja-JP"
+  }
+
+  if (normalized.startsWith("ko")) {
+    return "ko-KR"
+  }
+
+  if (normalized.startsWith("de")) {
+    return "de-DE"
+  }
+
+  if (normalized.startsWith("fr")) {
+    return "fr-FR"
+  }
+
+  if (normalized.startsWith("es")) {
+    return "es-ES"
+  }
+
+  if (normalized.startsWith("pt")) {
+    return "pt-BR"
+  }
+
+  if (normalized.startsWith("ru")) {
+    return "ru-RU"
+  }
+
+  return "en-US"
 }
 
 function getStorage() {
