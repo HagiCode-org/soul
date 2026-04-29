@@ -62,7 +62,7 @@ async function readJson(fetchImpl: FetchLike, url: string): Promise<unknown> {
 }
 
 function mapLocale(locale: string | null | undefined): PromoteLocale {
-  return locale?.toLowerCase().startsWith('en') ? 'en' : 'zh';
+  return locale?.toLowerCase().startsWith('zh') ? 'zh' : 'en';
 }
 
 function getLocalizedKeys(locale: PromoteLocale): string[] {

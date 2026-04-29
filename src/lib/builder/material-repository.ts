@@ -1,5 +1,5 @@
 import type { AppLocale } from "@/i18n/locales"
-import { normalizeLocale } from "@/i18n/locales"
+import { SUPPORTED_LOCALES, normalizeLocale } from "@/i18n/locales"
 import { referenceCatalogSnapshot } from "@/data/reference-materials.generated"
 import { mainCatalogEnTranslations, orthogonalCatalogEnTranslations } from "@/data/reference-material-translations"
 import type {
@@ -101,7 +101,15 @@ function buildRuleLocalizedContent(entry: ReferenceOrthogonalCatalog): Localized
 }
 
 function createLocalizedRecord(content?: LocalizedFragmentContent) {
-  return content ? ({ "en-US": content } satisfies SoulFragment["localized"]) : undefined
+  if (!content) {
+    return undefined
+  }
+
+  const localizedEntries = SUPPORTED_LOCALES
+    .filter((locale) => !locale.startsWith("zh"))
+    .map((locale) => [locale, content] as const)
+
+  return Object.fromEntries(localizedEntries) satisfies SoulFragment["localized"]
 }
 
 function normalizeMainCatalog(entry: ReferenceMainCatalog, snapshot: ReferenceCatalogSnapshot): SoulFragment {
@@ -281,16 +289,20 @@ export function normalizeMarketplaceItem(item: MarketplaceItemDto): SoulFragment
     ].join("\n"),
     keywords: item.keywords,
     localized: {
-      "en-US": {
-        title: item.displayName.trim(),
-        summary: `${mainNameEnglish} x ${ruleNameEnglish}`,
-        content: [
-          `Official inspiration card: ${item.displayName.trim()}`,
-          `Base role: ${mainNameEnglish}`,
-          `Expression: ${ruleNameEnglish}`,
-        ].join("\n"),
-        keywords: buildLocalizedKeywords(item.displayName.trim(), mainNameEnglish, ruleNameEnglish, ...(item.keywords ?? [])),
-      },
+      ...Object.fromEntries(
+        SUPPORTED_LOCALES
+          .filter((locale) => !locale.startsWith("zh"))
+          .map((locale) => [locale, {
+            title: item.displayName.trim(),
+            summary: `${mainNameEnglish} x ${ruleNameEnglish}`,
+            content: [
+              `Official inspiration card: ${item.displayName.trim()}`,
+              `Base role: ${mainNameEnglish}`,
+              `Expression: ${ruleNameEnglish}`,
+            ].join("\n"),
+            keywords: buildLocalizedKeywords(item.displayName.trim(), mainNameEnglish, ruleNameEnglish, ...(item.keywords ?? [])),
+          }]),
+      ),
     },
     sourceRef: {
       kind: "marketplace-api",
@@ -309,7 +321,8 @@ export function normalizeMarketplaceItem(item: MarketplaceItemDto): SoulFragment
 
 export function resolveLocalizedFragment(fragment: SoulFragment, locale: string | AppLocale) {
   const normalizedLocale = normalizeLocale(locale)
-  return fragment.localized?.[normalizedLocale] ?? {
+  const fallbackLocale = normalizedLocale.startsWith("zh") ? "zh-CN" : "en-US"
+  return fragment.localized?.[normalizedLocale] ?? fragment.localized?.[fallbackLocale] ?? {
     title: fragment.title,
     summary: fragment.summary,
     content: fragment.content,
