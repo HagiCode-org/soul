@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "npm run prepare:i18n && vite",
     "materials:sync": "node scripts/generate-reference-materials.mjs",
-    "build": "npm run prepare:i18n && npm run sync:footer-sites && tsc -b && vite build",
+    "build": "export NODE_ENV=\"${NODE_ENV:-production}\"; npm run prepare:i18n && npm run sync:footer-sites && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "npm run prepare:i18n && vitest run",

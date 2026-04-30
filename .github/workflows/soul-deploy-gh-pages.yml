@@ -1,0 +1,89 @@
+name: Soul Deploy gh-pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+concurrency:
+  group: soul-deploy-gh-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: "22.12.0"
+  SOUL_GH_PAGES_PAYLOAD_DIR: .deploy/gh-pages
+
+jobs:
+  build:
+    name: Build validated soul snapshot
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build and verify soul
+        run: npm run build
+
+      - name: Assemble gh-pages publication payload
+        run: |
+          rm -rf "${SOUL_GH_PAGES_PAYLOAD_DIR}"
+          mkdir -p "${SOUL_GH_PAGES_PAYLOAD_DIR}/dist"
+          cp .github/gh-pages/esa.jsonc "${SOUL_GH_PAGES_PAYLOAD_DIR}/esa.jsonc"
+          cp -R dist/. "${SOUL_GH_PAGES_PAYLOAD_DIR}/dist/"
+
+      - name: Upload validated gh-pages payload
+        uses: actions/upload-artifact@v4
+        with:
+          name: soul-gh-pages-payload
+          path: ${{ env.SOUL_GH_PAGES_PAYLOAD_DIR }}
+          if-no-files-found: error
+
+  deploy:
+    name: Publish validated snapshot to gh-pages
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write
+    environment:
+      name: soul-production
+      url: https://soul.hagicode.com
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download validated gh-pages payload
+        uses: actions/download-artifact@v4
+        with:
+          name: soul-gh-pages-payload
+          path: .deploy/gh-pages
+
+      - name: Publish validated gh-pages payload
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./.deploy/gh-pages
+          force_orphan: true
+          enable_jekyll: false
+
+      - name: Summarize deployment output
+        run: |
+          echo "Published the validated gh-pages payload with ./esa.jsonc and ./dist/." >> "$GITHUB_STEP_SUMMARY"
+          echo "Soul production is now published only from the validated gh-pages artifact." >> "$GITHUB_STEP_SUMMARY"
+          echo "GitHub environment: soul-production" >> "$GITHUB_STEP_SUMMARY"
+          echo "Expected public URL: https://soul.hagicode.com" >> "$GITHUB_STEP_SUMMARY"
