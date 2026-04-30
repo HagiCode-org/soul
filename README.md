@@ -113,6 +113,16 @@ npm run build
 npm run preview
 ```
 
+## Production Deployment
+
+- Authoritative workflow: `.github/workflows/soul-deploy-gh-pages.yml`
+- Production source of truth: the `gh-pages` branch, published only after the build job validates the Vite snapshot
+- Published payload contract: branch root `esa.jsonc` plus `dist/`
+- Required GitHub permissions: the deploy job needs `contents: write`
+- Required hosting setting: the production host must read `gh-pages/esa.jsonc` and serve `gh-pages/dist/`
+- First deploy checks: confirm the workflow uploaded `esa.jsonc` and `dist/`, then verify `https://soul.hagicode.com`
+- Rollback path: revert the source change or rerun deployment from an older commit so CI republishes the earlier snapshot
+
 ## Runtime Assumptions
 
 - The homepage must load without a backend; the core workflow can run entirely on local snapshots
