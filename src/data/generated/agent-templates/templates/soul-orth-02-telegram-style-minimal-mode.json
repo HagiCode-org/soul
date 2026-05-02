@@ -9,6 +9,8 @@
   "tags": [
     "anime-slang",
     "companion",
+    "life-mentor",
+    "life-skills",
     "mandarin",
     "mentor",
     "orthogonal-dimension",
@@ -21,15 +23,17 @@
       "mandarin"
     ],
     "domains": [
+      "life-skills",
       "orthogonal-dimension"
     ],
     "roles": [
       "companion",
+      "life-mentor",
       "mentor",
       "scholar"
     ]
   },
   "path": "/agent-templates/soul/templates/soul-orth-02-telegram-style-minimal-mode.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }

@@ -9,13 +9,15 @@
   "tags": [
     "business",
     "companion",
+    "emotional-therapy",
     "japanese-cues",
     "mandarin",
     "performer",
     "professional-identity",
     "professional-role",
     "roleplay",
-    "soul"
+    "soul",
+    "therapist"
   ],
   "tagGroups": {
     "languages": [
@@ -24,16 +26,18 @@
     ],
     "domains": [
       "business",
+      "emotional-therapy",
       "professional-identity",
       "professional-role",
       "roleplay"
     ],
     "roles": [
       "companion",
-      "performer"
+      "performer",
+      "therapist"
     ]
   },
   "path": "/agent-templates/soul/templates/soul-main-22-late-night-izakaya-owner.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }

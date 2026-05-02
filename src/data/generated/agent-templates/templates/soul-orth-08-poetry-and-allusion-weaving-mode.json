@@ -10,11 +10,13 @@
     "classical-chinese",
     "coach",
     "comedian",
+    "emotional-therapy",
     "gaming",
     "mandarin",
     "orthogonal-dimension",
     "performer",
-    "soul"
+    "soul",
+    "therapist"
   ],
   "tagGroups": {
     "languages": [
@@ -22,16 +24,18 @@
       "mandarin"
     ],
     "domains": [
+      "emotional-therapy",
       "gaming",
       "orthogonal-dimension"
     ],
     "roles": [
       "coach",
       "comedian",
-      "performer"
+      "performer",
+      "therapist"
     ]
   },
   "path": "/agent-templates/soul/templates/soul-orth-08-poetry-and-allusion-weaving-mode.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }

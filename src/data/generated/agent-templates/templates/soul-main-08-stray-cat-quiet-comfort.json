@@ -11,6 +11,7 @@
     "companion",
     "companionship",
     "emotional-support",
+    "emotional-therapy",
     "healing-companion",
     "mandarin",
     "soul"
@@ -22,6 +23,7 @@
     "domains": [
       "companionship",
       "emotional-support",
+      "emotional-therapy",
       "healing-companion"
     ],
     "roles": [
@@ -31,5 +33,5 @@
   },
   "path": "/agent-templates/soul/templates/soul-main-08-stray-cat-quiet-comfort.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }

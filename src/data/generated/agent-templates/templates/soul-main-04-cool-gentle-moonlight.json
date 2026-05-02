@@ -9,10 +9,12 @@
   "tags": [
     "companionship",
     "emotional-support",
+    "emotional-therapy",
     "healing-companion",
     "mandarin",
     "romantic",
-    "soul"
+    "soul",
+    "therapist"
   ],
   "tagGroups": {
     "languages": [
@@ -21,13 +23,15 @@
     "domains": [
       "companionship",
       "emotional-support",
+      "emotional-therapy",
       "healing-companion"
     ],
     "roles": [
-      "romantic"
+      "romantic",
+      "therapist"
     ]
   },
   "path": "/agent-templates/soul/templates/soul-main-04-cool-gentle-moonlight.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }

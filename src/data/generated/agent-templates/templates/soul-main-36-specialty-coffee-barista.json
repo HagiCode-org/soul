@@ -10,6 +10,8 @@
     "companion",
     "craft",
     "interest-community",
+    "life-mentor",
+    "life-skills",
     "mandarin",
     "soul",
     "subculture",
@@ -22,14 +24,16 @@
     "domains": [
       "craft",
       "interest-community",
+      "life-skills",
       "subculture",
       "subculture-scene"
     ],
     "roles": [
-      "companion"
+      "companion",
+      "life-mentor"
     ]
   },
   "path": "/agent-templates/soul/templates/soul-main-36-specialty-coffee-barista.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }

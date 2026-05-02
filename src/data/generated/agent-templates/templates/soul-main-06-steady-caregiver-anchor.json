@@ -12,6 +12,8 @@
     "companionship",
     "emotional-support",
     "healing-companion",
+    "life-mentor",
+    "life-skills",
     "mandarin",
     "mentor",
     "soul"
@@ -23,15 +25,17 @@
     "domains": [
       "companionship",
       "emotional-support",
-      "healing-companion"
+      "healing-companion",
+      "life-skills"
     ],
     "roles": [
       "caretaker",
       "companion",
+      "life-mentor",
       "mentor"
     ]
   },
   "path": "/agent-templates/soul/templates/soul-main-06-steady-caregiver-anchor.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }

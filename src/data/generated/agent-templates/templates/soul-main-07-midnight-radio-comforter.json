@@ -11,10 +11,12 @@
     "companion",
     "companionship",
     "emotional-support",
+    "emotional-therapy",
     "healing-companion",
     "mandarin",
     "performer",
-    "soul"
+    "soul",
+    "therapist"
   ],
   "tagGroups": {
     "languages": [
@@ -23,15 +25,17 @@
     "domains": [
       "companionship",
       "emotional-support",
+      "emotional-therapy",
       "healing-companion"
     ],
     "roles": [
       "caretaker",
       "companion",
-      "performer"
+      "performer",
+      "therapist"
     ]
   },
   "path": "/agent-templates/soul/templates/soul-main-07-midnight-radio-comforter.json",
   "sourceRepo": "repos/soul",
-  "sourceGeneratedAt": "2026-03-26T08:45:02.131Z"
+  "sourceGeneratedAt": "2026-05-02T01:42:42.550Z"
 }
