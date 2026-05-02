@@ -2,7 +2,7 @@ import fs from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { orthogonalCatalogOverrides } from './reference-material-overrides.mjs'
+import { mainCatalogOverrides, orthogonalCatalogOverrides } from './reference-material-overrides.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -92,13 +92,13 @@ function parseOrthogonalCatalogs(markdown) {
   return entries
 }
 
-function mergeOrthogonalCatalogs(baseEntries, overrideEntries) {
+function mergeCatalogs(baseEntries, overrideEntries, label) {
   const merged = [...baseEntries]
   const usedIndexes = new Set(baseEntries.map((entry) => entry.index))
 
   for (const entry of overrideEntries) {
     if (usedIndexes.has(entry.index)) {
-      throw new Error(`Duplicate orthogonal catalog index: ${entry.index}`)
+      throw new Error(`Duplicate ${label} catalog index: ${entry.index}`)
     }
 
     merged.push(entry)
@@ -125,16 +125,17 @@ async function main() {
     throw new Error(`Expected at least 10 orthogonal catalogs from docs, received ${orthogonalCatalogs.length}.`)
   }
 
-  const mergedOrthogonalCatalogs = mergeOrthogonalCatalogs(orthogonalCatalogs, orthogonalCatalogOverrides)
+  const mergedMainCatalogs = mergeCatalogs(mainCatalogs, mainCatalogOverrides, 'main')
+  const mergedOrthogonalCatalogs = mergeCatalogs(orthogonalCatalogs, orthogonalCatalogOverrides, 'orthogonal')
 
   const generated = {
     generatedAtUtc: new Date().toISOString(),
     provenance: {
       mainPath: 'repos/web/docs/50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md',
       orthPath: 'repos/web/docs/10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md',
-      combinationFormula: '50 x 10 = 500',
+      combinationFormula: `${mergedMainCatalogs.length} x ${mergedOrthogonalCatalogs.length} = ${mergedMainCatalogs.length * mergedOrthogonalCatalogs.length}`,
     },
-    mainCatalogs,
+    mainCatalogs: mergedMainCatalogs,
     orthogonalCatalogs: mergedOrthogonalCatalogs,
   }
 
