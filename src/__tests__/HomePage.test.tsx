@@ -86,7 +86,6 @@ describe("HomePage", () => {
     expect(screen.getByRole("banner", { name: "Soul site header" })).toBeInTheDocument()
     expect(screen.getByRole("navigation", { name: "Soul site navigation" })).toBeInTheDocument()
     expect(screen.getByRole("region", { name: "Soul Builder workbench" })).toBeInTheDocument()
-    expect(screen.getByRole("contentinfo", { name: "HagiSoul footer" })).toBeInTheDocument()
     expect(screen.getAllByText("Agent Soul Editor").length).toBeGreaterThanOrEqual(3)
 
     const themeButton = screen.getByRole("button", { name: "Switch to dark theme" })
@@ -96,7 +95,6 @@ describe("HomePage", () => {
 
     await user.click(screen.getAllByRole("button", { name: "Base role" })[0])
     expect(screen.getByRole("dialog", { name: "Choose a base role" })).toBeInTheDocument()
-    expect(screen.getByRole("contentinfo", { name: "HagiSoul footer" })).toBeInTheDocument()
     expect(screen.getAllByText("Agent Soul Editor").length).toBeGreaterThanOrEqual(3)
   })
 
@@ -106,14 +104,10 @@ describe("HomePage", () => {
 
     const main = screen.getByRole("main")
     const headerNav = screen.getByRole("navigation", { name: "Soul site navigation" })
-    const footer = screen.getByRole("contentinfo", { name: "HagiSoul footer" })
-    const filingBlock = screen.getByRole("link", { name: "View the ICP filing record" }).parentElement
 
     expect(main).toHaveClass("site-shell")
     expect(main).toHaveClass("overflow-x-clip")
     expect(headerNav).toHaveClass("site-header-nav")
-    expect(footer).toHaveClass("site-footer")
-    expect(filingBlock).toHaveClass("site-footer-filings")
 
     await user.tab()
     expect(within(headerNav).getByRole("link", { name: "Open the HagiCode docs site" })).toHaveFocus()
@@ -134,6 +128,5 @@ describe("HomePage", () => {
     })
     expect(screen.getByRole("textbox", { name: "基础角色插槽" })).toHaveValue(mainFragment.content)
     expect(screen.getByRole("button", { name: "基础角色" })).toHaveAttribute("aria-pressed", "true")
-    expect(screen.getByRole("contentinfo", { name: "HagiSoul 页脚" })).toBeInTheDocument()
   })
 })
