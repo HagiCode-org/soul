@@ -4,11 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "npm run prepare:i18n && vite",
+    "dev": "npm run prepare:i18n && astro dev",
     "materials:sync": "node scripts/generate-reference-materials.mjs",
-    "build": "export NODE_ENV=\"${NODE_ENV:-production}\"; npm run prepare:i18n && npm run sync:footer-sites && tsc -b && vite build",
+    "build": "export NODE_ENV=\"${NODE_ENV:-production}\"; npm run prepare:i18n && npm run sync:footer-sites && astro build",
     "lint": "eslint .",
-    "preview": "vite preview",
+    "preview": "astro preview",
     "test": "npm run prepare:i18n && vitest run",
     "sync:agent-templates": "node ./scripts/generate-agent-templates.mjs",
     "sync:footer-sites": "node ./scripts/fetch-sites-snapshot.mjs",
@@ -21,9 +21,10 @@
     "i18n:prune:write": "hagi18n prune --config hagi18n.yaml --from en-US --write",
     "i18n:generate": "node scripts/generate-i18n-resources.mjs",
     "prepare:i18n": "npm run i18n:generate",
-    "i18n:check": "npm run i18n:audit && npm run i18n:doctor && npm run prepare:i18n && node scripts/generate-i18n-resources.mjs --check && vitest run scripts/__tests__/generate-i18n-resources.test.mjs src/i18n/config.test.ts src/pages/HomePage.test.tsx"
+    "i18n:check": "npm run i18n:audit && npm run i18n:doctor && npm run prepare:i18n && node scripts/generate-i18n-resources.mjs --check && vitest run scripts/__tests__/generate-i18n-resources.test.mjs src/i18n/config.test.ts src/__tests__/HomePage.test.tsx"
   },
   "dependencies": {
+    "@astrojs/react": "^7.0.0",
     "@fontsource-variable/fraunces": "^5.2.9",
     "@fontsource-variable/manrope": "^5.2.8",
     "@tailwindcss/vite": "^4.2.2",
@@ -44,6 +45,7 @@
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@hagicode/hagi18n": "^0.1.1",
+    "@hagicode/hagilight-core": "^0.4.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
