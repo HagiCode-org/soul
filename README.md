@@ -6,7 +6,7 @@ The current default homepage is the builder-first HagiSoul experience for creati
 ## Current Homepage Capabilities
 
 - Builder-first default homepage: the default route opens the Soul Builder workbench directly
-- Multilingual UI shell: the site header, footer, drawers, builder panels, feedback, and accessibility labels now support `zh-CN`, `zh-Hant`, `ja-JP`, `ko-KR`, `de-DE`, `fr-FR`, `es-ES`, `pt-BR`, `ru-RU`, and `en-US`
+- Multilingual UI shell: the site header, drawers, builder panels, feedback, and accessibility labels now support `zh-CN`, `zh-Hant`, `ja-JP`, `ko-KR`, `de-DE`, `fr-FR`, `es-ES`, `pt-BR`, `ru-RU`, and `en-US`; the public footer and promotion surface are owned by the shared Hagilight components
 - Locale bootstrap and persistence: the app restores the last saved `soul.locale`, and on first load without a saved preference it maps `navigator.language` into the closest supported locale
 - Editor-style homepage shell: the central workbench stays visible while the left rail exposes separate `Base role` and `Expression` drawers
 - Single-drawer lifecycle: only one slot drawer can stay open at a time; clicking the active slot, the overlay, or pressing `Esc` closes it
@@ -21,7 +21,7 @@ The current default homepage is the builder-first HagiSoul experience for creati
 - The selected locale is persisted under the `soul.locale` browser storage key
 - YAML files in `src/i18n/locales-source/` are the source of truth for system-owned UI copy
 - Generated TypeScript modules in `src/i18n/resources/` are runtime artifacts and must not be hand-edited
-- `npm run dev`, `npm run build`, and `npm run test` prepare generated i18n resources before Vite, TypeScript, or Vitest consumes them
+- `npm run dev`, `npm run build`, and `npm run test` prepare generated i18n resources before Astro, TypeScript, or Vitest consumes them
 - Use `npm run i18n:generate` after editing YAML and `npm run i18n:check` before committing translation changes
 - Detailed maintainer workflow is documented in `docs/i18n-hagi18n.md`
 - Local reference materials now ship with bilingual fragment overlays, so base-role cards, expression-rule cards, and local fallback inspiration cards follow the active locale
@@ -30,10 +30,11 @@ The current default homepage is the builder-first HagiSoul experience for creati
 
 ## Site Shell and Filing Display
 
-- The homepage uses the complete `SiteHeader -> HomeEditorShell -> SiteFooter` shell while keeping the Builder workbench as the main experience
-- `src/components/site/site-links.ts` maintains docs, website, GitHub, Discord, QQ group, email, and filing constants so link destinations stay centralized
+- The homepage keeps the `SiteHeader -> HomeEditorShell` shell while the shared Hagilight `Footer` and `PromotoBanner` are mounted from the Astro host (`src/pages/index.astro`) around the hydrated React island
+- The Astro host renders the shared footer once for the default locale and a `<template>` per secondary locale, then coordinates the live footer and banner locale through a `document.documentElement` `lang` observer so runtime language switches stay in sync
+- `src/components/site/site-links.ts` maintains docs, website, GitHub, Discord, QQ group, email, and filing constants so link destinations stay centralized; the community and filing destinations are passed to the shared footer's `links` option
 - Link destinations and filing records are assumed to match the already-published entries in `repos/site` and `repos/docs`; this repo copies the structure and constants without depending on cross-repo runtime modules
-- The footer displays `闽ICP备2026004153号-1` and `闽公网安备35011102351148号`, and both filing links keep locale-aware `aria-label`s plus safe external-link attributes
+- The shared footer displays `闽ICP备2026004153号-1` and `闽公网安备35011102351148号`, and both filing links keep safe external-link attributes through the Hagilight footer's filing section
 - The header is responsible for brand copy, site navigation, locale switching, and theme switching, but not Builder-internal actions such as preview copy or drawer lifecycle
 
 ## Homepage Structure and State Boundaries
@@ -88,8 +89,9 @@ npm run materials:sync
 - `src/components/home/`: homepage editor shell, slot rail, and drawer primitives
 - `src/components/builder/`: material library and preview surface
 - `src/components/site/SiteHeader.tsx`: site navigation, locale switcher, and theme toggle
-- `src/components/site/SiteFooter.tsx`: footer, community entries, and filing display
 - `src/components/site/site-links.ts`: site link and filing registry
+- `src/components/SoulApp.tsx`: Astro React island that hydrates the existing SPA
+- `src/pages/index.astro`: Astro host that mounts the shared Hagilight footer and banner
 - `src/i18n/`: locale bootstrap, persistence helpers, translation resources, and translation helpers
 - `src/lib/builder/`: domain types, material repository, preview compilation, and copy-related logic
 - `src/data/reference-materials.generated.ts`: reference material snapshot
@@ -102,7 +104,7 @@ npm install
 npm run dev
 ```
 
-The app starts with the local Vite development server.
+The app starts with the local Astro development server.
 
 ## Build and Checks
 
@@ -116,7 +118,7 @@ npm run preview
 ## Production Deployment
 
 - Authoritative workflow: `.github/workflows/soul-deploy-gh-pages.yml`
-- Production source of truth: the `gh-pages` branch, published only after the build job validates the Vite snapshot
+- Production source of truth: the `gh-pages` branch, published only after the build job validates the Astro build
 - Published payload contract: branch root `esa.jsonc` plus `dist/`
 - Required GitHub permissions: the deploy job needs `contents: write`
 - Required hosting setting: the production host must read `gh-pages/esa.jsonc` and serve `gh-pages/dist/`
