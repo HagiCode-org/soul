@@ -1,0 +1,144 @@
+---
+import Footer from "@hagicode/hagilight-core/Footer"
+import PromotoBanner from "@hagicode/hagilight-core/PromotoBanner"
+import SoulApp from "@/components/SoulApp"
+import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type AppLocale } from "@/i18n/locales"
+import "@/index.css"
+
+const initialLocale = DEFAULT_LOCALE
+const secondaryLocales = SUPPORTED_LOCALES.filter((locale) => locale !== initialLocale)
+
+const soulSiteId = "soul-builder"
+const soulSiteUrl = "https://soul.hagicode.com"
+
+const soulFooterLinks = {
+  siteId: soulSiteId,
+  siteUrl: soulSiteUrl,
+  overrides: {
+    icpFiling: {
+      label: "闽ICP备2026004153号-1",
+      href: "https://beian.miit.gov.cn/",
+      external: true,
+    },
+    publicSecurityFiling: {
+      label: "闽公网安备35011102351148号",
+      href: "http://www.beian.gov.cn/portal/registerSystemInfo",
+      external: true,
+    },
+  },
+  extraLinks: {
+    community: [
+      {
+        id: "soul-email",
+        label: "Email",
+        href: "mailto:support@hagicode.com",
+        external: true,
+      },
+      {
+        id: "soul-steam",
+        label: "Steam",
+        href: "https://store.steampowered.com/app/4625540/Hagicode/",
+        external: true,
+      },
+    ],
+  },
+};
+---
+
+<!doctype html>
+<html lang={initialLocale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls." />
+    <meta name="theme-color" content="#0f4c5c" />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="HagiCode" />
+    <meta name="keywords" content="HagiSoul, Soul 编辑器, Agent Soul, AI 角色设定, prompt builder, HagiCode, AI agent, character builder" />
+    <link rel="canonical" href="https://soul.hagicode.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://soul.hagicode.com/" />
+    <meta property="og:title" content="HagiSoul: Agent Soul Editor" />
+    <meta property="og:description" content="HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls." />
+    <meta property="og:site_name" content="HagiSoul" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="zh_CN" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="HagiSoul: Agent Soul Editor" />
+    <meta name="twitter:description" content="HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls." />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>HagiSoul: Agent Soul Editor</title>
+
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EN03FMT2Q4"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EN03FMT2Q4');
+    </script>
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "HagiSoul",
+      "url": "https://soul.hagicode.com/",
+      "description": "HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Web",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "HagiCode",
+        "url": "https://hagicode.com"
+      }
+    }
+    </script>
+  </head>
+  <body>
+    <SoulApp client:load />
+
+    <PromotoBanner locale={initialLocale} />
+    <Footer locale={initialLocale} links={soulFooterLinks} />
+
+    {secondaryLocales.map((locale: AppLocale) => (
+      <template data-locale={locale}>
+        <Footer locale={locale} links={soulFooterLinks} />
+      </template>
+    ))}
+
+    <script is:inline define:vars={{ defaultLanguage: initialLocale }}>
+      (() => {
+        const root = document.documentElement;
+        const footer = document.querySelector('footer.hagilight-footer');
+        const banner = document.querySelector('hagilight-promoto-banner');
+        const footerForLocale = (locale) =>
+          document.querySelector(`template[data-locale="${locale}"]`)?.content.querySelector('footer');
+        const applyLocale = (locale) => {
+          if (!locale) return;
+          if (footer) {
+            const replacement = footerForLocale(locale) || footerForLocale(defaultLanguage);
+            if (replacement) footer.innerHTML = replacement.innerHTML;
+            footer.dataset.locale = locale;
+          }
+          if (banner) {
+            banner.dataset.locale = locale;
+            document.dispatchEvent(new Event('astro:page-load'));
+          }
+        };
+        applyLocale(root.lang || defaultLanguage);
+        new MutationObserver(() => applyLocale(root.lang || defaultLanguage)).observe(root, {
+          attributes: true,
+          attributeFilter: ['lang'],
+        });
+      })();
+    </script>
+  </body>
+</html>
