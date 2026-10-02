@@ -31,6 +31,7 @@ The current default homepage is the builder-first HagiSoul experience for creati
 ## Site Shell and Filing Display
 
 - The homepage keeps the `SiteHeader -> HomeEditorShell` shell while the shared Hagilight `Footer` and `PromotoBanner` are mounted from the Astro host (`src/pages/index.astro`) around the hydrated React island
+- `@hagicode/hagilight-core` 0.5.0 supplies shared components only; Soul does not enable an RSS-generating integration or publish RSS routes
 - The Astro host renders the shared footer once for the default locale and a `<template>` per secondary locale, then coordinates the live footer and banner locale through a `document.documentElement` `lang` observer so runtime language switches stay in sync
 - `src/components/site/site-links.ts` maintains docs, website, GitHub, Discord, QQ group, email, and filing constants so link destinations stay centralized; the community and filing destinations are passed to the shared footer's `links` option
 - Link destinations and filing records are assumed to match the already-published entries in `repos/site` and `repos/docs`; this repo copies the structure and constants without depending on cross-repo runtime modules
