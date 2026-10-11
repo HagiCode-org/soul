@@ -28,7 +28,7 @@ npm run i18n:check
 
 - `src/components/`: React UI components
 - `src/data/`: locale files and generated reference materials
-- `scripts/`: material generation, site snapshot sync
+- `scripts/`: material generation
 - `hagi18n.yaml`: i18n configuration
 
 ## Agent Guidelines
