@@ -6,12 +6,11 @@
   "scripts": {
     "dev": "npm run prepare:i18n && astro dev",
     "materials:sync": "node scripts/generate-reference-materials.mjs",
-    "build": "export NODE_ENV=\"${NODE_ENV:-production}\"; npm run prepare:i18n && npm run sync:footer-sites && astro build",
+    "build": "export NODE_ENV=\"${NODE_ENV:-production}\"; npm run prepare:i18n && astro build",
     "lint": "eslint .",
     "preview": "astro preview",
     "test": "npm run prepare:i18n && vitest run",
     "sync:agent-templates": "node ./scripts/generate-agent-templates.mjs",
-    "sync:footer-sites": "node ./scripts/fetch-sites-snapshot.mjs",
     "i18n:audit": "hagi18n audit --config hagi18n.yaml",
     "i18n:report": "hagi18n report --config hagi18n.yaml",
     "i18n:doctor": "hagi18n doctor --config hagi18n.yaml",
