@@ -2,6 +2,8 @@ import { ArrowUpRight, BookOpenText, FlaskConical, Sparkles, WandSparkles } from
 import { useTranslation } from "react-i18next"
 
 import { Badge } from "@/components/ui/badge"
+import { gaEventAttributes } from "@hagicode/hagilight-core/analytics-events"
+
 import { Button } from "@/components/ui/button"
 import { translateMessage } from "@/i18n/message"
 import type { MessageDescriptor } from "@/lib/builder/types"
@@ -69,7 +71,12 @@ export function BuilderHeroIntro({ mainCount, ruleCount, ready, remoteMessage }:
               </a>
             </Button>
             <Button asChild variant="outline" className="border-white/12 text-white">
-              <a href="https://docs.hagicode.com/" target="_blank" rel="noreferrer noopener">
+              <a
+                href="https://docs.hagicode.com/"
+                target="_blank"
+                rel="noreferrer noopener"
+                {...gaEventAttributes({ category: "navigation", label: "docs", location: "soul_hero" })}
+              >
                 {t("home.hero.secondaryAction")}
               </a>
             </Button>

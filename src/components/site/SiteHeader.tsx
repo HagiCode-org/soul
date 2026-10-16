@@ -3,7 +3,12 @@ import { useTranslation } from "react-i18next"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { getHeaderNavigationLinks, getSiteLinkRel, getSiteLinkTarget } from "@/components/site/site-links"
+import {
+  getHeaderNavigationLinks,
+  getSiteLinkAnalyticsAttributes,
+  getSiteLinkRel,
+  getSiteLinkTarget,
+} from "@/components/site/site-links"
 import { changeLocale } from "@/i18n/config"
 import { LOCALE_LABELS, SUPPORTED_LOCALES, normalizeLocale } from "@/i18n/locales"
 import type { ThemeMode } from "@/hooks/use-theme-mode"
@@ -53,6 +58,7 @@ export function SiteHeader({ theme, onToggleTheme }: SiteHeaderProps) {
                 aria-label={link.ariaLabel}
                 target={getSiteLinkTarget(link)}
                 rel={getSiteLinkRel(link)}
+                {...getSiteLinkAnalyticsAttributes(link, "soul_header")}
               >
                 {link.label}
               </a>

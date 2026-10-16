@@ -1,4 +1,5 @@
 import type { TFunction } from "i18next"
+import { gaEventAttributes, type GaCategory } from "@hagicode/hagilight-core/analytics-events"
 import type { AppLocale } from "@/i18n/locales"
 
 export type SiteLinkId = string
@@ -114,6 +115,18 @@ export function getHeaderNavigationLinks(t: TFunction) {
     buildSiteLink(t, soulSiteLinkDefinitions.trait),
     buildSiteLink(t, soulSiteLinkDefinitions.discord),
   ] as const
+}
+
+// Community destinations are reported as `community`; every other header link is `navigation`.
+const COMMUNITY_LINK_IDS: ReadonlySet<SiteLinkId> = new Set(["github", "discord", "qq-group"])
+
+/**
+ * Click-tracking attributes for a header link. The label is the link's stable id, never its
+ * localized text, so the same link reports the same label under every interface language.
+ */
+export function getSiteLinkAnalyticsAttributes(link: Pick<SiteLink, "id">, location: string) {
+  const category: GaCategory = COMMUNITY_LINK_IDS.has(link.id) ? "community" : "navigation"
+  return gaEventAttributes({ category, label: link.id, location })
 }
 
 export function getSiteLinkTarget(link: Pick<SiteLink, "openInNewTab">) {
