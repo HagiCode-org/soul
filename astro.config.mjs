@@ -1,13 +1,14 @@
 import { fileURLToPath } from "node:url";
 
 import react from "@astrojs/react";
+import { hagilight, hagilightFavicon } from "@hagicode/hagilight/integration";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
   site: "https://soul.hagicode.com",
   output: "static",
-  integrations: [react()],
+  integrations: [react(), hagilightFavicon(), hagilight()],
   vite: {
     plugins: [tailwindcss()],
     resolve: {
