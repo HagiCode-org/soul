@@ -28,7 +28,29 @@ type SiteLinkDefinition = Omit<SiteLink, "label" | "ariaLabel"> & {
 type SiteLocale = AppLocale
 
 const NEW_TAB_TARGET = "_blank" as const
-const EXTERNAL_REL = "noopener noreferrer" as const
+const FIRST_PARTY_REL = "noopener" as const
+const THIRD_PARTY_REL = "noopener noreferrer" as const
+// Stand-in origin for relative hrefs: parsing against it makes "/path" same-origin and "//host" a real host.
+const SAME_ORIGIN_BASE = "https://same-origin.invalid"
+
+/**
+ * First-party link policy, mirrored from @hagicode/hagilight-core links. Relative and same-origin
+ * destinations count as first-party; hosts are compared after parsing, never by substring.
+ */
+export function isFirstPartyHref(href: string): boolean {
+  let url: URL
+  try {
+    url = new URL(href, SAME_ORIGIN_BASE)
+  } catch {
+    return false
+  }
+  if (url.origin === SAME_ORIGIN_BASE) return true
+  if (url.protocol !== "https:" && url.protocol !== "http:") return false
+
+  const host = url.hostname.toLowerCase()
+  if (host === "hagicode.com" || host.endsWith(".hagicode.com")) return true
+  return host === "github.com" && url.pathname.split("/")[1]?.toLowerCase() === "hagicode-org"
+}
 
 const soulSiteLinkDefinitions = {
   docs: {
@@ -133,6 +155,7 @@ export function getSiteLinkTarget(link: Pick<SiteLink, "openInNewTab">) {
   return link.openInNewTab ? NEW_TAB_TARGET : undefined
 }
 
-export function getSiteLinkRel(link: Pick<SiteLink, "openInNewTab">) {
-  return link.openInNewTab ? EXTERNAL_REL : undefined
+export function getSiteLinkRel(link: Pick<SiteLink, "href" | "openInNewTab">) {
+  if (!link.openInNewTab) return undefined
+  return isFirstPartyHref(link.href) ? FIRST_PARTY_REL : THIRD_PARTY_REL
 }
