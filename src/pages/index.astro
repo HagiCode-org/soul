@@ -1,7 +1,11 @@
 ---
 import GoogleAnalytics from "@hagicode/hagilight-core/GoogleAnalytics"
-import Footer from "@hagicode/hagilight-core/Footer"
+import Analytics51LA from "@hagicode/hagilight-core/Analytics51LA"
 import PromotoBanner from "@hagicode/hagilight-core/PromotoBanner"
+import { resolveFaviconHeadEntry } from "@hagicode/hagilight-core/favicon"
+import sharedFaviconUrl from "@hagicode/hagilight-core/favicon.ico"
+import SEOHead from "@hagicode/hagilight/SEOHead"
+import Footer from "@hagicode/hagilight/Footer"
 import SoulApp from "@/components/SoulApp"
 import { DEFAULT_LOCALE, SUPPORTED_LOCALES, type AppLocale } from "@/i18n/locales"
 import "@/index.css"
@@ -11,6 +15,53 @@ const secondaryLocales = SUPPORTED_LOCALES.filter((locale) => locale !== initial
 
 const soulSiteId = "soul-builder"
 const soulSiteUrl = "https://soul.hagicode.com"
+
+const soulDescription = "HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls."
+const soulTitle = "HagiSoul: Agent Soul Editor"
+
+const soulStructuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "HagiSoul",
+  url: `${soulSiteUrl}/`,
+  description: soulDescription,
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "Web",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "CNY",
+  },
+  author: {
+    "@type": "Organization",
+    name: "HagiCode",
+    url: "https://hagicode.com",
+  },
+};
+
+// The bundled HagiCode icon, emitted by Astro from the package asset. hagilightFavicon() writes to the
+// Astro config head, which this page does not render, so the same entry is supplied here.
+const faviconEntry = resolveFaviconHeadEntry([], { href: sharedFaviconUrl });
+
+const soulHeadEntries = [
+  ...(faviconEntry ? [faviconEntry] : []),
+  { tag: "meta", attrs: { name: "theme-color", content: "#0f4c5c" } },
+  { tag: "meta", attrs: { name: "robots", content: "index, follow" } },
+  { tag: "meta", attrs: { name: "author", content: "HagiCode" } },
+  {
+    tag: "meta",
+    attrs: {
+      name: "keywords",
+      content: "HagiSoul, Soul 编辑器, Agent Soul, AI 角色设定, prompt builder, HagiCode, AI agent, character builder",
+    },
+  },
+  { tag: "meta", attrs: { property: "og:type", content: "website" } },
+  { tag: "meta", attrs: { property: "og:url", content: `${soulSiteUrl}/` } },
+  { tag: "meta", attrs: { property: "og:site_name", content: "HagiSoul" } },
+  { tag: "meta", attrs: { property: "og:locale", content: "en_US" } },
+  { tag: "meta", attrs: { property: "og:locale:alternate", content: "zh_CN" } },
+  { tag: "meta", attrs: { name: "twitter:card", content: "summary_large_image" } },
+];
 
 const soulFooterLinks = {
   siteId: soulSiteId,
@@ -51,51 +102,20 @@ const soulFooterLinks = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls." />
-    <meta name="theme-color" content="#0f4c5c" />
-    <meta name="robots" content="index, follow" />
-    <meta name="author" content="HagiCode" />
-    <meta name="keywords" content="HagiSoul, Soul 编辑器, Agent Soul, AI 角色设定, prompt builder, HagiCode, AI agent, character builder" />
-    <link rel="canonical" href="https://soul.hagicode.com/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://soul.hagicode.com/" />
-    <meta property="og:title" content="HagiSoul: Agent Soul Editor" />
-    <meta property="og:description" content="HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls." />
-    <meta property="og:site_name" content="HagiSoul" />
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:locale:alternate" content="zh_CN" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="HagiSoul: Agent Soul Editor" />
-    <meta name="twitter:description" content="HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls." />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>HagiSoul: Agent Soul Editor</title>
+    <title>{soulTitle}</title>
+    <SEOHead
+      page={{
+        url: `${soulSiteUrl}/`,
+        title: soulTitle,
+        description: soulDescription,
+      }}
+      head={soulHeadEntries}
+      structuredData={soulStructuredData}
+    />
 
     <!-- Google Analytics 4 -->
     <GoogleAnalytics measurementId="G-EN03FMT2Q4" />
-
-    <!-- Structured Data (JSON-LD) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "HagiSoul",
-      "url": "https://soul.hagicode.com/",
-      "description": "HagiSoul gives developers a faster workspace for creating, sharing, and browsing Souls.",
-      "applicationCategory": "DeveloperApplication",
-      "operatingSystem": "Web",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "CNY"
-      },
-      "author": {
-        "@type": "Organization",
-        "name": "HagiCode",
-        "url": "https://hagicode.com"
-      }
-    }
-    </script>
+    <Analytics51LA siteId={import.meta.env.VITE_51LA_ID || "L6b88a5yK4h2Xnci"} />
   </head>
   <body>
     <SoulApp client:load />

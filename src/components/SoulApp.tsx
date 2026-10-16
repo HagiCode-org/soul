@@ -1,13 +1,12 @@
 import { useEffect, useState } from "react"
 
 import App from "@/App"
-import { bootstrapAnalytics } from "@/lib/analytics/bootstrap"
 import { initializeI18n } from "@/i18n/config"
 
 /**
- * Astro React island that hydrates the existing Soul SPA. i18n and analytics bootstrap,
- * previously run from the Vite document entry, now happen here on the client once the
- * island mounts. The shared Hagilight footer and banner are mounted outside this island
+ * Astro React island that hydrates the existing Soul SPA. i18n bootstrap, previously run from
+ * the Vite document entry, now happens here on the client once the island mounts. 51LA is loaded
+ * by the shared Hagilight component in the Astro page. The shared Hagilight footer and banner are mounted outside this island
  * in the Astro page.
  */
 export default function SoulApp() {
@@ -22,7 +21,6 @@ export default function SoulApp() {
       }
       setReady(true)
     })
-    void bootstrapAnalytics().catch(() => {})
 
     return () => {
       cancelled = true

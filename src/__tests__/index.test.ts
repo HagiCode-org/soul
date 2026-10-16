@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -10,26 +11,46 @@ describe('Soul index Astro host Hagilight integration', () => {
   it('mounts the shared footer and banner around the hydrated React island', async () => {
     const source = await readFile(pagePath, 'utf8');
 
-    expect(source).toContain('import Footer from "@hagicode/hagilight-core/Footer"');
+    expect(source).toContain('import Footer from "@hagicode/hagilight/Footer"');
     expect(source).toContain('import PromotoBanner from "@hagicode/hagilight-core/PromotoBanner"');
     expect(source).toContain('client:load');
     expect(source.indexOf('<SoulApp')).toBeLessThan(source.indexOf('<PromotoBanner'));
     expect(source.indexOf('<PromotoBanner')).toBeLessThan(source.indexOf('<Footer'));
   });
 
-  it('uses core components only without registering RSS routes or feed links', async () => {
-    const [config, manifest, source] = await Promise.all([
-      readFile(astroConfigPath, 'utf8'),
-      readFile(packagePath, 'utf8'),
-      readFile(pagePath, 'utf8'),
-    ]);
-    const packageJson = JSON.parse(manifest);
+  it('pins the Hagilight packages to the same exact version the test reads from the manifest', async () => {
+    const packageJson = JSON.parse(await readFile(packagePath, 'utf8'));
+    const pin = packageJson.devDependencies?.['@hagicode/hagilight'];
+    const corePin = packageJson.devDependencies?.['@hagicode/hagilight-core'];
 
-    expect(config).not.toMatch(/@hagicode\/hagilight\/integration|hagilight\(/u);
-    expect(source).not.toMatch(/application\/rss\+xml|rssFeedUrl|rssLocaleFeedUrl/u);
+    expect(pin).toMatch(/^\d+\.\d+\.\d+$/u);
+    expect(corePin).toBe(pin);
     expect(packageJson.dependencies?.['@hagicode/hagilight']).toBeUndefined();
     expect(packageJson.dependencies?.['@hagicode/hagilight-starlight']).toBeUndefined();
-    expect(packageJson.devDependencies?.['@hagicode/hagilight-core']).toBe('0.5.0');
+  });
+
+  it('registers the Hagilight integration and favicon in the Astro config', async () => {
+    const config = await readFile(astroConfigPath, 'utf8');
+
+    expect(config).toMatch(/import \{ hagilight, hagilightFavicon \} from "@hagicode\/hagilight\/integration"/u);
+    expect(config).toMatch(/integrations:\s*\[react\(\),\s*hagilightFavicon\(\),\s*hagilight\(\)\]/u);
+  });
+
+  it('does not keep hand-written discovery or icon files that Hagilight generates', () => {
+    for (const file of ['robots.txt', 'sitemap.xml', 'favicon.ico', 'favicon.svg']) {
+      expect(existsSync(resolve(process.cwd(), 'public', file)), file).toBe(false);
+    }
+  });
+
+  it('renders the static head through SEOHead and loads 51LA through the shared component', async () => {
+    const source = await readFile(pagePath, 'utf8');
+
+    expect(source).toContain('import SEOHead from "@hagicode/hagilight/SEOHead"');
+    expect(source).toContain('<SEOHead');
+    expect(source).toContain('structuredData={soulStructuredData}');
+    expect(source).toContain('import Analytics51LA from "@hagicode/hagilight-core/Analytics51LA"');
+    expect(source).toContain('<Analytics51LA siteId={import.meta.env.VITE_51LA_ID || "L6b88a5yK4h2Xnci"} />');
+    expect(source).not.toMatch(/rel="icon"|rel="sitemap"|application\/rss\+xml/u);
   });
 
   it('configures the shared footer with Soul site identity and required filings', async () => {
