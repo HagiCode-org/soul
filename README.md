@@ -31,12 +31,27 @@ The current default homepage is the builder-first HagiSoul experience for creati
 ## Site Shell and Filing Display
 
 - The homepage keeps the `SiteHeader -> HomeEditorShell` shell while the shared Hagilight `Footer` and `PromotoBanner` are mounted from the Astro host (`src/pages/index.astro`) around the hydrated React island
-- `@hagicode/hagilight-core` 0.5.0 supplies shared components only; Soul does not enable an RSS-generating integration or publish RSS routes
+- The footer is `@hagicode/hagilight/Footer`, which adds the `Powered By hagilight@<version>` attribution, the `Branch`/`Commit`/`Built` line, and the sitemap and RSS links
 - The Astro host renders the shared footer once for the default locale and a `<template>` per secondary locale, then coordinates the live footer and banner locale through a `document.documentElement` `lang` observer so runtime language switches stay in sync
 - `src/components/site/site-links.ts` maintains docs, website, GitHub, Discord, QQ group, email, and filing constants so link destinations stay centralized; the community and filing destinations are passed to the shared footer's `links` option
 - Link destinations and filing records are assumed to match the already-published entries in `repos/site` and `repos/docs`; this repo copies the structure and constants without depending on cross-repo runtime modules
 - The shared footer displays `闽ICP备2026004153号-1` and `闽公网安备35011102351148号`, and both filing links keep safe external-link attributes through the Hagilight footer's filing section
 - The header is responsible for brand copy, site navigation, locale switching, and theme switching, but not Builder-internal actions such as preview copy or drawer lifecycle
+
+## Hagilight Integration
+
+- `@hagicode/hagilight` and `@hagicode/hagilight-core` are pinned to the same exact version (`0.9.5`) in `devDependencies`; the Soul tests read that pin from `package.json`
+- `astro.config.mjs` registers `hagilightFavicon()` and `hagilight()` with their default options. A build generates `dist/robots.txt` (which points to `sitemap-index.xml`), `dist/sitemap-index.xml` with its child sitemap, and the feeds `dist/rss.xml` and `dist/rss.en.xml`. The feeds are valid and currently contain no items
+- The shared HagiCode favicon is emitted by Astro from the package asset and linked in `src/pages/index.astro`, because `hagilightFavicon()` writes to the Astro config head and this page does not render it
+- `public/llms.txt` is the hand-written file and is kept. The pinned `@hagicode/hagilight` 0.9.5 does not generate `llms.txt`, so there is no generated file to replace it; revisit it when the pin moves to a version that generates one
+- Removed from `public/`: `robots.txt`, `sitemap.xml`, `favicon.ico` and `favicon.svg`. `/sitemap.xml` no longer exists; crawlers reach the sitemap through `robots.txt` at `/sitemap-index.xml`
+- The static head comes from `SEOHead`: canonical, description, Open Graph and Twitter title/description, and the `WebApplication` JSON-LD. Keywords, `theme-color`, `author`, `robots`, `og:type`/`og:url`/`og:site_name`/`og:locale`, and `twitter:card` are passed through its `head` prop
+- 51LA is loaded by `Analytics51LA` in `src/pages/index.astro`, in production builds only. `VITE_51LA_ID` overrides the default site ID, and that ID is used for both `id` and `ck`. The local 51LA bootstrap (`src/lib/analytics`) and the legacy promotion loader (`src/lib/promote-loader.ts`) are removed
+- Click tracking uses `gaEventAttributes()` from `@hagicode/hagilight-core/analytics-events`:
+  - header navigation links report at location `soul_header`, with the link's stable id as the label (`discord` is reported as `community`)
+  - the hero documentation call to action reports at location `soul_hero` with the label `docs`
+  - in-page anchors such as `#home-workbench` are not tagged; the shared footer and banner report their own links
+- `scripts/verify-ga-build.mjs` runs after `astro build`. It fails when the built homepage has more than one Google Analytics loader, `gtag('config')`, click-listener script, 51LA loader or initialization, promotion banner, or visible footer; when the footer lacks the attribution or build labels; or when a footer RSS link does not resolve to a published file
 
 ## Homepage Structure and State Boundaries
 
@@ -115,6 +130,8 @@ npm run test
 npm run build
 npm run preview
 ```
+
+`npm run build` runs `scripts/verify-ga-build.mjs` after the Astro build, so a duplicated analytics loader, banner or footer fails the build.
 
 ## Production Deployment
 
