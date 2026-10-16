@@ -1,4 +1,5 @@
 ---
+import GoogleAnalytics from "@hagicode/hagilight-core/GoogleAnalytics"
 import Footer from "@hagicode/hagilight-core/Footer"
 import PromotoBanner from "@hagicode/hagilight-core/PromotoBanner"
 import SoulApp from "@/components/SoulApp"
@@ -71,13 +72,7 @@ const soulFooterLinks = {
     <title>HagiSoul: Agent Soul Editor</title>
 
     <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EN03FMT2Q4"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EN03FMT2Q4');
-    </script>
+    <GoogleAnalytics measurementId="G-EN03FMT2Q4" />
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
