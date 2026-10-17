@@ -1,0 +1,12 @@
+# HagiSoul
+
+> HagiSoul is a browser-based builder for creating, sharing and browsing Souls. A Soul is assembled from a base role and expression rules, and the finished preview can be copied. The site is a single interactive app, available in 10 languages.
+
+## Builder
+
+- [HagiSoul: Agent Soul Editor](https://soul.hagicode.com/): Pick a base role and expression rules, then copy the Soul preview.
+
+## Optional
+
+- [HagiCode, the agentic coding workspace](https://www.hagicode.com/)
+- [HagiCode documentation](https://docs.hagicode.com/)
