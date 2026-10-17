@@ -1,5 +1,8 @@
 # Soul
 
+[![last commit](https://img.shields.io/github/last-commit/HagiCode-org/soul)](https://github.com/HagiCode-org/soul/commits/main)
+[![website](https://img.shields.io/website?url=https%3A%2F%2Fsoul.hagicode.com%2F&label=website)](https://soul.hagicode.com/)
+
 Soul is the frontend repository for `soul.hagicode.com`.
 The current default homepage is the builder-first HagiSoul experience for creating, sharing, and browsing Souls.
 
