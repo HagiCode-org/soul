@@ -50,6 +50,7 @@ jobs:
         with:
           name: soul-gh-pages-payload
           path: ${{ env.SOUL_GH_PAGES_PAYLOAD_DIR }}
+          include-hidden-files: true
           if-no-files-found: error
 
   deploy:
