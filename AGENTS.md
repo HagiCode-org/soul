@@ -53,3 +53,4 @@ npm run i18n:check    # audit + doctor + generated-resource check + i18n tests
 - `README.md`
 - `hagi18n.yaml`
 - `docs/i18n-hagi18n.md`
+- `DESIGN.md` (design-system reference for UI changes)
