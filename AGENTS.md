@@ -45,7 +45,7 @@ npm run i18n:check    # audit + doctor + generated-resource check + i18n tests
 - Fall back gracefully when remote API calls fail (use local sample cards).
 - Run `npm run materials:sync` when upstream docs change to regenerate local reference materials.
 - Never hand-edit `src/i18n/resources/` or `src/data/generated/`; edit YAML sources and regenerate (`npm run i18n:generate`, `npm run sync:agent-templates`).
-- Keep `@hagicode/hagilight` and `@hagicode/hagilight-core` pinned to the same exact version; footer, promo banner, SEO head and GA come from Hagilight, so do not add local duplicates (`npm run build` runs `scripts/verify-ga-build.mjs` and fails on duplicate loaders).
+- Keep `@hagicode/hagilight` and `@hagicode/hagilight-core` pinned to the same exact version; footer, promo banner, SEO head, GA and PostHog (injected by the `hagilight()` integration) come from Hagilight, so do not add local duplicates (`npm run build` runs `scripts/verify-ga-build.mjs` and fails on duplicate loaders, including a second PostHog init).
 - Production deploys via `.github/workflows/soul-deploy-gh-pages.yml` (`gh-pages` branch with `esa.jsonc` + `dist/`).
 
 ## References
