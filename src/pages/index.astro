@@ -55,10 +55,7 @@ const soulHeadEntries = [
       content: "HagiSoul, Soul 编辑器, Agent Soul, AI 角色设定, prompt builder, HagiCode, AI agent, character builder",
     },
   },
-  { tag: "meta", attrs: { property: "og:type", content: "website" } },
-  { tag: "meta", attrs: { property: "og:url", content: `${soulSiteUrl}/` } },
   { tag: "meta", attrs: { property: "og:site_name", content: "HagiSoul" } },
-  { tag: "meta", attrs: { property: "og:locale", content: "en_US" } },
   { tag: "meta", attrs: { property: "og:locale:alternate", content: "zh_CN" } },
   { tag: "meta", attrs: { name: "twitter:card", content: "summary_large_image" } },
 ];
@@ -80,12 +77,6 @@ const soulFooterLinks = {
   },
   extraLinks: {
     community: [
-      {
-        id: "soul-email",
-        label: "Email",
-        href: "mailto:support@hagicode.com",
-        external: true,
-      },
       {
         id: "soul-steam",
         label: "Steam",
@@ -110,6 +101,7 @@ const soulFooterLinks = {
         description: soulDescription,
       }}
       head={soulHeadEntries}
+      locale="en-US"
       structuredData={soulStructuredData}
     />
 

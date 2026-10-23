@@ -33,6 +33,8 @@ expectOne(countOccurrences(html, `gtag('config', "G-EN03FMT2Q4")`), "Google Anal
 expectOne(countMatches(html, /<script[^>]*GoogleAnalytics\.astro_astro_type_script[^>]*>/gu), "click-listener script")
 expectOne(countOccurrences(html, "sdk.51.la/js-sdk-pro.min.js"), "51LA SDK loader")
 expectOne(countOccurrences(html, "LA.init("), "51LA initialization")
+// hagilight() injects PostHog into every production head; a second snippet in the page would double-count.
+expectOne(countOccurrences(html, "posthog.init("), "PostHog initialization")
 expectOne(countOccurrences(visibleHtml, "<hagilight-promoto-banner"), "promotion banner")
 expectOne(countOccurrences(visibleHtml, "<footer"), "visible footer outside <template>")
 
