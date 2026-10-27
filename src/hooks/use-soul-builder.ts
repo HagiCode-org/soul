@@ -7,6 +7,7 @@ import { applyInspirationFragment, clearInspirationFragment, resolveDraftFragmen
 import { createLocalMaterials, loadBuilderMaterials, resolveLocalizedFragment, resolveLocalizedSoulFragment } from "@/lib/builder/material-repository"
 import { compilePreview, getIncompletePreviewHint } from "@/lib/builder/preview-compiler"
 import type { BuilderMaterials, MessageDescriptor, SoulBuilderDraft } from "@/lib/builder/types"
+import { captureSiteEvent } from "@/lib/posthog-events"
 
 type FeedbackState = {
   tone: "info" | "success" | "error"
@@ -172,6 +173,9 @@ export function useSoulBuilder() {
   const previewHint = getIncompletePreviewHint(preview.missing)
 
   const selectMainFragment = useCallback((fragmentId: string) => {
+    if (draft.selectedMainFragmentId !== fragmentId) {
+      captureSiteEvent("soul_fragment_selected", { slot: "main", fragment_id: fragmentId })
+    }
     setDraft((current) => {
       const fragment = materials.mainFragments.find((item) => item.fragmentId === fragmentId)
       const localized = fragment ? resolveLocalizedFragment(fragment, locale) : null
@@ -181,13 +185,16 @@ export function useSoulBuilder() {
         mainSlotText: localized?.content ?? current.mainSlotText,
       })
     })
-  }, [locale, materials.mainFragments])
+  }, [draft.selectedMainFragmentId, locale, materials.mainFragments])
 
   const clearMainFragment = useCallback(() => {
     setDraft((current) => touchDraft({ ...current, selectedMainFragmentId: null, mainSlotText: "" }))
   }, [])
 
   const selectRuleFragment = useCallback((fragmentId: string) => {
+    if (draft.selectedRuleFragmentId !== fragmentId) {
+      captureSiteEvent("soul_fragment_selected", { slot: "rule", fragment_id: fragmentId })
+    }
     setDraft((current) => {
       const fragment = materials.expressionFragments.find((item) => item.fragmentId === fragmentId)
       const localized = fragment ? resolveLocalizedFragment(fragment, locale) : null
@@ -197,7 +204,7 @@ export function useSoulBuilder() {
         ruleSlotText: localized?.content ?? current.ruleSlotText,
       })
     })
-  }, [locale, materials.expressionFragments])
+  }, [draft.selectedRuleFragmentId, locale, materials.expressionFragments])
 
   const clearRuleFragment = useCallback(() => {
     setDraft((current) => touchDraft({ ...current, selectedRuleFragmentId: null, ruleSlotText: "" }))
@@ -210,6 +217,9 @@ export function useSoulBuilder() {
         return
       }
 
+      if (draft.inspirationSoulId !== fragmentId) {
+        captureSiteEvent("soul_fragment_selected", { slot: "inspiration", fragment_id: fragmentId })
+      }
       setDraft((current) => applyInspirationFragment(current, inspiration, materials))
       setFeedback({
         tone: "success",
@@ -219,7 +229,7 @@ export function useSoulBuilder() {
         },
       })
     },
-    [locale, materials]
+    [draft.inspirationSoulId, locale, materials]
   )
 
   const clearSelectedInspiration = useCallback(() => {
@@ -248,8 +258,14 @@ export function useSoulBuilder() {
     }
 
     await copyText(currentDraft.previewText)
+    captureSiteEvent("soul_preview_copied", {
+      can_compose: canCompose,
+      main_selected: resolvedFragments.mainFragment !== null,
+      rule_selected: resolvedFragments.ruleFragment !== null,
+      inspiration_selected: resolvedFragments.inspirationFragment !== null,
+    })
     setFeedback({ tone: "success", message: { key: "builder.preview.hints.copySuccess" } })
-  }, [canCompose, currentDraft.previewText, previewHint])
+  }, [canCompose, currentDraft.previewText, previewHint, resolvedFragments.inspirationFragment, resolvedFragments.mainFragment, resolvedFragments.ruleFragment])
 
   return {
     materials,
