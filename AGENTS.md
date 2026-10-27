@@ -48,6 +48,19 @@ npm run i18n:check    # audit + doctor + generated-resource check + i18n tests
 - Keep `@hagicode/hagilight` and `@hagicode/hagilight-core` pinned to the same exact version; footer, promo banner, SEO head, GA and PostHog (injected by the `hagilight()` integration) come from Hagilight, so do not add local duplicates (`npm run build` runs `scripts/verify-ga-build.mjs` and fails on duplicate loaders, including a second PostHog init).
 - Production deploys via `.github/workflows/soul-deploy-gh-pages.yml` (`gh-pages` branch with `esa.jsonc` + `dist/`).
 
+## PostHog Site Events
+
+Site-level events are sent through `src/lib/posthog-events.ts` (`captureSiteEvent`), which does nothing when `window.posthog` is missing, not loaded, or opted out, never throws, and keeps only the allowlisted keys and primitive values. The table `SITE_POSTHOG_EVENTS` is the single source of truth; a test (`src/lib/posthog-events.test.ts`) pins its exact contents.
+
+| Event | Sent when | Properties |
+|-------|-----------|------------|
+| `soul_preview_copied` | `copyPreviewText` succeeds (never when the clipboard write is rejected or the preview is incomplete) | `can_compose` (boolean), `main_selected` (boolean), `rule_selected` (boolean), `inspiration_selected` (boolean) |
+| `soul_fragment_selected` | A `selectMainFragment`, `selectRuleFragment` or `selectInspirationFragment` call changes that slot's selected fragment ID | `slot` (`main`, `rule` or `inspiration`), `fragment_id` (public fragment-library ID) |
+
+- Deduplication: a selection of the fragment that is already selected, clearing a slot, and typing into a slot send nothing. `soul_preview_copied` fires once per successful copy.
+- Never sent: the preview text, `customPrompt`, `mainSlotText`, `ruleSlotText`, URLs, or any other user-entered text.
+- `cta_click` deduplication: these events are the canonical record of their actions. Dashboards must not add them to `cta_click` counts.
+
 ## References
 
 - `README.md`
