@@ -26,8 +26,8 @@ Soul templates from this site are available to HagiCode Hero.
 ## Run
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 The app starts with the local Astro development server.

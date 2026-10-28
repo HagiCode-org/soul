@@ -15,18 +15,18 @@ Run commands from `repos/soul/`.
 ## Key Commands
 
 ```bash
-npm install
-npm run dev
-npm run build
-npm test
-npm run lint
-npm run materials:sync
-npm run sync:agent-templates
-npm run i18n:generate
-npm run i18n:check    # audit + doctor + generated-resource check + i18n tests
+pnpm install
+pnpm run dev
+pnpm run build
+pnpm test
+pnpm run lint
+pnpm run materials:sync
+pnpm run sync:agent-templates
+pnpm run i18n:generate
+pnpm run i18n:check    # audit + doctor + generated-resource check + i18n tests
 ```
 
-`npm run dev`, `npm run build` and `npm test` run `prepare:i18n` (`i18n:generate`) first. Individual hagi18n steps are `i18n:audit`, `i18n:report`, `i18n:doctor`, `i18n:sync[:write]` and `i18n:prune[:write]`.
+`pnpm run dev`, `pnpm run build` and `pnpm test` run `prepare:i18n` (`i18n:generate`) first. Individual hagi18n steps are `i18n:audit`, `i18n:report`, `i18n:doctor`, `i18n:sync[:write]` and `i18n:prune[:write]`.
 
 ## Key Paths
 
@@ -43,9 +43,9 @@ npm run i18n:check    # audit + doctor + generated-resource check + i18n tests
 - Route all user-facing copy through the `hagi18n` i18n flow supporting the 10 locales under `src/i18n/locales-source/`.
 - Single-drawer lifecycle: only one slot drawer open at a time.
 - Fall back gracefully when remote API calls fail (use local sample cards).
-- Run `npm run materials:sync` when upstream docs change to regenerate local reference materials.
-- Never hand-edit `src/i18n/resources/` or `src/data/generated/`; edit YAML sources and regenerate (`npm run i18n:generate`, `npm run sync:agent-templates`).
-- Keep `@hagicode/hagilight` and `@hagicode/hagilight-core` pinned to the same exact version; footer, promo banner, SEO head, GA and PostHog (injected by the `hagilight()` integration) come from Hagilight, so do not add local duplicates (`npm run build` runs `scripts/verify-ga-build.mjs` and fails on duplicate loaders, including a second PostHog init).
+- Run `pnpm run materials:sync` when upstream docs change to regenerate local reference materials.
+- Never hand-edit `src/i18n/resources/` or `src/data/generated/`; edit YAML sources and regenerate (`pnpm run i18n:generate`, `pnpm run sync:agent-templates`).
+- Keep `@hagicode/hagilight` and `@hagicode/hagilight-core` pinned to the same exact version; footer, promo banner, SEO head, GA and PostHog (injected by the `hagilight()` integration) come from Hagilight, so do not add local duplicates (`pnpm run build` runs `scripts/verify-ga-build.mjs` and fails on duplicate loaders, including a second PostHog init).
 - Production deploys via `.github/workflows/soul-deploy-gh-pages.yml` (`gh-pages` branch with `esa.jsonc` + `dist/`).
 
 ## PostHog Site Events
@@ -67,3 +67,10 @@ Site-level events are sent through `src/lib/posthog-events.ts` (`captureSiteEven
 - `hagi18n.yaml`
 - `docs/i18n-hagi18n.md`
 - `DESIGN.md` (design-system reference for UI changes)
+
+## Package management
+
+- The repository uses pnpm, pinned in `package.json` `packageManager`. Run `corepack enable` once, then `pnpm install`. `pnpm-lock.yaml` is the only lockfile; do not commit `package-lock.json`.
+- Settings live in `pnpm-workspace.yaml`. `allowBuilds` lists the dependencies whose install scripts may run (reviewed individually, `false` means reviewed and denied); review any new dependency that has an install script and add it there.
+- A local registry mirror belongs in `~/.npmrc` only. Never commit a `registry=` line or a mirror URL; `pnpm run check:registry` (also run in CI) fails on any non-`registry.npmjs.org` `tarball` in the lockfile and on mirror hosts in tracked files.
+- Undeclared imports fail under pnpm's strict layout: declare the package instead of hoisting it.
