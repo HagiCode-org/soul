@@ -32,7 +32,7 @@ site:
       community: Community und Support
   links:
     docs:
-      label: Docs
+      label: Dokumentation
       ariaLabel: Die HagiCode-Dokumentationsseite öffnen
     website:
       label: Website
@@ -47,7 +47,7 @@ site:
       label: Discord
       ariaLabel: Die HagiCode-Discord-Community öffnen
     qqGroup:
-      label: QQ Group 610394020
+      label: QQ-Gruppe 610394020
       ariaLabel: Die HagiCode-QQ-Gruppe 610394020 öffnen
     email:
       label: support@hagicode.com
@@ -69,7 +69,7 @@ home:
     stats:
       catalog: Grundrollen
       expression: Ausdrucksregeln
-      state: Workbench
+      state: Werkbank
     state:
       ready: Bereit zum Kopieren
       draft: Muss noch komponiert werden
@@ -135,11 +135,11 @@ builder:
         placeholder: Grundrollen, Regeln oder Inspirationskarten suchen
     sections:
       mainTitle: Grundrollen
-      mainEyebrow: who
+      mainEyebrow: wer
       rulesTitle: Ausdrucksregeln
-      rulesEyebrow: how
+      rulesEyebrow: wie
       inspirationTitle: Offizielle Inspirationskarten
-      inspirationEyebrow: inspiration
+      inspirationEyebrow: Inspiration
       remoteSourceTitle: Offizielle Inspirationsquelle
     remote:
       loadingInitial: Offizielle Inspirationskarten werden geladen.
@@ -163,7 +163,7 @@ builder:
     fallbackInitial: Fülle zuerst die Slots für Grundrolle und Ausdruck, bevor die Vorschau ein vollständiges Ergebnis bilden kann.
     nextReady: Alle drei Slots sind zusammengeführt. Verfeinere den Text weiter oder kopiere die aktuelle Vorschau sofort.
     nextIncomplete: Vervollständige die fehlenden Slots, bevor sich die Vorschau stabilisieren kann.
-    previewEyebrow: preview
+    previewEyebrow: Vorschau
     previewReady: Zusammengeführt und bereit zum Kopieren
     previewIncomplete: Erforderliche Slots fehlen
     copyButton: Vorschau kopieren
@@ -174,19 +174,19 @@ builder:
     currentCompositionCustom: "Benutzerdefinierter Text: {{value}}"
     slots:
       main:
-        eyebrow: slot 01 · base role
+        eyebrow: Slot 01 · Grundrolle
         title: Grundrollen-Slot
         placeholder: Wähle links eine Grundrollen-Karte aus und bearbeite sie bei Bedarf weiter.
         ariaLabel: Grundrollen-Slot
         emptySummary: Grundrolle nicht gefüllt
       rule:
-        eyebrow: slot 02 · expression
+        eyebrow: Slot 02 · Ausdruck
         title: Ausdrucks-Slot
         placeholder: Wähle links eine Ausdrucks-Karte aus und bearbeite sie bei Bedarf weiter.
         ariaLabel: Ausdrucks-Slot
         emptySummary: Ausdruck nicht gefüllt
       custom:
-        eyebrow: slot 03 · custom
+        eyebrow: Slot 03 · Benutzerdefiniert
         title: Slot für benutzerdefinierten Text
         placeholder: Füge eigene Grenzen, Vorlieben, Schlagwörter oder zusätzliche Anforderungen hinzu.
         ariaLabel: Slot für benutzerdefinierten Text

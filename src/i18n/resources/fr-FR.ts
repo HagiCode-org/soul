@@ -41,7 +41,7 @@ export const frFRResources = {
     },
     "links": {
       "docs": {
-        "label": "Docs",
+        "label": "Documentation",
         "ariaLabel": "Ouvrir le site de documentation HagiCode"
       },
       "website": {
@@ -61,7 +61,7 @@ export const frFRResources = {
         "ariaLabel": "Ouvrir la communauté Discord HagiCode"
       },
       "qqGroup": {
-        "label": "QQ Group 610394020",
+        "label": "Groupe QQ 610394020",
         "ariaLabel": "Ouvrir le groupe QQ HagiCode 610394020"
       },
       "email": {
@@ -170,9 +170,9 @@ export const frFRResources = {
       },
       "sections": {
         "mainTitle": "Rôles de base",
-        "mainEyebrow": "who",
+        "mainEyebrow": "qui",
         "rulesTitle": "Règles d’expression",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "comment",
         "inspirationTitle": "Cartes d’inspiration officielles",
         "inspirationEyebrow": "inspiration",
         "remoteSourceTitle": "Source officielle d’inspiration"
@@ -213,21 +213,21 @@ export const frFRResources = {
       "currentCompositionCustom": "Texte personnalisé : {{value}}",
       "slots": {
         "main": {
-          "eyebrow": "slot 01 · base role",
+          "eyebrow": "emplacement 01 · rôle de base",
           "title": "Emplacement du rôle de base",
           "placeholder": "Choisis une carte de rôle de base à gauche, puis continue à l’éditer si besoin.",
           "ariaLabel": "Emplacement du rôle de base",
           "emptySummary": "Rôle de base non rempli"
         },
         "rule": {
-          "eyebrow": "slot 02 · expression",
+          "eyebrow": "emplacement 02 · expression",
           "title": "Emplacement de l’expression",
           "placeholder": "Choisis une carte d’expression à gauche, puis continue à l’éditer si besoin.",
           "ariaLabel": "Emplacement de l’expression",
           "emptySummary": "Expression non remplie"
         },
         "custom": {
-          "eyebrow": "slot 03 · custom",
+          "eyebrow": "emplacement 03 · personnalisé",
           "title": "Emplacement du texte personnalisé",
           "placeholder": "Ajoute tes propres limites, préférences, tics de langage ou exigences supplémentaires.",
           "ariaLabel": "Emplacement du texte personnalisé",

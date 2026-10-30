@@ -23,7 +23,7 @@ export const zhCNResources = {
       "navAriaLabel": "Soul 站点导航",
       "brandBadge": "Agent Soul 编辑器",
       "description": "HagiSoul 为开发者提供更加方便快捷的 Soul 编辑平台，支持 Soul 的创建、分享与浏览。",
-      "themeButton": "Theme",
+      "themeButton": "主题",
       "themeToDark": "切换到深色主题",
       "themeToLight": "切换到浅色主题",
       "languageSwitcherAria": "界面语言切换"
@@ -33,7 +33,7 @@ export const zhCNResources = {
       "brandSectionAria": "品牌说明",
       "tagline": "快速定义你的Agent之魂",
       "description": "HagiSoul 聚焦开发者场景，提供更方便快捷的 Soul 创建、分享与浏览体验。",
-      "copyright": "© {{year}} HagiCode. All rights reserved.",
+      "copyright": "© {{year}} HagiCode。保留所有权利。",
       "sections": {
         "related": "相关链接",
         "community": "社群与支持"
@@ -99,9 +99,9 @@ export const zhCNResources = {
     "slotRail": {
       "leftAriaLabel": "左侧首页槽位",
       "rightAriaLabel": "右侧首页槽位",
-      "inputsEyebrow": "builder inputs",
-      "contextEyebrow": "builder context",
-      "recommended": "recommended"
+      "inputsEyebrow": "编辑器输入",
+      "contextEyebrow": "编辑器上下文",
+      "recommended": "推荐"
     },
     "slots": {
       "catalog": {
@@ -170,11 +170,11 @@ export const zhCNResources = {
       },
       "sections": {
         "mainTitle": "基础角色",
-        "mainEyebrow": "who",
+        "mainEyebrow": "谁",
         "rulesTitle": "表达规则",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "如何",
         "inspirationTitle": "官方灵感卡",
-        "inspirationEyebrow": "inspiration",
+        "inspirationEyebrow": "灵感",
         "remoteSourceTitle": "官方灵感源"
       },
       "remote": {
@@ -202,7 +202,7 @@ export const zhCNResources = {
       "fallbackInitial": "先填写基础角色和表达方式插槽，预览区才会形成完整内容。",
       "nextReady": "三个插槽内容已经合并完成。现在可以继续微调文本，或直接复制当前预览。",
       "nextIncomplete": "还需要补全缺失插槽，预览内容才会稳定。",
-      "previewEyebrow": "preview",
+      "previewEyebrow": "预览",
       "previewReady": "内容已合并，可直接复制",
       "previewIncomplete": "缺少必要插槽",
       "copyButton": "复制文案",
@@ -213,21 +213,21 @@ export const zhCNResources = {
       "currentCompositionCustom": "自定义文本：{{value}}",
       "slots": {
         "main": {
-          "eyebrow": "slot 01 · base role",
+          "eyebrow": "插槽 01 · 基础角色",
           "title": "基础角色插槽",
           "placeholder": "先从左侧选择基础角色卡片，然后按需继续编辑。",
           "ariaLabel": "基础角色插槽",
           "emptySummary": "基础角色未填写"
         },
         "rule": {
-          "eyebrow": "slot 02 · expression",
+          "eyebrow": "插槽 02 · 表达方式",
           "title": "表达方式插槽",
           "placeholder": "先从左侧选择表达方式卡片，然后按需继续编辑。",
           "ariaLabel": "表达方式插槽",
           "emptySummary": "表达方式未填写"
         },
         "custom": {
-          "eyebrow": "slot 03 · custom",
+          "eyebrow": "插槽 03 · 自定义",
           "title": "自定义文本插槽",
           "placeholder": "补充你自己的限制、偏好、口癖或额外要求。",
           "ariaLabel": "自定义文本插槽",

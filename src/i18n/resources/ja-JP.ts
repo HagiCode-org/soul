@@ -33,7 +33,7 @@ export const jaJPResources = {
       "brandSectionAria": "ブランド概要",
       "tagline": "Agent の魂を、すばやく定義する。",
       "description": "HagiSoul は開発者ワークフローに焦点を当て、Soul の作成・共有・閲覧をより高速に行える体験を提供します。",
-      "copyright": "© {{year}} HagiCode. All rights reserved.",
+      "copyright": "© {{year}} HagiCode. すべての権利を保有します。",
       "sections": {
         "related": "関連リンク",
         "community": "コミュニティとサポート"
@@ -170,11 +170,11 @@ export const jaJPResources = {
       },
       "sections": {
         "mainTitle": "ベース役割",
-        "mainEyebrow": "who",
+        "mainEyebrow": "誰が",
         "rulesTitle": "表現ルール",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "どうやって",
         "inspirationTitle": "公式インスピレーションカード",
-        "inspirationEyebrow": "inspiration",
+        "inspirationEyebrow": "インスピレーション",
         "remoteSourceTitle": "公式インスピレーションソース"
       },
       "remote": {
@@ -202,7 +202,7 @@ export const jaJPResources = {
       "fallbackInitial": "ベース役割と表現スロットを先に埋めると、プレビューが完全な結果を形成します。",
       "nextReady": "3 つのスロットが結合されました。テキストを磨き続けるか、すぐに現在のプレビューをコピーできます。",
       "nextIncomplete": "不足しているスロットを埋めてから、プレビューを安定させてください。",
-      "previewEyebrow": "preview",
+      "previewEyebrow": "プレビュー",
       "previewReady": "結合済み、コピー可能",
       "previewIncomplete": "必須スロットが不足しています",
       "copyButton": "プレビューをコピー",
@@ -213,21 +213,21 @@ export const jaJPResources = {
       "currentCompositionCustom": "カスタムテキスト：{{value}}",
       "slots": {
         "main": {
-          "eyebrow": "slot 01 · base role",
+          "eyebrow": "スロット 01 · ベース役割",
           "title": "ベース役割スロット",
           "placeholder": "左側でベース役割カードを選び、必要に応じて編集を続けてください。",
           "ariaLabel": "ベース役割スロット",
           "emptySummary": "ベース役割が未入力"
         },
         "rule": {
-          "eyebrow": "slot 02 · expression",
+          "eyebrow": "スロット 02 · 表現",
           "title": "表現スロット",
           "placeholder": "左側で表現カードを選び、必要に応じて編集を続けてください。",
           "ariaLabel": "表現スロット",
           "emptySummary": "表現が未入力"
         },
         "custom": {
-          "eyebrow": "slot 03 · custom",
+          "eyebrow": "スロット 03 · カスタム",
           "title": "カスタムテキストスロット",
           "placeholder": "独自の制約、好み、決め台詞、追加要件を加えてください。",
           "ariaLabel": "カスタムテキストスロット",

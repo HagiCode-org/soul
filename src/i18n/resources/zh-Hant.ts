@@ -170,11 +170,11 @@ export const zhHantResources = {
       },
       "sections": {
         "mainTitle": "基礎角色",
-        "mainEyebrow": "who",
+        "mainEyebrow": "誰",
         "rulesTitle": "表達規則",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "如何",
         "inspirationTitle": "官方靈感卡",
-        "inspirationEyebrow": "inspiration",
+        "inspirationEyebrow": "靈感",
         "remoteSourceTitle": "官方靈感來源"
       },
       "remote": {

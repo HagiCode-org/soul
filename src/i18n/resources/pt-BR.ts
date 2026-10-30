@@ -41,7 +41,7 @@ export const ptBRResources = {
     },
     "links": {
       "docs": {
-        "label": "Docs",
+        "label": "Documentação",
         "ariaLabel": "Abrir o site de documentação da HagiCode"
       },
       "website": {
@@ -61,7 +61,7 @@ export const ptBRResources = {
         "ariaLabel": "Abrir a comunidade Discord da HagiCode"
       },
       "qqGroup": {
-        "label": "QQ Group 610394020",
+        "label": "Grupo do QQ 610394020",
         "ariaLabel": "Abrir o grupo QQ da HagiCode 610394020"
       },
       "email": {
@@ -170,11 +170,11 @@ export const ptBRResources = {
       },
       "sections": {
         "mainTitle": "Papéis-base",
-        "mainEyebrow": "who",
+        "mainEyebrow": "quem",
         "rulesTitle": "Regras de expressão",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "como",
         "inspirationTitle": "Cartões oficiais de inspiração",
-        "inspirationEyebrow": "inspiration",
+        "inspirationEyebrow": "inspiração",
         "remoteSourceTitle": "Fonte oficial de inspiração"
       },
       "remote": {
@@ -213,21 +213,21 @@ export const ptBRResources = {
       "currentCompositionCustom": "Texto personalizado: {{value}}",
       "slots": {
         "main": {
-          "eyebrow": "slot 01 · base role",
+          "eyebrow": "slot 01 · papel-base",
           "title": "Slot de papel-base",
           "placeholder": "Escolha um cartão de papel-base à esquerda e continue editando se necessário.",
           "ariaLabel": "Slot de papel-base",
           "emptySummary": "Papel-base não preenchido"
         },
         "rule": {
-          "eyebrow": "slot 02 · expression",
+          "eyebrow": "slot 02 · expressão",
           "title": "Slot de expressão",
           "placeholder": "Escolha um cartão de expressão à esquerda e continue editando se necessário.",
           "ariaLabel": "Slot de expressão",
           "emptySummary": "Expressão não preenchida"
         },
         "custom": {
-          "eyebrow": "slot 03 · custom",
+          "eyebrow": "slot 03 · personalizado",
           "title": "Slot de texto personalizado",
           "placeholder": "Adicione seus próprios limites, preferências, bordões ou exigências extras.",
           "ariaLabel": "Slot de texto personalizado",

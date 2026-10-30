@@ -33,7 +33,7 @@ export const koKRResources = {
       "brandSectionAria": "브랜드 개요",
       "tagline": "Agent의 영혼을 빠르게 정의하세요.",
       "description": "HagiSoul은 개발자 워크플로에 집중해 Soul의 생성, 공유, 탐색을 더 빠르게 만듭니다.",
-      "copyright": "© {{year}} HagiCode. All rights reserved.",
+      "copyright": "© {{year}} HagiCode. 모든 권리 보유.",
       "sections": {
         "related": "관련 링크",
         "community": "커뮤니티 및 지원"
@@ -170,11 +170,11 @@ export const koKRResources = {
       },
       "sections": {
         "mainTitle": "기본 역할",
-        "mainEyebrow": "who",
+        "mainEyebrow": "누가",
         "rulesTitle": "표현 규칙",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "어떻게",
         "inspirationTitle": "공식 영감 카드",
-        "inspirationEyebrow": "inspiration",
+        "inspirationEyebrow": "영감",
         "remoteSourceTitle": "공식 영감 소스"
       },
       "remote": {
@@ -202,7 +202,7 @@ export const koKRResources = {
       "fallbackInitial": "기본 역할과 표현 슬롯을 먼저 채워야 미리보기가 완전한 결과를 만듭니다.",
       "nextReady": "세 슬롯이 모두 병합되었습니다. 텍스트를 더 다듬거나 지금 바로 현재 미리보기를 복사할 수 있습니다.",
       "nextIncomplete": "미리보기가 안정되기 전에 누락된 슬롯을 먼저 채우세요.",
-      "previewEyebrow": "preview",
+      "previewEyebrow": "미리보기",
       "previewReady": "병합 완료, 복사 가능",
       "previewIncomplete": "필수 슬롯이 비어 있습니다",
       "copyButton": "미리보기 복사",
@@ -213,21 +213,21 @@ export const koKRResources = {
       "currentCompositionCustom": "사용자 정의 텍스트: {{value}}",
       "slots": {
         "main": {
-          "eyebrow": "slot 01 · base role",
+          "eyebrow": "슬롯 01 · 기본 역할",
           "title": "기본 역할 슬롯",
           "placeholder": "왼쪽에서 기본 역할 카드를 고른 뒤, 필요하면 계속 편집하세요.",
           "ariaLabel": "기본 역할 슬롯",
           "emptySummary": "기본 역할이 비어 있음"
         },
         "rule": {
-          "eyebrow": "slot 02 · expression",
+          "eyebrow": "슬롯 02 · 표현",
           "title": "표현 슬롯",
           "placeholder": "왼쪽에서 표현 카드를 고른 뒤, 필요하면 계속 편집하세요.",
           "ariaLabel": "표현 슬롯",
           "emptySummary": "표현이 비어 있음"
         },
         "custom": {
-          "eyebrow": "slot 03 · custom",
+          "eyebrow": "슬롯 03 · 사용자 정의",
           "title": "사용자 정의 텍스트 슬롯",
           "placeholder": "직접 제한, 선호, 말버릇 또는 추가 요구사항을 적어 넣으세요.",
           "ariaLabel": "사용자 정의 텍스트 슬롯",

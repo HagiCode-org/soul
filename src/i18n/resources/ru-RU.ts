@@ -41,7 +41,7 @@ export const ruRUResources = {
     },
     "links": {
       "docs": {
-        "label": "Docs",
+        "label": "Документация",
         "ariaLabel": "Открыть сайт документации HagiCode"
       },
       "website": {
@@ -61,7 +61,7 @@ export const ruRUResources = {
         "ariaLabel": "Открыть Discord-сообщество HagiCode"
       },
       "qqGroup": {
-        "label": "QQ Group 610394020",
+        "label": "Группа QQ 610394020",
         "ariaLabel": "Открыть QQ-группу HagiCode 610394020"
       },
       "email": {
@@ -170,11 +170,11 @@ export const ruRUResources = {
       },
       "sections": {
         "mainTitle": "Базовые роли",
-        "mainEyebrow": "who",
+        "mainEyebrow": "кто",
         "rulesTitle": "Правила выражения",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "как",
         "inspirationTitle": "Официальные карточки вдохновения",
-        "inspirationEyebrow": "inspiration",
+        "inspirationEyebrow": "вдохновение",
         "remoteSourceTitle": "Официальный источник вдохновения"
       },
       "remote": {
@@ -213,21 +213,21 @@ export const ruRUResources = {
       "currentCompositionCustom": "Пользовательский текст: {{value}}",
       "slots": {
         "main": {
-          "eyebrow": "slot 01 · base role",
+          "eyebrow": "слот 01 · базовая роль",
           "title": "Слот базовой роли",
           "placeholder": "Выбери карточку базовой роли слева, затем при необходимости продолжай редактировать.",
           "ariaLabel": "Слот базовой роли",
           "emptySummary": "Базовая роль не заполнена"
         },
         "rule": {
-          "eyebrow": "slot 02 · expression",
+          "eyebrow": "слот 02 · выражение",
           "title": "Слот выражения",
           "placeholder": "Выбери карточку выражения слева, затем при необходимости продолжай редактировать.",
           "ariaLabel": "Слот выражения",
           "emptySummary": "Выражение не заполнено"
         },
         "custom": {
-          "eyebrow": "slot 03 · custom",
+          "eyebrow": "слот 03 · пользовательский",
           "title": "Слот пользовательского текста",
           "placeholder": "Добавь собственные ограничения, предпочтения, словечки или дополнительные требования.",
           "ariaLabel": "Слот пользовательского текста",

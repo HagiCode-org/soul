@@ -41,7 +41,7 @@ export const deDEResources = {
     },
     "links": {
       "docs": {
-        "label": "Docs",
+        "label": "Dokumentation",
         "ariaLabel": "Die HagiCode-Dokumentationsseite öffnen"
       },
       "website": {
@@ -61,7 +61,7 @@ export const deDEResources = {
         "ariaLabel": "Die HagiCode-Discord-Community öffnen"
       },
       "qqGroup": {
-        "label": "QQ Group 610394020",
+        "label": "QQ-Gruppe 610394020",
         "ariaLabel": "Die HagiCode-QQ-Gruppe 610394020 öffnen"
       },
       "email": {
@@ -89,7 +89,7 @@ export const deDEResources = {
       "stats": {
         "catalog": "Grundrollen",
         "expression": "Ausdrucksregeln",
-        "state": "Workbench"
+        "state": "Werkbank"
       },
       "state": {
         "ready": "Bereit zum Kopieren",
@@ -170,11 +170,11 @@ export const deDEResources = {
       },
       "sections": {
         "mainTitle": "Grundrollen",
-        "mainEyebrow": "who",
+        "mainEyebrow": "wer",
         "rulesTitle": "Ausdrucksregeln",
-        "rulesEyebrow": "how",
+        "rulesEyebrow": "wie",
         "inspirationTitle": "Offizielle Inspirationskarten",
-        "inspirationEyebrow": "inspiration",
+        "inspirationEyebrow": "Inspiration",
         "remoteSourceTitle": "Offizielle Inspirationsquelle"
       },
       "remote": {
@@ -202,7 +202,7 @@ export const deDEResources = {
       "fallbackInitial": "Fülle zuerst die Slots für Grundrolle und Ausdruck, bevor die Vorschau ein vollständiges Ergebnis bilden kann.",
       "nextReady": "Alle drei Slots sind zusammengeführt. Verfeinere den Text weiter oder kopiere die aktuelle Vorschau sofort.",
       "nextIncomplete": "Vervollständige die fehlenden Slots, bevor sich die Vorschau stabilisieren kann.",
-      "previewEyebrow": "preview",
+      "previewEyebrow": "Vorschau",
       "previewReady": "Zusammengeführt und bereit zum Kopieren",
       "previewIncomplete": "Erforderliche Slots fehlen",
       "copyButton": "Vorschau kopieren",
@@ -213,21 +213,21 @@ export const deDEResources = {
       "currentCompositionCustom": "Benutzerdefinierter Text: {{value}}",
       "slots": {
         "main": {
-          "eyebrow": "slot 01 · base role",
+          "eyebrow": "Slot 01 · Grundrolle",
           "title": "Grundrollen-Slot",
           "placeholder": "Wähle links eine Grundrollen-Karte aus und bearbeite sie bei Bedarf weiter.",
           "ariaLabel": "Grundrollen-Slot",
           "emptySummary": "Grundrolle nicht gefüllt"
         },
         "rule": {
-          "eyebrow": "slot 02 · expression",
+          "eyebrow": "Slot 02 · Ausdruck",
           "title": "Ausdrucks-Slot",
           "placeholder": "Wähle links eine Ausdrucks-Karte aus und bearbeite sie bei Bedarf weiter.",
           "ariaLabel": "Ausdrucks-Slot",
           "emptySummary": "Ausdruck nicht gefüllt"
         },
         "custom": {
-          "eyebrow": "slot 03 · custom",
+          "eyebrow": "Slot 03 · Benutzerdefiniert",
           "title": "Slot für benutzerdefinierten Text",
           "placeholder": "Füge eigene Grenzen, Vorlieben, Schlagwörter oder zusätzliche Anforderungen hinzu.",
           "ariaLabel": "Slot für benutzerdefinierten Text",
