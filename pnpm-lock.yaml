@@ -228,8 +228,8 @@ importers:
         specifier: ^9.39.1
         version: 9.39.4
       '@hagicode/hagi18n':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: ^0.3.0
+        version: 0.3.0
       '@hagicode/hagilight':
         specifier: 0.20.0
         version: 0.20.0(astro@7.3.8(@types/node@24.12.0)(jiti@2.6.1)(yaml@2.9.1))
@@ -744,8 +744,8 @@ packages:
   '@fontsource-variable/manrope@5.2.8':
     resolution: {integrity: sha512-nc9lOuCRz73UHnovDE2bwXUdghE2SEOc7Aii0qGe3CLyE03W1a7VnY5Z6euRiapiKbCkGS+eXbY3s/kvWeGeSw==}
 
-  '@hagicode/hagi18n@0.2.0':
-    resolution: {integrity: sha512-IGSUQiSoaQukr2v/2uibWBhV2EQCtLrMmO7aELOaTpGMkEVkBq0b3upEd2DQJuurqxJFiC6PHElj7giJkred+g==}
+  '@hagicode/hagi18n@0.3.0':
+    resolution: {integrity: sha512-b3Adlxire3/IRulQJRobDzAGvGYXtR2Pw/Gbrzg+tFptgawWInqstIWNk2a4gp19FYrEbS+qjEz7MmDBfEEEtQ==}
     engines: {node: '>=24.0.0'}
     hasBin: true
 
@@ -5131,7 +5131,7 @@ snapshots:
 
   '@fontsource-variable/manrope@5.2.8': {}
 
-  '@hagicode/hagi18n@0.2.0':
+  '@hagicode/hagi18n@0.3.0':
     dependencies:
       '@types/js-yaml': 4.0.9
       commander: 14.0.3

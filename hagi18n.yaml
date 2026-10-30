@@ -11,6 +11,30 @@ targetLocales:
   - es-ES
   - pt-BR
   - ru-RU
+# 与英文基线相同、且在各语言里本就应当相同的值(品牌名、URL、技术标识、通用借词等),按「文件 → 键」逐条精确列出,每条写理由。
+# 名单对所有目标语言生效:只有在所有仍与英文相同的语言里英文写法都正确时才加入;其余一律翻译。
+auditIdenticalAllowlist:
+  translation.yml:
+    - common.languages.zhCN # 语言切换标签
+    - common.languages.enUS # 语言切换标签
+    - site.links.trait.label # 产品名
+    - site.links.github.label # 品牌名
+    - site.links.discord.label # 品牌名
+    - site.links.email.label # 邮箱
+    - site.links.steam.label # 品牌名
+    - home.hero.eyebrow # 产品名
+    - builder.materialLibrary.sections.inspirationEyebrow # fr 同形词
+    - common.states.ready # de 通用借词
+    - site.links.website.label # de 通用借词
+    - builder.materialLibrary.panels.inspiration.badge # de/fr 同形词
+    - builder.materialLibrary.remote.state.ready # de 通用借词
+    - builder.materialLibrary.remote.state.fallback # de 通用借词
+    - common.states.importable # fr/es 同形词
+    - home.slots.expression.label # fr 同形词
+    - builder.materialLibrary.importableBadge # fr/es 同形词
+    - builder.materialLibrary.panels.rules.badge # fr 同形词
+    - common.states.error # es 同形词
+    - builder.materialLibrary.remote.state.error # es 同形词
 doctor:
   excludedDirectories:
     - .git
