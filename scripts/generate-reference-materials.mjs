@@ -131,8 +131,8 @@ async function main() {
   const generated = {
     generatedAtUtc: new Date().toISOString(),
     provenance: {
-      mainPath: 'repos/web/docs/50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md',
-      orthPath: 'repos/web/docs/10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md',
+      mainPath: 'repos/web/web/docs/50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md',
+      orthPath: 'repos/web/web/docs/10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md',
       combinationFormula: `${mergedMainCatalogs.length} x ${mergedOrthogonalCatalogs.length} = ${mergedMainCatalogs.length * mergedOrthogonalCatalogs.length}`,
     },
     mainCatalogs: mergedMainCatalogs,
