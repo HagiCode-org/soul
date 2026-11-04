@@ -9,8 +9,8 @@ const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
 const monoRoot = path.resolve(repoRoot, '..', '..')
 
-const mainDocPath = path.join(monoRoot, 'repos', 'web', 'docs', '50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md')
-const orthDocPath = path.join(monoRoot, 'repos', 'web', 'docs', '10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md')
+const mainDocPath = path.join(monoRoot, 'repos', 'web', 'web', 'docs', '50组SOUL.md核心Catalog（风格差异化+高辨识度+强适配性）.md')
+const orthDocPath = path.join(monoRoot, 'repos', 'web', 'web', 'docs', '10组正交维度Catalog2（可与50组主Catalog交叉生成500个独家人设）.md')
 const outputPath = path.join(repoRoot, 'src', 'data', 'reference-materials.generated.ts')
 
 function cleanCell(value) {
