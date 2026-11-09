@@ -58,8 +58,9 @@ describe('Soul index Astro host Hagilight integration', () => {
 
     expect(source).toContain('soul-builder');
     expect(source).toContain('https://soul.hagicode.com');
-    expect(source).toContain('闽ICP备2026004153号-1');
-    expect(source).toContain('闽公网安备35011102351148号');
+    // The ICP and public-security filings come from the hagilight defaults; repeating them as overrides would lose the localized labels.
+    expect(source).not.toMatch(/overrides\s*:/u);
+    expect(source).not.toContain('beian.miit.gov.cn');
     // The contact email is a Hagilight default; repeating it as an extra link is dropped by the footer.
     expect(source).not.toContain('mailto:support@hagicode.com');
     expect(source).toContain('store.steampowered.com/app/4625540/Hagicode');
