@@ -12,8 +12,8 @@ describe("material repository", () => {
   it("normalizes reference snapshot into grouped fragments", () => {
     const result = normalizeReferenceSnapshot()
 
-    expect(result.mainFragments).toHaveLength(50)
-    expect(result.expressionFragments).toHaveLength(11)
+    expect(result.mainFragments).toHaveLength(100)
+    expect(result.expressionFragments).toHaveLength(20)
     expect(result.mainFragments[11]).toMatchObject({
       group: "main-catalog",
       title: "高冷禁欲学霸系",
