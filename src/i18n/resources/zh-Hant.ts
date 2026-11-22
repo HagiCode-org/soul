@@ -68,10 +68,6 @@ export const zhHantResources = {
         "label": "support@hagicode.com",
         "ariaLabel": "透過電子郵件聯絡 HagiCode 支援團隊"
       },
-      "steam": {
-        "label": "Steam",
-        "ariaLabel": "開啟 HagiCode 官方 Steam 商店頁"
-      },
       "filings": {
         "icpAriaLabel": "查看 ICP 備案資訊",
         "publicSecurityAriaLabel": "查看公安備案資訊"

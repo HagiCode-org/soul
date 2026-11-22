@@ -68,10 +68,6 @@ export const ruRUResources = {
         "label": "support@hagicode.com",
         "ariaLabel": "Написать команде поддержки HagiCode"
       },
-      "steam": {
-        "label": "Steam",
-        "ariaLabel": "Открыть официальную страницу HagiCode в Steam"
-      },
       "filings": {
         "icpAriaLabel": "Показать запись ICP",
         "publicSecurityAriaLabel": "Показать запись общественной безопасности"

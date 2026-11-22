@@ -68,10 +68,6 @@ export const esESResources = {
         "label": "support@hagicode.com",
         "ariaLabel": "Enviar un correo al equipo de soporte de HagiCode"
       },
-      "steam": {
-        "label": "Steam",
-        "ariaLabel": "Abrir la página oficial de HagiCode en Steam"
-      },
       "filings": {
         "icpAriaLabel": "Ver el registro ICP",
         "publicSecurityAriaLabel": "Ver el registro de seguridad pública"

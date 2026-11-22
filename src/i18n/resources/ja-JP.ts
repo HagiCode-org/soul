@@ -68,10 +68,6 @@ export const jaJPResources = {
         "label": "support@hagicode.com",
         "ariaLabel": "HagiCode サポートチームへメールを送る"
       },
-      "steam": {
-        "label": "Steam",
-        "ariaLabel": "HagiCode 公式 Steam ストアページを開く"
-      },
       "filings": {
         "icpAriaLabel": "ICP 登録情報を見る",
         "publicSecurityAriaLabel": "公安登録情報を見る"

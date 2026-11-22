@@ -109,14 +109,6 @@ const soulSiteLinkDefinitions = {
     external: true,
     openInNewTab: false,
   },
-  steam: {
-    id: "steam",
-    labelKey: "site.links.steam.label",
-    href: "https://store.steampowered.com/app/4625540/Hagicode/",
-    ariaLabelKey: "site.links.steam.ariaLabel",
-    external: true,
-    openInNewTab: true,
-  },
 } as const satisfies Record<string, SiteLinkDefinition>
 
 function buildSiteLink(t: TFunction, definition: SiteLinkDefinition): SiteLink {

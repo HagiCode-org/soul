@@ -24,7 +24,6 @@ describe("soul first-party link policy", () => {
   it.each([
     "https://discord.gg/qY662sJK",
     "https://qm.qq.com/q/Fwb0o094kw",
-    "https://store.steampowered.com/app/4625540/Hagicode/",
     "https://hagicode.com.evil.example/",
     "https://nothagicode.com/",
     "https://example.com/hagicode.com",

@@ -68,10 +68,6 @@ export const deDEResources = {
         "label": "support@hagicode.com",
         "ariaLabel": "Dem HagiCode-Supportteam eine E-Mail senden"
       },
-      "steam": {
-        "label": "Steam",
-        "ariaLabel": "Die offizielle HagiCode-Steam-Seite öffnen"
-      },
       "filings": {
         "icpAriaLabel": "Den ICP-Eintrag anzeigen",
         "publicSecurityAriaLabel": "Den Eintrag der öffentlichen Sicherheit anzeigen"

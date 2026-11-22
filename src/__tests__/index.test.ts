@@ -63,7 +63,7 @@ describe('Soul index Astro host Hagilight integration', () => {
     expect(source).not.toContain('beian.miit.gov.cn');
     // The contact email is a Hagilight default; repeating it as an extra link is dropped by the footer.
     expect(source).not.toContain('mailto:support@hagicode.com');
-    expect(source).toContain('store.steampowered.com/app/4625540/Hagicode');
+    expect(source).not.toContain('steampowered.com');
   });
 
   it('pre-renders a locale template per secondary language and coordinates the live footer', async () => {
